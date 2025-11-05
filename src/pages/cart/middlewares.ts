@@ -44,7 +44,6 @@ function* putCartSaga(): SagaIterator {
 function* callApiWithRefresh<T>(
     thunk: (token: string) => Promise<T>
 ): SagaIterator<T> {
-    // 1st attempt
     let { accessToken } = yield select(selectAuth);
 
     try {

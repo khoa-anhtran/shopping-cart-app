@@ -9,6 +9,8 @@ import RequireAuth from './routes/RequireAuth'
 import { notification } from 'antd'
 import { ErrorBoundary } from 'react-error-boundary'
 import SimpleErrorPage from './pages/layout/SimpleErrorPage'
+import LoadingSpinner from './components/LoadingSpinner'
+import { notify } from './utils/helpers'
 
 const Products = lazy(() => import('./pages/products/Products'))
 const Header = lazy(() => import('./pages/layout/Header'))
@@ -48,16 +50,18 @@ function App() {
 
   useEffect(() => {
     if (rts === "expired") {
-      notification.error({ message: "Your session is expired, please login again" })
+      notify({ status: "failed", error: "Your session is expired, please login again" })
       dispatch(userLogoutRequested())
       navigate(ROUTES.HOME)
     }
-
   }, [rts])
+
+  if (status === "loading")
+    return <LoadingSpinner overlay size={'lg'} label='Loading'></LoadingSpinner>
 
   return (
     <ErrorBoundary FallbackComponent={ErrorFallback}>
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<LoadingSpinner overlay size={'lg'} label='Loading ...'></LoadingSpinner>}>
         <Routes>
           <Route element={<RequireGuest />}>
             <Route path={ROUTES.LOGIN} element={<Login />} />

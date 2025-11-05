@@ -12,7 +12,7 @@ export const isAxiosError = <T = unknown>(e: unknown): e is AxiosError<T> =>
 
 type Status = FetchStatus | SyncStatus;
 
-export function notify(status: Status, error?: string | null, message?: string | null, duration = 1) {
+export function notify({ duration = 2, status, error, message }: { status: Status, error?: string | null, message?: string | null, duration?: number }) {
     if (status === "failed" && error) notification.error({ message: error, duration });
     if (status === "succeeded" && message) notification.success({ message, duration });
 }

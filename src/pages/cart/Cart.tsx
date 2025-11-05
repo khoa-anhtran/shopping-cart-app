@@ -58,7 +58,7 @@ const Cart = () => {
     const isFetchingCart = useRef(false)
 
     useEffect(() => {
-        notify(status, error, "Fetch cart successfully")
+        notify({ status, error, message: "Fetch cart successfully" })
 
         if (status === "idle" && !isFetchingCart.current) {
             isFetchingCart.current = true
@@ -68,7 +68,7 @@ const Cart = () => {
     }, [status, userId, dispatch])
 
     useEffect(() => {
-        notify(syncStatus, syncError, "Sync cart successfully")
+        notify({ status: syncStatus, error: syncError, message: "Sync cart successfully" })
     }, [syncStatus, dispatch])
 
     // lock scroll & manage focus

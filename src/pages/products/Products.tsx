@@ -24,12 +24,12 @@ const Products = () => {
             dispatch(fetchProductsRequested())
             isFetching.current = true
         }
-        notify(status, error, "Fetch products successfully")
+        notify({ status, error, message: "Fetch products successfully" })
     }, [status])
 
     const onAddToCart = useCallback((productId: number) => {
         dispatch(itemAdded(productId))
-        notify("succeeded", error, 'Your product have added')
+        notify({ status: "succeeded", error, message: 'Your product have added' })
     }, [dispatch])
 
     const onRetry = useCallback(() => {

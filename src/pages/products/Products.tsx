@@ -4,8 +4,7 @@ import ProductGrid from "./components/ProductGrid"
 import { itemAdded } from "../cart/actions"
 import { selectProducts, selectProductsError, selectProductsStatus } from "./selectors"
 import { fetchProductsRequested } from "./actions"
-import { toast } from "react-toast"
-import { Modal, Button, message, notification } from "antd";
+import {  notification } from "antd";
 
 const Products = () => {
     const dispatch = useDispatch()
@@ -13,27 +12,26 @@ const Products = () => {
     const error = useSelector(selectProductsError)
     const products = useSelector(selectProducts)
 
+    const isFetching = useRef(false)
+
     let content
 
     useEffect(() => {
-        if (status === 'idle') {
+        if (status === 'idle' && !isFetching.current) {
             dispatch(fetchProductsRequested())
+            isFetching.current = true
         }
-    }, [status])
 
-    useEffect(() => {
-        if (error)
+        if (status === "failed")
             notification.error({
                 message: error,
-                placement: 'topRight',
             });
-    }, [error])
+    }, [status])
 
     const onAddToCart = (productId: number) => {
         dispatch(itemAdded(productId))
         notification.success({
             message: 'Your product have added',
-            placement: 'topRight',
         });
     }
 

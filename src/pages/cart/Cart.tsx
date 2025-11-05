@@ -2,7 +2,7 @@ import { useSelector } from "react-redux"
 import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import { selectProducts } from "../products/selectors"
 import { useDispatch } from "react-redux"
-import { selectCart, selectCartError, selectCartIsSelectAll, selectCartOpen, selectCartStatus } from "./selectors"
+import { selectCart, selectCartError, selectCartIsSelectAll, selectCartOpen, selectCartStatus, selectCartSyncError, selectCartSyncStatus } from "./selectors"
 import { cartToggled, checkedOut, fetchCartRequested, itemsRemoved, itemSelectedToggled, quantityDecreased, quantityIncreased, selectAllToggled } from "./actions"
 import CartItem from "./components/CartItem"
 import { roundTo } from "@/utils/math.utils"
@@ -16,9 +16,13 @@ const Cart = () => {
     const open = useSelector(selectCartOpen)
     const error = useSelector(selectCartError)
     const status = useSelector(selectCartStatus)
+
+    const syncError = useSelector(selectCartSyncError)
+    const syncStatus = useSelector(selectCartSyncStatus)
+
     const cartItems = useSelector(selectCart)
     const isSelectAll = useSelector(selectCartIsSelectAll)
-    const { userId } = useSelector(selectAuth)
+    const { userId, accessToken } = useSelector(selectAuth)
 
     // const { data: products, isFetching, error, isError } = useGetProductsQuery()
 
@@ -55,9 +59,28 @@ const Cart = () => {
     useEffect(() => {
         if (status === "idle" && !isFetchingCart.current) {
             isFetchingCart.current = true
-            dispatch(fetchCartRequested(userId!))
+            dispatch(fetchCartRequested())
         }
-    }, [status, dispatch, userId])
+
+        if (status === "succeeded") {
+            notification.success({ message: "Fetch cart successfully" })
+            isFetchingCart.current = false
+        }
+
+        if (status === "failed") {
+            notification.error({ message: error })
+            isFetchingCart.current = false
+        }
+
+    }, [status, userId, dispatch])
+
+    useEffect(() => {
+        if (syncStatus === "succeeded")
+            notification.success({ message: "Sync cart successfully" })
+
+        if (syncStatus === "failed")
+            notification.error({ message: syncError })
+    }, [syncStatus, dispatch])
 
     // lock scroll & manage focus
     useEffect(() => {
@@ -77,8 +100,12 @@ const Cart = () => {
             firstFocusable?.focus();
         }, 0);
 
+        const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') onClickCloseCart() }
+        window.addEventListener('keydown', onKey)
+
         return () => {
             window.clearTimeout(id);
+            window.removeEventListener('keydown', onKey)
             document.documentElement.style.overflow = prevOverflow;
             previouslyFocused.current?.focus();
         };
@@ -117,23 +144,16 @@ const Cart = () => {
     }, [dispatch])
 
     const onCheckout = useCallback(async () => {
-        // const isConfirmed = await askConfirm(dispatch as AppDispatch, {
-        //     title: 'Confirm Checkout',
-        //     description: 'This cannot be undone.',
-        //     confirmText: 'Confirm',
-        //     cancelText: 'Cancel',
-        // })
+        Modal.confirm({
+            title: "Confirm Checkout", content: 'This cannot be undone.', onOk: () => {
+                dispatch(checkedOut(selectedItems))
 
-        // if (isConfirmed) {
-        //     dispatch(cartCheckouted())
-
-        //     dispatch(showSuccess('Done', 'Checkout successfully'))
-
-        // }
-    }, [dispatch])
+                notification.success({ message: 'Checkout successfully' })
+            }
+        })
+    }, [dispatch, selectedItems])
 
     const onRemoveCartItems = useCallback(async (itemIds: number[]) => {
-
         Modal.confirm({
             title: "Confirm Remove Item",
             content: 'This cannot be undone.',
@@ -155,14 +175,17 @@ const Cart = () => {
     }
 
     if (status === "succeeded" && Object.keys(products).length != 0) {
+
         if (cartItems.length === 0)
             content = <p className="empty">Cart is empty</p>
         else
             content = <div className="cart-items">{cartItems.map(item => {
                 const product = products[item.id]
 
-                if (!product)
+                if (!product) {
+                    notification.error({ message: "Some products no longer exist" })
                     return null
+                }
 
                 return <CartItem
                     key={product.id}
@@ -200,9 +223,7 @@ const Cart = () => {
                     <div className="cart-actions__inp">
                         <input
                             type="checkbox"
-                            name=""
                             id="selectAllItems"
-                            role="checkbox"
                             aria-label="select all items"
                             disabled={cartItems.length === 0}
                             checked={isSelectAll}
@@ -212,7 +233,7 @@ const Cart = () => {
                     <div>
                         <button
                             className={`remove-all-btn ${selectedItems.length === 0 ? "is-disabled" : ""}`}
-                            role="button" aria-label="remove all button"
+                            aria-label="remove all button"
                             disabled={selectedItems.length === 0}
                             onClick={() => onRemoveCartItems(selectedItems)}
                         >Remove All</button>

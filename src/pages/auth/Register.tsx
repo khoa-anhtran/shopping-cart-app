@@ -24,15 +24,13 @@ export default function Register() {
         if (authStatus === 'succeeded') {
             navigate('/')
             notification.success({
-                message: "",
-                description: "Register successfully"
+                message: "Register successfully",
             })
         }
 
         if (authStatus === "failed")
             notification.error({
-                message: "",
-                description: authError
+                message: authError,
             })
     }, [authStatus, navigate])
 
@@ -44,7 +42,7 @@ export default function Register() {
                 <form onSubmit={onRegister} className="login__form">
                     <div className="login__field">
                         <label htmlFor="email" className="login__label">Email</label>
-                        <input type="email" id="email" required className="login__input"
+                        <input id="email" required className="login__input"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                         />
@@ -67,7 +65,7 @@ export default function Register() {
                     </button>
                 </form>
 
-                <div style={{ color: 'red' }}>{authError}</div>
+                <div style={{ color: 'red' }}>{authStatus === "failed" ? authError : ""}</div>
 
                 <p className="login__hint">
                     Already have an account? <Link to={"/login"}>Sign in</Link>

@@ -1,11 +1,8 @@
-import { CART_FETCH_FAILED, CART_FETCH_REQUESTED, CART_FETCH_SUCCEEDED, CART_TOGGLE, CHECKED_OUT, ITEM_ADDED, ITEMS_REMOVED, ITEM_SELECTED_TOGGLED, QUANTITY_DECREASED, QUANTITY_INCREASED, SELECT_ALL_TOGGLED } from "./actionTypes";
+import { CART_FETCH_FAILED, CART_FETCH_REQUESTED, CART_FETCH_SUCCEEDED, CART_TOGGLE, CHECKED_OUT, ITEM_ADDED, ITEMS_REMOVED, ITEM_SELECTED_TOGGLED, QUANTITY_DECREASED, QUANTITY_INCREASED, SELECT_ALL_TOGGLED, CART_SYNC_SUCCEEDED, CART_SYNC_FAILED } from "./actionTypes";
 import { CartItem } from "./reducers";
 
-export const fetchCartRequested = (userId: number) => ({
-    type: CART_FETCH_REQUESTED,
-    payload: {
-        userId
-    }
+export const fetchCartRequested = () => ({
+    type: CART_FETCH_REQUESTED
 });
 
 export const fetchCartSucceeded = (items: CartItem[]) => ({
@@ -17,6 +14,17 @@ export const fetchCartSucceeded = (items: CartItem[]) => ({
 
 export const fetchCartFailed = (message: string) => ({
     type: CART_FETCH_FAILED,
+    payload: {
+        message
+    }
+});
+
+export const cartSyncSucceeded = () => ({
+    type: CART_SYNC_SUCCEEDED
+});
+
+export const cartSyncFailed = (message: string) => ({
+    type: CART_SYNC_FAILED,
     payload: {
         message
     }
@@ -69,8 +77,11 @@ export const selectAllToggled = () => (
     }
 )
 
-export const checkedOut = () => (
+export const checkedOut = (itemIds: number[]) => (
     {
         type: CHECKED_OUT,
+        payload: {
+            itemIds
+        }
     }
 )

@@ -25,16 +25,14 @@ export default function Login() {
     useEffect(() => {
         if (authStatus === 'succeeded') {
             notification.success({
-                message: "",
-                description: "Login successfully"
+                message: "Login successfully",
             })
             navigate('/')
         }
 
         if (authStatus === "failed")
             notification.error({
-                message: "",
-                description: authError
+                message: authError,
             })
     }, [authStatus, navigate])
 
@@ -46,7 +44,7 @@ export default function Login() {
                 <form onSubmit={onLogin} className="login__form">
                     <div className="login__field">
                         <label htmlFor="email" className="login__label">Email</label>
-                        <input type="email" id="email" required className="login__input"
+                        <input type="email" id="email" className="login__input"
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                         />
@@ -54,7 +52,7 @@ export default function Login() {
 
                     <div className="login__field">
                         <label htmlFor="password" className="login__label">Password</label>
-                        <input type="password" id="password" required className="login__input"
+                        <input type="password" id="password" className="login__input"
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                         />
@@ -69,7 +67,7 @@ export default function Login() {
                     </button>
                 </form>
 
-                <div style={{ color: 'red' }}>{authError}</div>
+                <div style={{ color: 'red' }}>{authStatus === "failed" ? authError : ""}</div>
 
                 <p className="login__hint">
                     Don't have an account? <Link to={"/signup"}>Sign up</Link>

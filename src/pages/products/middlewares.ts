@@ -1,6 +1,6 @@
 import { call, put, takeEvery, takeLatest } from 'redux-saga/effects'
 
-import { fetchProducts } from '../../services/apiService'
+import { fetchProducts } from '../../services/productService'
 import { PRODUCTS_FETCH_FAILED, PRODUCTS_FETCH_REQUESTED, PRODUCTS_FETCH_SUCCEEDED } from './actionTypes'
 import { SagaIterator } from 'redux-saga';
 import { Product } from './reducers';
@@ -15,7 +15,7 @@ function* fetchProductsSaga(): SagaIterator {
     } catch (e) {
         const message = e instanceof Error ? e.message : String(e);
 
-        yield put(fetchProductsFailed(message));
+        yield put(fetchProductsFailed(`Fetch products failed: ${message}`));
     }
 }
 

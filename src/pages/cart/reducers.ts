@@ -1,6 +1,6 @@
-import { FetchStatus, PayloadAction } from "@/types"
-import { CART_FETCH_FAILED, CART_FETCH_REQUESTED, CART_FETCH_SUCCEEDED, CART_TOGGLE, ITEM_ADDED, ITEM_SELECTED_TOGGLED, ITEMS_REMOVED, QUANTITY_DECREASED, QUANTITY_INCREASED, SELECT_ALL_TOGGLED } from "./actionTypes"
-import { Product } from "../products/reducers"
+import { FetchStatus, PayloadAction, SyncStatus } from "@/types"
+import { CART_FETCH_FAILED, CART_FETCH_REQUESTED, CART_FETCH_SUCCEEDED, CART_SYNC_FAILED, CART_SYNC_SUCCEEDED, CART_TOGGLE, CHECKED_OUT, ITEM_ADDED, ITEM_SELECTED_TOGGLED, ITEMS_REMOVED, QUANTITY_DECREASED, QUANTITY_INCREASED, SELECT_ALL_TOGGLED } from "./actionTypes"
+import { USER_LOGOUT_SUCCEEDED } from "../auth/actionTypes";
 
 export type CartItem = {
     id: number,
@@ -12,7 +12,9 @@ export type CartItem = {
 export type CartState = {
     items: CartItem[],
     status: FetchStatus,
+    syncStatus: SyncStatus,
     error: string | null,
+    syncError: string | null,
     isSelectAll: boolean;
     isOpen: boolean;
 }
@@ -22,7 +24,9 @@ const initialState: CartState = {
     status: 'idle',
     error: null,
     isSelectAll: false,
-    isOpen: false
+    isOpen: false,
+    syncStatus: 'waiting',
+    syncError: null
 }
 
 const cartReducer = (state = initialState, action: PayloadAction<any>): CartState => {
@@ -42,6 +46,7 @@ const cartReducer = (state = initialState, action: PayloadAction<any>): CartStat
             return {
                 ...state,
                 items: myItems,
+                error: null,
                 status: 'succeeded'
             };
         }
@@ -53,6 +58,23 @@ const cartReducer = (state = initialState, action: PayloadAction<any>): CartStat
                 ...state,
                 error: message,
                 status: 'failed'
+            };
+        }
+
+        case CART_SYNC_SUCCEEDED: {
+            return {
+                ...state,
+                syncError: null,
+                syncStatus: 'succeeded'
+            };
+        }
+
+        case CART_SYNC_FAILED: {
+            const { message } = action.payload as { message: string };
+            return {
+                ...state,
+                syncError: message,
+                syncStatus: 'failed'
             };
         }
 
@@ -71,6 +93,7 @@ const cartReducer = (state = initialState, action: PayloadAction<any>): CartStat
             if (state.items.find(item => item.id === itemId))
                 return {
                     ...state,
+                    syncStatus: "waiting",
                     items: state.items.map(item => {
                         if (item.id === itemId)
                             return { ...item, quantity: item.quantity + 1 }
@@ -81,6 +104,7 @@ const cartReducer = (state = initialState, action: PayloadAction<any>): CartStat
 
             return {
                 ...state,
+                syncStatus: "waiting",
                 items: [...state.items, newItem]
             };
         }
@@ -94,6 +118,7 @@ const cartReducer = (state = initialState, action: PayloadAction<any>): CartStat
 
             return {
                 ...state,
+                syncStatus: "waiting",
                 items,
                 isSelectAll
             };
@@ -104,6 +129,7 @@ const cartReducer = (state = initialState, action: PayloadAction<any>): CartStat
 
             return {
                 ...state,
+                syncStatus: "waiting",
                 items: state.items.map(item =>
                     item.id === itemId
                         ? { ...item, quantity: item.quantity + 1 }
@@ -119,16 +145,32 @@ const cartReducer = (state = initialState, action: PayloadAction<any>): CartStat
             if (item?.quantity === 1)
                 return {
                     ...state,
+                    syncStatus: "waiting",
                     items: state.items.filter(myItem => myItem.id !== item.id)
                 };
 
             return {
                 ...state,
+                syncStatus: "waiting",
                 items: state.items.map(item =>
                     item.id === itemId
                         ? { ...item, quantity: item.quantity - 1 }
                         : item
                 )
+            };
+        }
+
+        case CHECKED_OUT: {
+
+            const { itemIds } = action.payload as { itemIds: number[] }
+
+            const isCheckedOutAll = itemIds.length === state.items.length
+
+            return {
+                ...state,
+                syncStatus: "waiting",
+                isSelectAll: !isCheckedOutAll,
+                items: state.items.filter(item => !itemIds.includes(item.id))
             };
         }
 
@@ -161,6 +203,10 @@ const cartReducer = (state = initialState, action: PayloadAction<any>): CartStat
                     ...item, isSelected: !state.isSelectAll
                 }))
             }
+        }
+
+        case USER_LOGOUT_SUCCEEDED: {
+            return initialState;
         }
 
         default:

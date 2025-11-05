@@ -1,5 +1,10 @@
 import { FetchStatus, PayloadAction } from "@/types";
-import { USER_LOGIN_FAILED, USER_LOGIN_SUCCEEDED, USER_LOGINED, USER_LOGOUTED, USER_REGISTER_FAILED, USER_REGISTER_SUCCEEDED, USER_REGISTERED } from "./actionTypes";
+import {
+    ACCESS_TOKEN_REFRESH_FAILED,
+    ACCESS_TOKEN_REFRESH_REQUESTED, ACCESS_TOKEN_REFRESHED, USER_LOGIN_FAILED,
+    USER_LOGIN_SUCCEEDED, USER_LOGINED, USER_LOGOUT_FAILED, USER_LOGOUT_REQUESTED, USER_LOGOUT_SUCCEEDED, USER_REGISTER_FAILED,
+    USER_REGISTER_SUCCEEDED, USER_REGISTERED
+} from "./actionTypes";
 
 export type AuthState = {
     userId: number | null;
@@ -7,6 +12,7 @@ export type AuthState = {
     accessToken?: string
     status: FetchStatus
     error: string | null;
+    refreshTokenStatus: "empty" | "existed" | "expired"
 }
 
 export type AuthResponse = {
@@ -27,19 +33,37 @@ const initialState: AuthState = {
     email: null,
     status: 'idle',
     error: null,
+    refreshTokenStatus: "empty"
 }
 
 const authReducer = (state = initialState, action: PayloadAction<any>): AuthState => {
     switch (action.type) {
 
-        case USER_LOGINED: {
+        case USER_LOGINED:
+        case USER_REGISTERED:
+        case USER_LOGOUT_REQUESTED:
+        case ACCESS_TOKEN_REFRESH_REQUESTED: {
             return {
                 ...state,
                 status: 'loading'
             };
         }
 
-        case USER_LOGIN_SUCCEEDED: {
+        case USER_LOGIN_FAILED:
+        case USER_REGISTER_FAILED:
+        case USER_LOGOUT_FAILED: {
+            const { message } = action.payload;
+
+            return {
+                ...state,
+                status: "failed",
+                error: message
+            };
+        }
+
+        case USER_LOGIN_SUCCEEDED:
+        case USER_REGISTER_SUCCEEDED:
+        case ACCESS_TOKEN_REFRESHED: {
             const { accessToken, user } = action.payload as AuthResponse;
 
             return {
@@ -51,46 +75,15 @@ const authReducer = (state = initialState, action: PayloadAction<any>): AuthStat
             };
         }
 
-        case USER_LOGIN_FAILED: {
-            const { message } = action.payload;
+        case ACCESS_TOKEN_REFRESH_FAILED: {
+            const { message } = action.payload
 
-            return {
-                ...state,
-                status: "failed",
-                error: message
-            };
+            const isEmpty = !!message.match(/Missing refresh token/)
+
+            return { ...state, status: "idle", refreshTokenStatus: isEmpty ? "empty" : "expired" };
         }
 
-        case USER_REGISTERED: {
-            return {
-                ...state,
-                status: 'loading'
-            };
-        }
-
-        case USER_REGISTER_SUCCEEDED: {
-            const { accessToken, user } = action.payload as AuthResponse;
-
-            return {
-                ...state,
-                accessToken,
-                email: user.email,
-                userId: user.id,
-                status: "succeeded"
-            };
-        }
-
-        case USER_REGISTER_FAILED: {
-            const { message } = action.payload;
-
-            return {
-                ...state,
-                status: "failed",
-                error: message
-            };
-        }
-
-        case USER_LOGOUTED: {
+        case USER_LOGOUT_SUCCEEDED: {
             return initialState;
         }
 

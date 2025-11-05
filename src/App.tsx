@@ -1,45 +1,76 @@
 import { useDispatch, useSelector } from 'react-redux'
 import './App.css'
-// import Header from './component/Header'
-// import CartView from './features/cart/CartView'
-// import ProductsView from './features/products/ProductsView'
-// import MyConfirmDialog from './features/ui/MyConfirmDialog'
-// import MyStatusOverlay from './features/ui/MyStatusOverlay'
-import { Navigate, Outlet, Route, Routes } from 'react-router-dom'
-import { JSX, useEffect } from 'react'
-import { fetchProductsRequested } from './pages/products/actions'
-import { selectProducts, selectProductsError, selectProductsStatus } from './pages/products/selectors'
-import { selectCart, selectCartError, selectCartStatus } from './pages/cart/selectors'
-import { fetchCartRequested } from './pages/cart/actions'
-import Products from './pages/products/Products'
-import Header from './pages/layout/Header'
-import Cart from './pages/cart/Cart'
-import { ToastContainer } from 'react-toast'
-import Login from './pages/auth/Login'
-import { selectAuth } from './pages/auth/selectors'
-import Register from './pages/auth/Register'
-// import LoginView from './features/auth/LoginView'
-// import { selectAuth } from './features/auth/authSlice'
-// import RegisterView from './features/auth/RegisterView'
+import { Route, Routes, useNavigate } from 'react-router-dom'
+import { lazy, Suspense, useEffect, useRef } from 'react'
+import { selectAuthRTStatus, selectAuthStatus } from './pages/auth/selectors'
+import { accessTokenRefreshRequested, userLogoutRequested } from './pages/auth/actions'
+import RequireGuest from './routes/RequireGuest'
+import RequireAuth from './routes/RequireAuth'
+import { notification } from 'antd'
+import { ErrorBoundary } from 'react-error-boundary'
+
+const Products = lazy(() => import('./pages/products/Products'))
+const Header = lazy(() => import('./pages/layout/Header'))
+const Cart = lazy(() => import('./pages/cart/Cart'))
+const Login = lazy(() => import('./pages/auth/Login'))
+const Register = lazy(() => import('./pages/auth/Register'))
+
+const ROUTES = {
+  HOME: '/',
+  LOGIN: '/login',
+  SIGNUP: '/signup'
+} as const
+
+const ErrorFallback = ({ error }: { error: Error }) => (
+  <div role="alert">
+    <p>Something went wrong:</p>
+    <pre>{error.message}</pre>
+  </div>
+)
 
 function App() {
+  const dispatch = useDispatch();
+  const navigate = useNavigate()
+  const kicked = useRef(false);
+
+  const status = useSelector(selectAuthStatus);
+  const rts = useSelector(selectAuthRTStatus)
+
+
+  // Kick off refresh exactly once when app starts idle
+  useEffect(() => {
+    if (status === "idle" && !kicked.current) {
+      dispatch(accessTokenRefreshRequested());
+      kicked.current = true;
+    }
+  }, [status, dispatch]);
+
+  useEffect(() => {
+    if (rts === "expired") {
+      notification.error({ message: "Your session is expired, please login again" })
+      dispatch(userLogoutRequested())
+      navigate(ROUTES.HOME)
+    }
+
+  }, [rts])
 
   return (
-    <>
-      <Routes>
-        <Route path="*" element={<PrivateRoute><Home /></PrivateRoute>} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/signup" element={<Register />} />
-      </Routes>
-    </>
+    <ErrorBoundary FallbackComponent={ErrorFallback}>
+      <Suspense fallback={<div>Loading...</div>}>
+        <Routes>
+          <Route element={<RequireGuest />}>
+            <Route path={ROUTES.LOGIN} element={<Login />} />
+            <Route path={ROUTES.SIGNUP} element={<Register />} />
+          </Route>
+
+          <Route element={<RequireAuth />}>
+            <Route path={ROUTES.HOME} element={<Home />} />
+          </Route>
+        </Routes>
+      </Suspense>
+    </ErrorBoundary>
+
   )
-}
-
-function PrivateRoute({ children }: { children: JSX.Element }) {
-  const userId = useSelector(selectAuth)?.userId
-
-  if (!userId) return <Navigate to="/login" replace />
-  return children
 }
 
 function Home() {

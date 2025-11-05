@@ -2,7 +2,7 @@ import { useCallback, useMemo } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { cartToggled } from "../cart/actions"
 import { selectCart } from "../cart/selectors"
-import { userLogouted } from "../auth/actions"
+import { userLogoutRequested } from "../auth/actions"
 import { selectAuth } from "../auth/selectors"
 import { notification } from "antd"
 
@@ -22,10 +22,9 @@ const Header = () => {
     }, [dispatch])
 
     const onLogout = useCallback(() => {
-        dispatch(userLogouted())
+        dispatch(userLogoutRequested())
         notification.success({
-            message: "",
-            description: "Logout successfully"
+            message: "Logout successfully",
         })
     }, [dispatch])
 

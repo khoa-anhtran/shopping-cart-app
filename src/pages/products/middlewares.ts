@@ -1,7 +1,7 @@
-import { call, put, takeEvery, takeLatest } from 'redux-saga/effects'
+import { call, put, takeLatest } from 'redux-saga/effects'
 
 import { fetchProducts } from '../../services/productService'
-import { PRODUCTS_FETCH_FAILED, PRODUCTS_FETCH_REQUESTED, PRODUCTS_FETCH_SUCCEEDED } from './actionTypes'
+import { PRODUCTS_FETCH_REQUESTED } from './actionTypes'
 import { SagaIterator } from 'redux-saga';
 import { Product } from './reducers';
 import { fetchProductsFailed, fetchProductsSucceeded } from './actions';

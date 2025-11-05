@@ -8,7 +8,7 @@ import { notification } from "antd"
 
 const Header = () => {
     const dispatch = useDispatch()
-    const { userId, email } = useSelector(selectAuth)
+    const { email } = useSelector(selectAuth)
     const cartItems = useSelector(selectCart)
 
     const totalQuantity = useMemo(() => {

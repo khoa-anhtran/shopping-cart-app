@@ -1,5 +1,5 @@
 import store from "@/store/store";
-import axios, { AxiosError } from "axios";
+import axios from "axios";
 
 const api = axios.create({
     baseURL: "http://localhost:4000",

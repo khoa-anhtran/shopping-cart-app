@@ -20,14 +20,18 @@ const initialState: ProductState = {
     error: null
 }
 
-const productReducer = (state = initialState, action: PayloadAction<any>): ProductState => {
+type ProductPayloadAction = PayloadAction<{ products: Record<number, Product> } | { message: string }>
+
+const productReducer = (state = initialState, action: ProductPayloadAction): ProductState => {
     switch (action.type) {
-        case PRODUCTS_FETCH_REQUESTED:
+        case PRODUCTS_FETCH_REQUESTED: {
             return {
                 ...state,
                 status: 'loading'
             };
-        case PRODUCTS_FETCH_SUCCEEDED:
+        }
+
+        case PRODUCTS_FETCH_SUCCEEDED: {
             const { products } = action.payload as { products: Record<number, Product> };
 
             return {
@@ -35,7 +39,9 @@ const productReducer = (state = initialState, action: PayloadAction<any>): Produ
                 products: { ...state.products, ...products },
                 status: 'succeeded'
             };
-        case PRODUCTS_FETCH_FAILED:
+        }
+
+        case PRODUCTS_FETCH_FAILED: {
             const { message } = action.payload as { message: string };
 
             return {
@@ -43,6 +49,8 @@ const productReducer = (state = initialState, action: PayloadAction<any>): Produ
                 error: message,
                 status: 'failed'
             };
+        }
+
         default:
             return state;
     }

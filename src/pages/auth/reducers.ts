@@ -36,7 +36,9 @@ const initialState: AuthState = {
     refreshTokenStatus: "empty"
 }
 
-const authReducer = (state = initialState, action: PayloadAction<any>): AuthState => {
+type AuthPayloadAction = PayloadAction<{ message: string } | AuthResponse>
+
+const authReducer = (state = initialState, action: AuthPayloadAction): AuthState => {
     switch (action.type) {
 
         case USER_LOGINED:
@@ -52,7 +54,7 @@ const authReducer = (state = initialState, action: PayloadAction<any>): AuthStat
         case USER_LOGIN_FAILED:
         case USER_REGISTER_FAILED:
         case USER_LOGOUT_FAILED: {
-            const { message } = action.payload;
+            const { message } = action.payload as { message: string }
 
             return {
                 ...state,
@@ -76,7 +78,7 @@ const authReducer = (state = initialState, action: PayloadAction<any>): AuthStat
         }
 
         case ACCESS_TOKEN_REFRESH_FAILED: {
-            const { message } = action.payload
+            const { message } = action.payload as { message: string }
 
             const isEmpty = !!message.match(/Missing refresh token/)
 

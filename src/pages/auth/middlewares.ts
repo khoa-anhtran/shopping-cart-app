@@ -1,4 +1,4 @@
-import { call, put, take, takeLatest } from 'redux-saga/effects'
+import { call, put, takeLatest } from 'redux-saga/effects'
 
 import { postLogin, postLogout, postRefreshToken, postRegister } from '../../services/authService'
 import { ACCESS_TOKEN_REFRESH_REQUESTED, USER_LOGINED, USER_LOGOUT_REQUESTED, USER_REGISTERED } from './actionTypes'

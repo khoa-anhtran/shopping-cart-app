@@ -29,7 +29,14 @@ const initialState: CartState = {
     syncError: null
 }
 
-const cartReducer = (state = initialState, action: PayloadAction<any>): CartState => {
+type CartPayloadAction = PayloadAction<
+    { message: string } |
+    { items: Omit<CartItem, 'isSelected'>[] } |
+    { itemIds: number[] } |
+    { itemId: number }
+>
+
+const cartReducer = (state = initialState, action: CartPayloadAction): CartState => {
     switch (action.type) {
         case CART_FETCH_REQUESTED: {
             return {

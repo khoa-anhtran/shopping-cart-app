@@ -6,7 +6,6 @@ import { selectAuthRTStatus, selectAuthStatus } from './pages/auth/selectors'
 import { accessTokenRefreshRequested, userLogoutRequested } from './pages/auth/actions'
 import RequireGuest from './routes/RequireGuest'
 import RequireAuth from './routes/RequireAuth'
-import { notification } from 'antd'
 import { ErrorBoundary } from 'react-error-boundary'
 import SimpleErrorPage from './pages/layout/SimpleErrorPage'
 import LoadingSpinner from './components/LoadingSpinner'
@@ -54,7 +53,7 @@ function App() {
       dispatch(userLogoutRequested())
       navigate(ROUTES.HOME)
     }
-  }, [rts])
+  }, [rts, dispatch, navigate])
 
   if (status === "loading")
     return <LoadingSpinner overlay size={'lg'} label='Loading'></LoadingSpinner>

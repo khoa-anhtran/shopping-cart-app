@@ -12,7 +12,7 @@ export const fetchCart = async (userId: number) => {
     }))
 }
 
-export const putCartItems = async ({ items, userId, accessToken }: { items: CartItem[]; userId: number; accessToken: string }) => {
+export const putCartItems = async ({ items, userId }: { items: CartItem[]; userId: number; accessToken: string }) => {
     const body = { items: Object.fromEntries(items.map(i => [String(i.id), { quantity: i.quantity, addedAt: i.addedAt }])) }
-    const res = await api.put(`/api/carts/${userId}`, body)
+    await api.put(`/api/carts/${userId}`, body)
 }

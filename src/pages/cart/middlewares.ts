@@ -1,4 +1,4 @@
-import { call, debounce, delay, put, race, select, take, takeEvery, takeLatest } from 'redux-saga/effects'
+import { call, debounce, put, select, takeLatest } from 'redux-saga/effects'
 
 import { CART_FETCH_REQUESTED, CHECKED_OUT, ITEM_ADDED, ITEMS_REMOVED, QUANTITY_DECREASED, QUANTITY_INCREASED } from './actionTypes'
 import { SagaIterator } from 'redux-saga';

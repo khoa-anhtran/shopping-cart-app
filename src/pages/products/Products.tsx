@@ -1,10 +1,9 @@
 import { useDispatch, useSelector } from "react-redux"
-import { useCallback, useEffect, useRef, useState } from "react"
+import { useCallback, useEffect, useRef } from "react"
 import ProductGrid from "./components/ProductGrid"
 import { itemAdded } from "../cart/actions"
 import { selectProducts, selectProductsError, selectProductsStatus } from "./selectors"
 import { fetchProductsRequested } from "./actions"
-import { notification } from "antd";
 import SimpleErrorPage from "../layout/SimpleErrorPage"
 import LoadingSpinner from "@/components/LoadingSpinner"
 import { notify } from "@/utils/helpers"
@@ -25,12 +24,12 @@ const Products = () => {
             isFetching.current = true
         }
         notify({ status, error, message: "Fetch products successfully" })
-    }, [status])
+    }, [status, error, dispatch])
 
     const onAddToCart = useCallback((productId: number) => {
         dispatch(itemAdded(productId))
         notify({ status: "succeeded", error, message: 'Your product have added' })
-    }, [dispatch])
+    }, [dispatch, error])
 
     const onRetry = useCallback(() => {
         dispatch(fetchProductsRequested())

@@ -19,7 +19,7 @@ export default function Login() {
     const onLogin = useCallback((e: React.FormEvent) => {
         e.preventDefault()
         dispatch(userLogined({ email, password }))
-    }, [dispatch, navigate, email, password])
+    }, [dispatch, email, password])
 
     useEffect(() => {
         if (authStatus === 'succeeded') {
@@ -33,7 +33,7 @@ export default function Login() {
             notification.error({
                 message: authError,
             })
-    }, [authStatus, navigate])
+    }, [authStatus, authError, navigate])
 
     return (
         <div className="login">

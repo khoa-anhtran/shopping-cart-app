@@ -1,4 +1,4 @@
-import { use, useCallback, useEffect, useRef, useState } from "react"
+import { useCallback, useEffect, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { Link, useNavigate } from "react-router-dom"
 import { selectAuthError, selectAuthStatus } from "./selectors"
@@ -18,7 +18,7 @@ export default function Register() {
     const onRegister = useCallback((e: React.FormEvent) => {
         e.preventDefault()
         dispatch(userRegistered({ email, password }))
-    }, [dispatch, navigate, email, password])
+    }, [dispatch, email, password])
 
     useEffect(() => {
         if (authStatus === 'succeeded') {
@@ -32,7 +32,7 @@ export default function Register() {
             notification.error({
                 message: authError,
             })
-    }, [authStatus, navigate])
+    }, [authStatus, authError, navigate])
 
     return (
         <div className="login">

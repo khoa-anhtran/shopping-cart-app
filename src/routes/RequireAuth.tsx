@@ -1,10 +1,7 @@
 // RequireAuth.tsx
 import { Navigate, Outlet } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
-import { useEffect, useRef } from "react";
-import { notification } from "antd";
-import { selectAuth, selectAuthError, selectAuthStatus } from "@/pages/auth/selectors";
-import { accessTokenRefreshRequested } from "@/pages/auth/actions";
+import { useSelector } from "react-redux";
+import { selectAuth, selectAuthStatus } from "@/pages/auth/selectors";
 
 export default function RequireAuth() {
     const auth = useSelector(selectAuth);

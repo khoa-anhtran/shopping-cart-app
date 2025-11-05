@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux"
-import { useCallback, useEffect, useMemo, useRef, useState } from "react"
+import { useCallback, useEffect, useMemo, useRef } from "react"
 import { selectProducts } from "../products/selectors"
 import { useDispatch } from "react-redux"
 import { selectCart, selectCartError, selectCartIsSelectAll, selectCartOpen, selectCartStatus, selectCartSyncError, selectCartSyncStatus } from "./selectors"
@@ -56,49 +56,6 @@ const Cart = () => {
     const previouslyFocused = useRef<HTMLElement | null>(null);
     const modalRef = useRef<HTMLDivElement>(null);
     const isFetchingCart = useRef(false)
-
-    useEffect(() => {
-        notify({ status, error, message: "Fetch cart successfully" })
-
-        if (status === "idle" && !isFetchingCart.current) {
-            isFetchingCart.current = true
-            dispatch(fetchCartRequested())
-        }
-
-    }, [status, userId, dispatch])
-
-    useEffect(() => {
-        notify({ status: syncStatus, error: syncError, message: "Sync cart successfully" })
-    }, [syncStatus, dispatch])
-
-    // lock scroll & manage focus
-    useEffect(() => {
-        if (!open) return;
-
-        previouslyFocused.current = document.activeElement as HTMLElement | null;
-
-        const prevOverflow = document.documentElement.style.overflow;
-        document.documentElement.style.overflow = 'hidden';
-
-        const id = window.setTimeout(() => {
-            const el = modalRef.current;
-            if (!el) return;
-            const firstFocusable = el.querySelector<HTMLElement>(
-                'button,[href],input,select,textarea,[tabindex]:not([tabindex="-1"])'
-            );
-            firstFocusable?.focus();
-        }, 0);
-
-        const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') onClickCloseCart() }
-        window.addEventListener('keydown', onKey)
-
-        return () => {
-            window.clearTimeout(id);
-            window.removeEventListener('keydown', onKey)
-            document.documentElement.style.overflow = prevOverflow;
-            previouslyFocused.current?.focus();
-        };
-    }, [open]);
 
     const onIncrease = useCallback((itemId: number) => {
         dispatch(quantityIncreased(itemId))
@@ -157,6 +114,51 @@ const Cart = () => {
         isFetchingCart.current = true
         dispatch(fetchCartRequested())
     }, [dispatch])
+
+    useEffect(() => {
+        notify({ status, error, message: "Fetch cart successfully" })
+
+        if (status === "idle" && !isFetchingCart.current) {
+            isFetchingCart.current = true
+            dispatch(fetchCartRequested())
+        }
+
+    }, [status, userId, dispatch, error])
+
+    useEffect(() => {
+        notify({ status: syncStatus, error: syncError, message: "Sync cart successfully" })
+    }, [syncStatus, dispatch, syncError])
+
+    // lock scroll & manage focus
+    useEffect(() => {
+        if (!open) return;
+
+        previouslyFocused.current = document.activeElement as HTMLElement | null;
+
+        const prevOverflow = document.documentElement.style.overflow;
+        document.documentElement.style.overflow = 'hidden';
+
+        const id = window.setTimeout(() => {
+            const el = modalRef.current;
+            if (!el) return;
+            const firstFocusable = el.querySelector<HTMLElement>(
+                'button,[href],input,select,textarea,[tabindex]:not([tabindex="-1"])'
+            );
+            firstFocusable?.focus();
+        }, 0);
+
+        const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') onClickCloseCart() }
+        window.addEventListener('keydown', onKey)
+
+        return () => {
+            window.clearTimeout(id);
+            window.removeEventListener('keydown', onKey)
+            document.documentElement.style.overflow = prevOverflow;
+            previouslyFocused.current?.focus();
+        };
+    }, [open, onClickCloseCart]);
+
+
 
     let content
 

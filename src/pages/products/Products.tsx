@@ -6,6 +6,7 @@ import { selectProducts, selectProductsError, selectProductsStatus } from "./sel
 import { fetchProductsRequested } from "./actions"
 import { notification } from "antd";
 import SimpleErrorPage from "../layout/SimpleErrorPage"
+import LoadingSpinner from "@/components/LoadingSpinner"
 
 const Products = () => {
     const dispatch = useDispatch()
@@ -47,6 +48,10 @@ const Products = () => {
 
     if (status === 'failed')
         content = <SimpleErrorPage message={error ?? ""} onRetry={onRetry}></SimpleErrorPage >
+
+    if (status === "loading") {
+        content = <LoadingSpinner overlay label="Loading page" size={"lg"} />
+    }
 
     return <section className="product-section">{content}</section>
 

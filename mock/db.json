@@ -221,16 +221,7 @@
       "id": 2
     },
     {
-      "items": {
-        "3": {
-          "quantity": 4,
-          "addedAt": "2025-11-05T03:28:53.849Z"
-        },
-        "4": {
-          "quantity": 2,
-          "addedAt": "2025-11-05T03:28:32.657Z"
-        }
-      },
+      "items": {},
       "id": 3
     }
   ],
@@ -387,6 +378,126 @@
     {
       "id": "Lf9gttELrXJ7XM7cBM3QE",
       "jti": "Lf9gttELrXJ7XM7cBM3QE",
+      "userId": 3,
+      "revoked": true
+    },
+    {
+      "id": "2Scb0-oPwNFmbarZKd4X7",
+      "jti": "2Scb0-oPwNFmbarZKd4X7",
+      "userId": 3,
+      "revoked": true
+    },
+    {
+      "id": "5LVrbnIGQxDaM9XXl-YXr",
+      "jti": "5LVrbnIGQxDaM9XXl-YXr",
+      "userId": 3,
+      "revoked": true
+    },
+    {
+      "id": "kEKW8YlgvOQ7jNsFlPa5b",
+      "jti": "kEKW8YlgvOQ7jNsFlPa5b",
+      "userId": 3,
+      "revoked": true
+    },
+    {
+      "id": "umNUJ1sUeFffo7om2Ikdq",
+      "jti": "umNUJ1sUeFffo7om2Ikdq",
+      "userId": 3,
+      "revoked": true
+    },
+    {
+      "id": "EcTPkrSnVZ0ZYO8tkK5LR",
+      "jti": "EcTPkrSnVZ0ZYO8tkK5LR",
+      "userId": 3,
+      "revoked": true
+    },
+    {
+      "id": "MtwP4dUIph9Kl31lrRDF9",
+      "jti": "MtwP4dUIph9Kl31lrRDF9",
+      "userId": 3,
+      "revoked": true
+    },
+    {
+      "id": "mNC2TMnjDwz1Hr9oqKhTC",
+      "jti": "mNC2TMnjDwz1Hr9oqKhTC",
+      "userId": 3,
+      "revoked": true
+    },
+    {
+      "id": "cbqtRiLv7GkGc50IcQ6Cx",
+      "jti": "cbqtRiLv7GkGc50IcQ6Cx",
+      "userId": 3,
+      "revoked": true
+    },
+    {
+      "id": "IPpDlNNsS-O72ngk3JyVn",
+      "jti": "IPpDlNNsS-O72ngk3JyVn",
+      "userId": 3,
+      "revoked": true
+    },
+    {
+      "id": "enklM0NvzFmR7MMqnPAt8",
+      "jti": "enklM0NvzFmR7MMqnPAt8",
+      "userId": 3,
+      "revoked": true
+    },
+    {
+      "id": "4KfbY-b6qOT0vz3EQ1Emg",
+      "jti": "4KfbY-b6qOT0vz3EQ1Emg",
+      "userId": 3,
+      "revoked": true
+    },
+    {
+      "id": "kyu4nywaD_M2afAnLDEEO",
+      "jti": "kyu4nywaD_M2afAnLDEEO",
+      "userId": 3,
+      "revoked": true
+    },
+    {
+      "id": "x-NcRV2lA5A7hwM_DVtSE",
+      "jti": "x-NcRV2lA5A7hwM_DVtSE",
+      "userId": 3,
+      "revoked": true
+    },
+    {
+      "id": "k3FkES1J1eSQezzLpgO_i",
+      "jti": "k3FkES1J1eSQezzLpgO_i",
+      "userId": 3,
+      "revoked": true
+    },
+    {
+      "id": "gb4SF8kmZgWDpsujKWPOZ",
+      "jti": "gb4SF8kmZgWDpsujKWPOZ",
+      "userId": 3,
+      "revoked": true
+    },
+    {
+      "id": "PYdpABHAQB4JZD2YCOOzq",
+      "jti": "PYdpABHAQB4JZD2YCOOzq",
+      "userId": 3,
+      "revoked": true
+    },
+    {
+      "id": "H7_nbSUd7943czWSfkpp6",
+      "jti": "H7_nbSUd7943czWSfkpp6",
+      "userId": 3,
+      "revoked": true
+    },
+    {
+      "id": "ZSMZZKdw6LIdPF-xhT-ha",
+      "jti": "ZSMZZKdw6LIdPF-xhT-ha",
+      "userId": 3,
+      "revoked": true
+    },
+    {
+      "id": "Nc_CLokBp42HAIjFSHeuN",
+      "jti": "Nc_CLokBp42HAIjFSHeuN",
+      "userId": 3,
+      "revoked": true
+    },
+    {
+      "id": "YtLtVfMt64HF24CyUwUii",
+      "jti": "YtLtVfMt64HF24CyUwUii",
       "userId": 3,
       "revoked": false
     }

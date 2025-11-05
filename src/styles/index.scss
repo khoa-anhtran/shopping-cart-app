@@ -512,6 +512,30 @@ a {
             align-items: center;
         }
 
+        &__btns {
+            display: flex;
+            justify-content: space-between;
+            width: 60%;
+        }
+
+        .refresh-btn {
+            background: $brand;
+            color: #fff;
+            border: 0;
+            padding: 10px 14px;
+            border-radius: 8px;
+            font-weight: 700;
+            cursor: pointer;
+
+            &:hover {
+                background: $brand-700;
+            }
+
+            &:active {
+                background: $brand-700;
+            }
+        }
+
         .remove-all-btn {
             background: $brand;
             color: #fff;
@@ -1191,4 +1215,96 @@ $shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
     margin-top: 1.5rem;
     font-size: 0.85rem;
     color: var(--muted, $muted);
+}
+
+/* --------------------------------------------------------------
+   loading.scss (same folder)
+---------------------------------------------------------------*/
+/* Colors (light) */
+$bg: #f9fafb;
+$fg: #171717;
+$muted: #6b7280;
+$ring-track: rgba(0, 0, 0, 0.08);
+$brand: #5a2aa6; // keep consistent with your theme
+$brand-600: #4b2190;
+
+.lds {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: $fg;
+    font-family:
+        system-ui,
+        -apple-system,
+        Segoe UI,
+        Roboto,
+        Helvetica,
+        Arial;
+}
+
+.lds__label {
+    font-size: 0.875rem;
+    color: $muted;
+}
+
+.lds__svg {
+    display: block;
+}
+
+.lds__track,
+.lds__indicator {
+    fill: none;
+    stroke-width: 3.5;
+    vector-effect: non-scaling-stroke;
+}
+
+.lds__track {
+    stroke: $ring-track;
+}
+
+/* Indeterminate spinner animation */
+@keyframes lds-spin {
+    0% {
+        stroke-dasharray: 1 200;
+        stroke-dashoffset: 0;
+    }
+    50% {
+        stroke-dasharray: 90 200;
+        stroke-dashoffset: -35;
+    }
+    100% {
+        stroke-dasharray: 90 200;
+        stroke-dashoffset: -124;
+    }
+}
+
+.lds__indicator {
+    stroke: $brand;
+    transform-origin: center;
+    stroke-linecap: round;
+    animation: lds-spin 1.2s ease-in-out infinite;
+}
+
+/* Determinate variant: no animation, just a ring that fills based on progress */
+.lds__indicator--determinate {
+    animation: none;
+    transition: stroke-dashoffset 180ms ease;
+}
+
+/* Fullscreen overlay */
+.lds-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(255, 255, 255, 0.6);
+    backdrop-filter: blur(2px);
+    display: grid;
+    place-items: center;
+    z-index: 9999;
+}
+
+/* Respect users who prefer less motion */
+@media (prefers-reduced-motion: reduce) {
+    .lds__indicator {
+        animation-duration: 2.4s;
+    }
 }

@@ -204,7 +204,7 @@ server.use(cors({
 }));
 
 server.use((req, res, next) => {
-  const delay = 300 + Math.random() * 1200; // 300–1500ms
+  const delay = 1000 + Math.random() * 1200; // 300–1500ms
   setTimeout(() => {
     // 10% chance to simulate network error:
     if (Math.random() < 0.1) return res.status(503).json({ message: "Temporary outage" });

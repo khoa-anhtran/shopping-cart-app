@@ -11,7 +11,7 @@ type CartItemProps = {
 }
 
 const CartItem = ({ product, onDecrease, onIncrease, onRemoveCartItem, quantity, onSelectItem, isSelected }: CartItemProps) => {
-    return <article className="cart-item" role="article" aria-label={product.title} key={product.id}>
+    return <article className="cart-item" role="article" aria-label={product.title}>
         <div className="cart-item__checkbox">
             <input type="checkbox" name="" id="" role="checkbox" aria-label="toggle select item" checked={isSelected} onChange={() => onSelectItem(product.id)} />
         </div>

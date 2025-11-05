@@ -8,6 +8,10 @@ import CartItem from "./components/CartItem"
 import { roundTo } from "@/utils/helpers"
 import { Modal, notification } from "antd"
 import { selectAuth } from "../auth/selectors"
+import LoadingSpinner from "@/components/LoadingSpinner"
+import CartHeader from "./components/CartHeader"
+import CartActions from "./components/CartActions"
+import CartList from "./components/CartList"
 
 
 const Cart = () => {
@@ -164,10 +168,15 @@ const Cart = () => {
         })
     }, [dispatch])
 
+    const onRefresh = useCallback(() => {
+        isFetchingCart.current = true
+        dispatch(fetchCartRequested())
+    }, [dispatch])
+
     let content
 
     if (status === "loading") {
-        content = <div>Loading ...</div>
+        content = <div style={{ textAlign: "center", marginTop: "12px" }}><LoadingSpinner label="Loading data" size={"lg"}></LoadingSpinner></div>
     }
 
     if (status === "failed") {
@@ -179,25 +188,14 @@ const Cart = () => {
         if (cartItems.length === 0)
             content = <p className="empty">Cart is empty</p>
         else
-            content = <div className="cart-items">{cartItems.map(item => {
-                const product = products[item.id]
-
-                if (!product) {
-                    notification.error({ message: "Some products no longer exist" })
-                    return null
-                }
-
-                return <CartItem
-                    key={product.id}
-                    product={product}
-                    onRemoveCartItem={(id) => onRemoveCartItems([id])}
-                    onDecrease={onDecrease}
-                    onIncrease={onIncrease}
-                    onSelectItem={onSelectItem}
-                    quantity={item.quantity}
-                    isSelected={item.isSelected}
-                />
-            })}</div>
+            content = <CartList
+                cartItems={cartItems}
+                onDecrease={onDecrease}
+                onIncrease={onIncrease}
+                onRemoveCartItems={onRemoveCartItems}
+                onSelectItem={onSelectItem}
+                products={products}
+            />
     }
 
     return <div
@@ -211,34 +209,17 @@ const Cart = () => {
         <aside className="cart-modal__panel" onClick={(e) => {
             e.stopPropagation()
         }}>
-            <header className="cart-modal__header">
-                <button className="cart-close" aria-label="Close" onClick={onClickCloseCart}>✕</button>
-                <div id="cart-title" className="cart-title">
-                    Cart (<span role="status" aria-live="polite" aria-label="total items">{totalQty}</span>)
-                </div>
-            </header>
+            <CartHeader onClickCloseCart={onClickCloseCart} totalQty={totalQty} />
 
             <div className="cart-modal__body">
-                <div className="cart-actions">
-                    <div className="cart-actions__inp">
-                        <input
-                            type="checkbox"
-                            id="selectAllItems"
-                            aria-label="select all items"
-                            disabled={cartItems.length === 0}
-                            checked={isSelectAll}
-                            onChange={onSelectAllItems} />
-                        <label htmlFor="selectAllItems">Select All</label>
-                    </div>
-                    <div>
-                        <button
-                            className={`remove-all-btn ${selectedItems.length === 0 ? "is-disabled" : ""}`}
-                            aria-label="remove all button"
-                            disabled={selectedItems.length === 0}
-                            onClick={() => onRemoveCartItems(selectedItems)}
-                        >Remove All</button>
-                    </div>
-                </div>
+                <CartActions
+                    isDisabled={cartItems.length === 0}
+                    isSelectAll={isSelectAll}
+                    selectedItems={selectedItems}
+                    onRemoveCartItems={onRemoveCartItems}
+                    onSelectAllItems={onSelectAllItems}
+                    onRefresh={onRefresh}
+                />
                 {content}
             </div>
 

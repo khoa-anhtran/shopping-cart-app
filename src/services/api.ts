@@ -1,12 +1,14 @@
 import store from "@/store/store";
 import axios, { AxiosError } from "axios";
 
-const api = axios.create({ baseURL: "http://localhost:4000" });
+const api = axios.create({
+    baseURL: "http://localhost:4000",
+    timeout: 10_000,          // 10s timeout
+    withCredentials: true,
+});
 
 api.interceptors.request.use((config) => {
     const token = store.getState().auth.accessToken
-
-    config.withCredentials = true
 
     if (token) config.headers.Authorization = `Bearer ${token}`;
     return config;

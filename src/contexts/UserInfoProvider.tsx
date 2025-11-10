@@ -2,7 +2,6 @@ import { AuthPayload } from "@/pages/auth/reducers";
 import { postLogin, postLogout, postRefreshToken } from "@/services/authService";
 import { notify } from "@/utils/helpers";
 import { useState, ReactNode, useCallback } from "react";
-import { useNavigate } from "react-router-dom";
 import AuthContext from "./UserInfoContext";
 import { useDispatch } from "react-redux";
 import { tokenAdded, tokenRemoved } from "@/pages/auth/actions";
@@ -10,10 +9,8 @@ import store from "@/store/store";
 
 const UserInfoProvider = ({ children }: { children: ReactNode }) => {
     const dispatch = useDispatch()
-
     const [userId, setUserId] = useState<null | number>(null);
     const [email, setEmail] = useState<null | string>(null);
-    const navigate = useNavigate();
 
     const registerAction = useCallback(async (authPayload: AuthPayload) => {
         try {
@@ -24,9 +21,7 @@ const UserInfoProvider = ({ children }: { children: ReactNode }) => {
                 setUserId(id);
                 setEmail(email)
                 notify({ status: "succeeded", message: "Register successfully" })
-                navigate("/");
-                store.dispatch(tokenAdded(data.accessToken))
-
+                dispatch(tokenAdded(data.accessToken))
                 return;
             }
 
@@ -34,7 +29,7 @@ const UserInfoProvider = ({ children }: { children: ReactNode }) => {
             const error = err instanceof Error ? err.message : String(err);
             return error
         }
-    }, [navigate])
+    }, [])
 
     const loginAction = useCallback(async (authPayload: AuthPayload) => {
         try {
@@ -44,9 +39,7 @@ const UserInfoProvider = ({ children }: { children: ReactNode }) => {
                 const { email, id } = data.user
                 setUserId(id);
                 setEmail(email)
-                notify({ status: "succeeded", message: "Login successfully" })
-                store.dispatch(tokenAdded(data.accessToken))
-                navigate("/");
+                dispatch(tokenAdded(data.accessToken))
                 return;
             }
 
@@ -54,20 +47,14 @@ const UserInfoProvider = ({ children }: { children: ReactNode }) => {
             const error = err instanceof Error ? err.message : String(err);
             return error
         }
-    }, [navigate])
+    }, [])
 
     const logOut = useCallback(async () => {
-        try {
-            await postLogout()
-            dispatch(tokenRemoved())
-            setUserId(null);
-            setEmail(null);
-            navigate("/login");
-        }
-        catch (err) {
-            const error = err instanceof Error ? err.message : String(err);
-        }
-    }, [navigate]);
+        await postLogout()
+        dispatch(tokenRemoved())
+        setUserId(null);
+        setEmail(null);
+    }, []);
 
     const refreshAction = useCallback(async () => {
         try {
@@ -77,13 +64,12 @@ const UserInfoProvider = ({ children }: { children: ReactNode }) => {
                 const { email, id } = data.user
                 setUserId(id);
                 setEmail(email)
-                store.dispatch(tokenAdded(data.accessToken))
+                dispatch(tokenAdded(data.accessToken))
                 return;
             }
 
         } catch (err) {
             const error = err instanceof Error ? err.message : String(err);
-            console.error(error)
             throw error
         }
     }, [])

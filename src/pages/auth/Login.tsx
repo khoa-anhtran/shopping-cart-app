@@ -1,16 +1,33 @@
 import useUserInfo from "@/hooks/useUserInfo"
-import { useCallback, useState, useTransition } from "react"
-import { Link } from "react-router-dom"
+import { useCallback, useEffect, useState, useTransition } from "react"
+import { Link, useNavigate } from "react-router-dom"
 import { STATUS } from "@/constants/api"
 import { useSelector } from "react-redux"
 
 export default function Login() {
-    const { loginAction } = useUserInfo()
+    const { loginAction, refreshAction } = useUserInfo()
 
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [error, setError] = useState<string | null>(null)
     const [isLoading, startTransition] = useTransition()
+
+    const navigate = useNavigate()
+
+    const onRefresh = useCallback(async () => {
+        startTransition(async () => {
+            try {
+                await refreshAction()
+            }
+            catch (err) {
+                console.error(err)
+            }
+        })
+    }, [navigate, refreshAction])
+
+    useEffect(() => {
+        onRefresh().then()
+    }, [])
 
     const onLogin = useCallback((e: React.FormEvent) => {
         e.preventDefault()

@@ -24,8 +24,8 @@ const Cart = () => {
     const previouslyFocused = useRef<HTMLElement | null>(null);
     const modalRef = useRef<HTMLDivElement>(null);
 
-    if (!userId)
-        throw new Error("User id is not existed")
+    // if (!userId)
+    //     throw new Error("User id is not existed")
 
     const onIncrease = useCallback((itemId: number) => {
         dispatch(quantityIncreased(itemId, userId))

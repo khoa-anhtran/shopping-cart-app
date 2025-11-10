@@ -22,9 +22,6 @@ const Header = () => {
 
     const onLogout = useCallback(async () => {
         await logOut()
-        notification.success({
-            message: "Logout successfully",
-        })
     }, [dispatch])
 
     return <header className="app-header">

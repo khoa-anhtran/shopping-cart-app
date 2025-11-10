@@ -26,23 +26,21 @@ api.interceptors.request.use((config) => {
 }, (error) => {
     store.dispatch(showLoading())
     notify({ status: STATUS.FAIL, message: error.message, duration: 3 })
-});
 
-api.interceptors.response.use((config) => {
-    store.dispatch(hideLoading())
-    return config
-}, (error) => {
-    store.dispatch(hideLoading())
-    notify({ status: STATUS.FAIL, message: error.message, duration: 3 })
-})
+    return error
+});
 
 let refreshing: Promise<string | null> | null = null;
 
 api.interceptors.response.use(
-    (res) => res,
+    (res) => {
+        store.dispatch(hideLoading())
+        return res
+    },
     async (err: AxiosError) => {
+        store.dispatch(hideLoading())
         const original = err.config!;
-        if (err.response?.status === 401 && !original.headers["x-retried"]) {
+        if (!original.headers["x-retried"]) {
             original.headers["x-retried"] = "1";
 
             refreshing ??= fetch("/auth/refresh", { method: "POST" })

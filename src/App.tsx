@@ -28,40 +28,18 @@ function App() {
 
   const [isLoading, startTransition] = useTransition()
 
-
   const { refreshAction, logOut } = useUserInfo()
 
-  const onRefresh = useCallback(async () => {
-    startTransition(async () => {
-      try {
-        await refreshAction()
-        notify({ status: "succeeded", message: "Refresh successfully" })
-        navigate("/");
-      }
-      catch (err) {
-        console.error(err)
-      }
-    })
-  }, [navigate, refreshAction])
-
-  // Kick off refresh exactly once when app starts idle
-  useEffect(() => {
-    if (!kicked.current) {
-      onRefresh()
-      kicked.current = true
-    }
-  }, [])
-
-  useEffect(() => {
-    if (!kicked.current) {
-      console.log(token)
-      if (!token) {
-        logOut().then(() => {
-          notify({ status: "failed", message: "Your session is expired, please login again" })
-        })
-      }
-    }
-  }, [token])
+  // useEffect(() => {
+  //   if (!kicked.current) {
+  //     console.log(token)
+  //     if (!token) {
+  //       logOut().then(() => {
+  //         notify({ status: "failed", message: "Your session is expired, please login again" })
+  //       })
+  //     }
+  //   }
+  // }, [token])
 
   if (isLoading)
     return <LoadingSpinner overlay size={'lg'} label='Loading'></LoadingSpinner>

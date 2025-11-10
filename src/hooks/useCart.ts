@@ -44,8 +44,8 @@ export function useCart() {
         return cartItems.filter(item => item.isSelected).map(item => item.id)
     }, [cartItems])
 
-    if (!userId)
-        throw new Error("User id is not existed")
+    // if (!userId)
+    //     throw new Error("User id is not existed")
 
     useEffect(() => {
         if (status === STATUS.IDLE && !isFetchingCart.current) {

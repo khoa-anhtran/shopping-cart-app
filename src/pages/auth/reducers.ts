@@ -1,6 +1,5 @@
 import { PayloadAction } from "@/types";
 import { TOKEN_ADDED, TOKEN_REMOVED } from "./actionTypes";
-import { STATUS } from "@/constants/api";
 
 export type AuthState = {
     token?: string

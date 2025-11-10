@@ -10,11 +10,8 @@ const Products = () => {
     const { products, isLoading } = useProducts()
     const { userId } = useUserInfo()
 
-    if (!userId)
-        throw new Error("User id is not existed")
-
     const onAddToCart = useCallback((productId: number) => {
-        dispatch(itemAdded(productId, userId))
+        dispatch(itemAdded(productId, userId!))
     }, [dispatch])
 
     if (!isLoading)

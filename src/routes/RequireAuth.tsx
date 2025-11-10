@@ -1,11 +1,11 @@
-import useAuth from "@/hooks/useUserInfo";
+import useUserInfo from "@/hooks/useUserInfo";
+import { selectToken } from "@/pages/auth/selectors";
+import { useSelector } from "react-redux";
 import { Navigate, Outlet } from "react-router-dom";
 
 export default function RequireAuth() {
-    const { userId } = useAuth()
-
-    // const loading = (status === "loading") && !userId;
-    // if (loading) return null;
+    const token = useSelector(selectToken)
+    const { userId } = useUserInfo()
 
     if (!userId) return <Navigate to="/login" replace />;
 

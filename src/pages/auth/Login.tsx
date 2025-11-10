@@ -4,36 +4,22 @@ import { Link, useNavigate } from "react-router-dom"
 import { userLogined } from "./actions"
 import { selectAuthError, selectAuthStatus } from "./selectors"
 import { notification } from "antd"
+import { STATUS } from "@/constants/api"
 
 export default function Login() {
 
-    const authStatus = useSelector(selectAuthStatus)
-    const authError = useSelector(selectAuthError)
+    const isLoading = useSelector(selectAuthStatus) === STATUS.LOADING
+    const error = useSelector(selectAuthError)
 
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
 
-    const navigate = useNavigate()
     const dispatch = useDispatch()
 
     const onLogin = useCallback((e: React.FormEvent) => {
         e.preventDefault()
         dispatch(userLogined({ email, password }))
     }, [dispatch, email, password])
-
-    useEffect(() => {
-        if (authStatus === 'succeeded') {
-            notification.success({
-                message: "Login successfully",
-            })
-            navigate('/')
-        }
-
-        if (authStatus === "failed")
-            notification.error({
-                message: authError,
-            })
-    }, [authStatus, authError, navigate])
 
     return (
         <div className="login">
@@ -60,13 +46,13 @@ export default function Login() {
                     <button
                         type="submit"
                         className="login__submit"
-                        disabled={authStatus === 'loading'}
+                        disabled={isLoading}
                     >
-                        {authStatus === 'loading' ? 'Signing in…' : 'Sign in'}
+                        {isLoading ? 'Signing in…' : 'Sign in'}
                     </button>
                 </form>
 
-                <div style={{ color: 'red' }}>{authStatus === "failed" ? authError : ""}</div>
+                <div style={{ color: 'red' }}>{error && error}</div>
 
                 <p className="login__hint">
                     Don't have an account? <Link to={"/signup"}>Sign up</Link>

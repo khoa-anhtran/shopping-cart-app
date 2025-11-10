@@ -20,20 +20,6 @@ export default function Register() {
         dispatch(userRegistered({ email, password }))
     }, [dispatch, email, password])
 
-    useEffect(() => {
-        if (authStatus === 'succeeded') {
-            navigate('/')
-            notification.success({
-                message: "Register successfully",
-            })
-        }
-
-        if (authStatus === "failed")
-            notification.error({
-                message: authError,
-            })
-    }, [authStatus, authError, navigate])
-
     return (
         <div className="login">
             <div className="login__card" role="region" aria-label="Login">

@@ -43,7 +43,6 @@ api.interceptors.response.use(
         const original = err.config!;
         const message = (err.response?.data as { message: string })?.message ?? ""
 
-
         if (!original.headers["x-retried"] && err.status === 401 && message.match(/Invalid or expired token/)) {
             original.headers["x-retried"] = "1";
 

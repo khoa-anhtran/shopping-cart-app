@@ -1106,6 +1106,34 @@ $primary-hover: #1d4ed8;
         font-size: 0.75rem;
         color: $muted;
     }
+
+    &__third-party {
+        display: flex;
+        flex-direction: column;
+        gap: 16px;
+        align-items: center;
+
+        button {
+            display: flex;
+            justify-content: space-evenly;
+            align-items: center;
+            width: 60%;
+            padding: 8px 0;
+            border-radius: 8px;
+            cursor: pointer;
+            background-color: white;
+            font-size: 16px;
+
+            &:hover {
+                opacity: 0.4;
+            }
+        }
+
+        .login__icon {
+            height: 30px;
+            width: 30px;
+        }
+    }
 }
 
 /* Variables */

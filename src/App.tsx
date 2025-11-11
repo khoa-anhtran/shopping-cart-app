@@ -32,6 +32,7 @@ function App() {
             <Route element={<RequireAuth />}>
               <Route path={ROUTES.HOME} element={<Home />} />
             </Route>
+            
             <Route
               path="*"
               element={

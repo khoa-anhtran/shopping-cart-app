@@ -18,6 +18,7 @@ export const useAppStart = () => {
         })();
     }, [userId, refreshAction]);
 
+    // clear state o userInfoContext
     useEffect(() => {
         (async () => {
             if (!token && userId) {

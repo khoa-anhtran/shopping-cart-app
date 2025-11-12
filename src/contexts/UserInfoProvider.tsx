@@ -1,5 +1,5 @@
 import { AuthPayload } from "@/pages/auth/reducers";
-import { postLogin, postLogout, postRefreshToken } from "@/services/authService";
+import { getUserInfo, postLogin, postLogout, postRefreshToken } from "@/services/authService";
 import { useState, ReactNode, useCallback } from "react";
 import UserInfoContext from "./UserInfoContext";
 import { PublicClientApplication } from "@azure/msal-browser";
@@ -61,7 +61,9 @@ const UserInfoProvider = ({ children }: { children: ReactNode }) => {
 
             if (data) {
                 const { username, tenantId } = data.account
-                setUserId(4);
+                const { userId } = await getUserInfo(accessToken) as { userId: number }
+
+                setUserId(userId);
                 setEmail(username)
                 dispatch(tokenAdded(accessToken))
                 return;
@@ -108,9 +110,13 @@ const UserInfoProvider = ({ children }: { children: ReactNode }) => {
             if (currentAccount) {
                 const { accessToken, email } = await getApiToken(API_SCOPE)
 
-                setUserId(4);
-                setEmail(email)
-                dispatch(tokenAdded(accessToken))
+                const data = await getUserInfo(accessToken)
+
+                if (data) {
+                    setUserId(data.userId);
+                    setEmail(email)
+                    dispatch(tokenAdded(accessToken))
+                }
             }
             else {
                 const error = err instanceof Error ? err.message : String(err);

@@ -5,6 +5,7 @@ import { notify } from "@/utils/helpers";
 import { STATUS } from "@/constants/api";
 import store from "@/store/store";
 import { tokenAdded, tokenRemoved } from "@/pages/auth/actions";
+import { head } from "node_modules/axios/index.cjs";
 
 export const postRefreshToken = async () => {
     try {
@@ -78,13 +79,11 @@ export const postLogout = async () => {
     }
 }
 
-export const getUserInfo = async () => {
+export const getUserInfo = async (token: string) => {
     try {
-        const res = await api.get<any>("/auth/me");
+        const res = await api.get<{ userId: number }>("/auth/me", { headers: { Authorization: `Bearer ${token}` } });
 
-        if (res.status === 204) {
-            return res.data;
-        }
+        return res.data;
     } catch (err) {
         if (isAxiosError(err))
             throw new Error(err?.response?.data?.message);

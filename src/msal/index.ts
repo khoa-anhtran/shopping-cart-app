@@ -20,7 +20,7 @@ export function initAccount() {
         msalClient.setActiveAccount(accounts[0]);
         return accounts[0];
     }
-    // Multiple or none → decide UI. For multiple, show account picker.
+    
     return null;
 }
 
@@ -38,16 +38,14 @@ export async function getApiToken(scope: string) {
     }
 
     try {
-        const { accessToken, account: myAccount } = await msalClient.acquireTokenSilent({ scopes: [scope] });
+        const { accessToken, account: myAccount } = await msalClient.acquireTokenSilent({ account, scopes: [scope] });
         const { username } = myAccount
-        console.log({ accessToken, account: myAccount })
 
         return { accessToken, email: username };
     } catch (e) {
         if (e instanceof InteractionRequiredAuthError) {
-            const { accessToken, account: myAccount } = await msalClient.acquireTokenPopup({ scopes: [scope] });
+            const { accessToken, account: myAccount } = await msalClient.acquireTokenPopup({ account, scopes: [scope] });
             const { username } = myAccount
-
 
             return { accessToken, email: username };
         }

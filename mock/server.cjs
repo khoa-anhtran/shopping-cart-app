@@ -308,9 +308,21 @@ server.post('/auth/logout', (req, res) => {
 });
 
 server.get('/auth/me', authMiddleware, (req, res) => {
+  const db = router.db
   const user = req.user
 
-  return res.status(204).json(user)
+  const existing = dbFind(db, 'users', (u) => u.email === user.email);
+
+  if (existing)
+    return res.status(200).json({ userId: existing.id })
+  else {
+    const id = dbMaxId(db, 'users') + 1;
+    const myUser = { id, email: user.email, password: "" };
+    dbPush(db, 'users', myUser);
+    dbPush(db, 'carts', { id, items: {} });
+
+    return res.status(200).json({ userId: existing.id })
+  }
 })
 
 server.use(cors({

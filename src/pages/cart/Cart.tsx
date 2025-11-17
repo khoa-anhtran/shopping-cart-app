@@ -128,13 +128,14 @@ const Cart = () => {
         ref={modalRef}>
         <div className="cart-modal__overlay"></div>
         <aside
-            className="cart-modal__panel border-l rounded-tl-xl rounded-bl-xl absolute top-0 right-0 h-full flex flex-col w-full md:w-[70%] lg:w-[50%]"
+            className="cart-modal__panel border-l rounded-tl-xl rounded-bl-xl absolute top-0 right-0 h-full flex flex-col w-full md:w-[70%] lg:w-[50%]
+            dark:bg-gray-800 bg-white dark:text-white"
             onClick={(e) => {
                 e.stopPropagation()
             }}>
             <CartHeader onClickCloseCart={onClickCloseCart} totalQty={totalQty} />
 
-            <div className="overflow-auto p-5 bg-gray-100 h-[90%]">
+            <div className="overflow-auto p-5 bg-gray-100 h-[90%] dark:bg-gray-800">
                 <CartActions
                     isCartEmpty={cartItems.length === 0}
                     isSelectAll={isSelectAll}
@@ -147,7 +148,7 @@ const Cart = () => {
             </div>
 
             <footer
-                className="flex items-center justify-between px-4 py-2 shadow-2xl fixed bottom-0 w-full border-t h-[5%]"
+                className="flex items-center justify-between px-4 shadow-2xl fixed bottom-0 w-full border-t h-[5%]"
             >
                 <div>
                     <span className="opacity-90 mr-1.5 font-semibold">Total:</span>
@@ -161,8 +162,8 @@ const Cart = () => {
                     <span className="font-bold"> $</span>
                 </div>
                 <button
-                    className="bg-gray-300 px-4 py-2 rounded-md cursor-pointer hover:bg-gray-200
-                disabled:cursor-not-allowed disabled:bg-gray-400 disabled:hover:bg-gray-400"
+                    className="bg-gray-300 px-2 py-1 rounded-md cursor-pointer hover:bg-gray-200
+                disabled:cursor-not-allowed disabled:bg-gray-400 disabled:hover:bg-gray-400 dark:bg-gray-700 dark:hover:bg-gray-600"
                     onClick={onCheckout}
                     disabled={selectedItems.length === 0}>Checkout</button>
             </footer>

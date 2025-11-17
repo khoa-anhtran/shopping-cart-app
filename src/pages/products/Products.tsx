@@ -15,7 +15,7 @@ const Products = () => {
     }, [dispatch, userId])
 
     if (!isLoading)
-        return <section className="">
+        return <section className="dark:bg-black dark:text-white">
             <ProductGrid products={products} onAddToCart={onAddToCart} />
         </section>
 

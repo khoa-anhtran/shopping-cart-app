@@ -26,7 +26,7 @@ const CartActions = ({ isCartEmpty, hasSelectedItem, isSelectAll, onRemoveCartIt
 
         <div className="flex items-center gap-4">
             <button
-                className="cursor-pointer bg-white hover:bg-gray-300 font-bold shadow px-3 py-2 rounded-md 
+                className="cursor-pointer bg-white dark:bg-gray-700 dark:hover:bg-gray-600 hover:bg-gray-300 font-bold shadow px-3 py-2 rounded-md 
                     disabled:opacity-60 disabled:cursor-not-allowed disabled:bg-gray-400 disabled:hover:bg-gray-400"
                 aria-label="remove all button"
                 disabled={!hasSelectedItem}
@@ -34,7 +34,7 @@ const CartActions = ({ isCartEmpty, hasSelectedItem, isSelectAll, onRemoveCartIt
             >Remove All</button>
 
             <button
-                className="cursor-pointer bg-white hover:bg-gray-300 font-bold shadow px-3 py-2 rounded-md"
+                className="cursor-pointer bg-white hover:bg-gray-300 dark:bg-gray-700 dark:hover:bg-gray-600 font-bold shadow px-3 py-2 rounded-md"
                 aria-label="refresh button"
                 onClick={onRefresh}
             >

@@ -8,13 +8,16 @@ import { Provider } from 'react-redux'
 import store from './store/store'
 import { BrowserRouter } from 'react-router-dom'
 import UserInfoProvider from './contexts/UserInfoProvider';
+import ThemeProvider from './contexts/ThemeProvider';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <Provider store={store}>
       <BrowserRouter>
         <UserInfoProvider>
-          <App />
+          <ThemeProvider>
+            <App />
+          </ThemeProvider>
         </UserInfoProvider>
       </BrowserRouter>
     </Provider>

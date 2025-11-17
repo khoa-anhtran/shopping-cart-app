@@ -3,23 +3,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { cartToggled } from "../cart/actions";
 import { selectCart } from "../cart/selectors";
 import useUserInfo from "@/hooks/useUserInfo";
+import useTheme from "@/hooks/useTheme";
 
 const Header = () => {
     const dispatch = useDispatch();
     const { email, logOut } = useUserInfo();
     const cartItems = useSelector(selectCart);
     const [open, setOpen] = useState(false);
-    const [theme, setTheme] = useState<string>(() => {
-        if (typeof window === "undefined") return "light";
 
-        const stored = localStorage.getItem("theme")
-        if (stored === "light" || stored === "dark") return stored;
-
-        const prefersDark = window.matchMedia?.(
-            "(prefers-color-scheme: dark)"
-        ).matches;
-        return prefersDark ? "dark" : "light";
-    });
+    const { theme, toggleTheme } = useTheme()
 
     const totalQuantity = useMemo(() => {
         return cartItems.reduce((sum, item) => {
@@ -39,12 +31,8 @@ const Header = () => {
         setOpen((prev) => !prev);
     }, []);
 
-    const toggleTheme = useCallback(() => {
-        setTheme((prev) => (prev === "dark" ? "light" : "dark"));
-    }, []);
-
     return (
-        <header className="bg-white dark:bg-gray-700 dark:text-white shadow-xl z-10 sticky top-0">
+        <header className="bg-white dark:bg-gray-900 dark:text-white shadow-xl z-10 sticky top-0">
             {/* main row */}
             <div className="flex items-center justify-between gap-3 px-4 py-2">
                 {/* left: title */}
@@ -69,24 +57,28 @@ const Header = () => {
                     <button
                         type="button"
                         onClick={toggleTheme}
-                        className="flex h-8 w-8 items-center justify-center rounded-full border text-sm dark:border-gray-500"
+                        className="flex items-center justify-center cursor-pointer hover:opacity-50"
                         aria-label="Toggle color theme"
                     >
                         <span aria-hidden="true">
-                            {theme === "dark" ? <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                fill="currentColor" viewBox="0 0 24 24" >
-                                <path d="M12 17.01c2.76 0 5.01-2.25 5.01-5.01S14.76 6.99 12 6.99 6.99 9.24 6.99 12s2.25 5.01 5.01 5.01M12 9c1.66 0 3.01 1.35 3.01 3.01s-1.35 3.01-3.01 3.01-3.01-1.35-3.01-3.01S10.34 9 12 9M13 19h-2v3h2v-3M13 2h-2v3h2V2M2 11h3v2H2zM19 11h3v2h-3zM4.22 18.36l.71.71.71.71 1.06-1.06 1.06-1.06-.71-.71-.71-.71-1.06 1.06zM19.78 5.64l-.71-.71-.71-.71-1.06 1.06-1.06 1.06.71.71.71.71 1.06-1.06zM7.76 6.34 6.7 5.28 5.64 4.22l-.71.71-.71.71L5.28 6.7l1.06 1.06.71-.71zM16.24 17.66l1.06 1.06 1.06 1.06.71-.71.71-.71-1.06-1.06-1.06-1.06-.71.71z"></path>
-                            </svg> : <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                fill="currentColor" viewBox="0 0 24 24" >
-                                <path d="m12.2,22c4.53,0,8.45-2.91,9.76-7.24.11-.35.01-.74-.25-1-.26-.26-.64-.36-1-.25-.78.23-1.58.35-2.38.35-4.52,0-8.2-3.68-8.2-8.2,0-.8.12-1.6.35-2.38.11-.35.01-.74-.25-1s-.64-.36-1-.25C4.91,3.35,2,7.28,2,11.8c0,5.62,4.57,10.2,10.2,10.2ZM8.18,4.65c-.03.34-.05.68-.05,1.02,0,5.62,4.57,10.2,10.2,10.2.34,0,.68-.02,1.02-.05-1.42,2.56-4.12,4.18-7.15,4.18-4.52,0-8.2-3.68-8.2-8.2,0-3.03,1.63-5.73,4.18-7.15Z"></path>
-                            </svg>}
+                            {theme === "dark" ?
+                                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32"
+                                    fill="currentColor" viewBox="0 0 24 24" >
+                                    <path d="M12 17.01c2.76 0 5.01-2.25 5.01-5.01S14.76 6.99 12 6.99 6.99 9.24 6.99 12s2.25 5.01 5.01 5.01M12 9c1.66 0 3.01 1.35 3.01 3.01s-1.35 3.01-3.01 3.01-3.01-1.35-3.01-3.01S10.34 9 12 9M13 19h-2v3h2v-3M13 2h-2v3h2V2M2 11h3v2H2zM19 11h3v2h-3zM4.22 18.36l.71.71.71.71 1.06-1.06 1.06-1.06-.71-.71-.71-.71-1.06 1.06zM19.78 5.64l-.71-.71-.71-.71-1.06 1.06-1.06 1.06.71.71.71.71 1.06-1.06zM7.76 6.34 6.7 5.28 5.64 4.22l-.71.71-.71.71L5.28 6.7l1.06 1.06.71-.71zM16.24 17.66l1.06 1.06 1.06 1.06.71-.71.71-.71-1.06-1.06-1.06-1.06-.71.71z"></path>
+                                </svg>
+                                :
+                                <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32"
+                                    fill="currentColor" viewBox="0 0 24 24" >
+                                    <path d="M19.32 13.38a6.986 6.986 0 0 1-9.01-6.68c0-.69.1-1.37.3-2.02a1.002 1.002 0 0 0-1.25-1.25 8.92 8.92 0 0 0-6.37 8.59c0 4.95 4.03 8.98 8.98 8.98 3.98 0 7.44-2.56 8.59-6.37.11-.35.01-.74-.25-1s-.64-.36-1-.25Z"></path>
+                                </svg>
+                            }
                         </span>
                     </button>
 
                     {/* cart (always visible) */}
                     <div className="relative">
                         <button
-                            className="cursor-pointer hover:rounded-full hover:bg-gray-300 p-1"
+                            className="cursor-pointer hover:rounded-full hover:bg-gray-300 dark:hover:bg-gray-600 p-1"
                             onClick={onClick}
                             aria-label="cart button"
                         >

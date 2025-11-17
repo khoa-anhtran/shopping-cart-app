@@ -12,7 +12,7 @@ type CartItemProps = {
 }
 
 const CartItem = ({ product, onDecrease, onIncrease, onRemoveCartItem, quantity, onSelectItem, isSelected }: CartItemProps) => {
-    return <article className="flex items-center w-full gap-4 bg-white px-4 rounded-md shadow py-2" role="article" aria-label={product.title}>
+    return <article className="flex items-center w-full gap-4 bg-white dark:bg-gray-700 px-4 rounded-md shadow py-2" role="article" aria-label={product.title}>
         <div>
             <input
                 className="h-6 w-6 cursor-pointer hover:opacity-50"
@@ -35,9 +35,9 @@ const CartItem = ({ product, onDecrease, onIncrease, onRemoveCartItem, quantity,
             </div>
 
             <div className="flex items-center gap-4">
-                <div className="row-center gap-4 bg-gray-200 h-fit" aria-label="Quantity">
+                <div className="row-center gap-4 bg-gray-200 dark:bg-gray-600 h-fit" aria-label="Quantity">
                     <button
-                        className="border-r-2 px-2 hover:bg-gray-300 cursor-pointer"
+                        className="border-r-2 px-2 hover:bg-gray-300 cursor-pointer dark:hover:bg-gray-800"
                         type="button"
                         aria-label="Decrease quantity"
                         data-testid="qty-dec"
@@ -47,7 +47,7 @@ const CartItem = ({ product, onDecrease, onIncrease, onRemoveCartItem, quantity,
                     <div className="font-extrabold min-w-6 text-center" aria-live="polite" data-testid="qty-value">{quantity}</div>
 
                     <button
-                        className="border-l-2 px-2 hover:bg-gray-300 cursor-pointer"
+                        className="border-l-2 px-2 hover:bg-gray-300 cursor-pointer dark:hover:bg-gray-800"
                         type="button"
                         aria-label="Increase quantity"
                         data-testid="qty-inc"

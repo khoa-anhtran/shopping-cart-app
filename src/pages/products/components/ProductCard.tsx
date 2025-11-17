@@ -1,16 +1,18 @@
 import { Product } from "../reducers";
 
 export default function ProductCard({ product, onAddToCart }: { product: Product, onAddToCart: () => void }) {
-    return <article className="product-card" role="article" aria-label={product.title}>
-        <div className="product-card__media">
+
+    return <article className="rounded-xl shadow-xl flex flex-col overflow-hidden
+    hover:-translate-y-0.5 hover:shadow-2xl justify-between" role="article" aria-label={product.title}>
+        <div className="row-center">
             <img src={product.thumbnail} alt={product.title} role="image" />
         </div>
-        <div className="product-card__body">
-            <h3 className="product-card__title">{product.title}</h3>
-            <div className="product-card__price">
+        <div className="px-4 py-2 space-y-4">
+            <h3 className="font-semibold md:text-xl">{product.title}</h3>
+            <div className="md:text-xl font-bold">
                 {product.price}<span className="currency"> $</span>
             </div>
         </div>
-        <button className="product-card__actions" onClick={onAddToCart}>Add to cart</button>
+        <button className="py-4 bg-gray-400 hover:bg-gray-300 cursor-pointer active:bg-gray-500" onClick={onAddToCart}>Add to cart</button>
     </article>
 }

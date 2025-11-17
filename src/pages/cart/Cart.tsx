@@ -127,12 +127,14 @@ const Cart = () => {
         onClick={onClickCloseCart}
         ref={modalRef}>
         <div className="cart-modal__overlay"></div>
-        <aside className="cart-modal__panel" onClick={(e) => {
-            e.stopPropagation()
-        }}>
+        <aside
+            className="cart-modal__panel border-l rounded-tl-xl rounded-bl-xl absolute top-0 right-0 h-full flex flex-col w-full md:w-[70%] lg:w-[50%]"
+            onClick={(e) => {
+                e.stopPropagation()
+            }}>
             <CartHeader onClickCloseCart={onClickCloseCart} totalQty={totalQty} />
 
-            <div className="cart-modal__body">
+            <div className="overflow-auto p-5 bg-gray-100 h-[90%]">
                 <CartActions
                     isCartEmpty={cartItems.length === 0}
                     isSelectAll={isSelectAll}
@@ -144,19 +146,25 @@ const Cart = () => {
                 {content}
             </div>
 
-            <footer className="cart-modal__footer">
-                <div className="total">
-                    <span className="label">Total:</span>
+            <footer
+                className="flex items-center justify-between px-4 py-2 shadow-2xl fixed bottom-0 w-full border-t h-[5%]"
+            >
+                <div>
+                    <span className="opacity-90 mr-1.5 font-semibold">Total:</span>
                     <span
-                        className="amount"
+                        className="font-extrabold"
                         role="status"
                         aria-live="polite"
                         aria-label="total values">
                         {roundTo(totalValues, 2).toLocaleString()}
                     </span>
-                    <span className="currency"> $</span>
+                    <span className="font-bold"> $</span>
                 </div>
-                <button className={`checkout-btn ${selectedItems.length === 0 ? "is-disabled" : ""} `} onClick={onCheckout} disabled={selectedItems.length === 0}>Checkout</button>
+                <button
+                    className="bg-gray-300 px-4 py-2 rounded-md cursor-pointer hover:bg-gray-200
+                disabled:cursor-not-allowed disabled:bg-gray-400 disabled:hover:bg-gray-400"
+                    onClick={onCheckout}
+                    disabled={selectedItems.length === 0}>Checkout</button>
             </footer>
         </aside>
     </div>

@@ -21,7 +21,7 @@ const CartList = ({ cartItems, onDecrease, onIncrease, onRemoveCartItems, onSele
         if (missing.length) notification.error({ message: "Some products no longer exist" });
     }, [missing.length]);
 
-    return <div className="cart-items"> {cartItems.filter(i => products[i.id]).map(item => {
+    return <div className="space-y-4"> {cartItems.filter(i => products[i.id]).map(item => {
         const product = products[item.id]!;
         return (
             <CartItem

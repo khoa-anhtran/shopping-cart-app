@@ -15,7 +15,7 @@ const Products = () => {
     }, [dispatch, userId])
 
     if (!isLoading)
-        return <section className="product-section">
+        return <section className="">
             <ProductGrid products={products} onAddToCart={onAddToCart} />
         </section>
 

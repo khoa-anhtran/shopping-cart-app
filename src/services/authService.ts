@@ -11,7 +11,7 @@ export const postRefreshToken = async () => {
         const res = await api.post<AuthResponse>("/auth/refresh", null,
             { headers: { "x-retried": "1" } });
 
-        if (res.status === 200) {
+        if (res.status === 201) {
             notify({ status: STATUS.SUCCESS, message: "Refresh successfully" })
             store.dispatch(tokenAdded(res.data.accessToken))
             return res.data;
@@ -27,7 +27,7 @@ export const postRefreshToken = async () => {
 
 export const postLogin = async (authPayload: AuthPayload) => {
     try {
-        const res = await api.post<AuthResponse>("/auth/signin", authPayload);
+        const res = await api.post<AuthResponse>("/auth/login", authPayload);
 
         if (res?.status === 200) {
             notify({ status: STATUS.SUCCESS, message: "Login successfully" })

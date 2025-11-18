@@ -2,13 +2,13 @@ import { call, debounce, put, select, takeEvery, takeLatest } from 'redux-saga/e
 
 import { CART_FETCH_FAILED, CART_FETCH_REQUESTED, CART_FETCH_SUCCEEDED, CART_SYNC_FAILED, CART_SYNC_SUCCEEDED, CHECKED_OUT, ITEM_ADDED, ITEMS_REMOVED, QUANTITY_DECREASED, QUANTITY_INCREASED } from './actionTypes'
 import { SagaIterator } from 'redux-saga';
-import { CartItem } from './reducers';
 import { cartSyncFailed, cartSyncSucceeded, fetchCartFailed, fetchCartSucceeded } from './actions';
 import { selectCart } from './selectors';
 import { fetchCart, putCartItems } from '@/services/cartService';
 import { PayloadAction } from '@/types';
 import { notify } from '@/utils/helpers';
 import { STATUS } from '@/constants/api';
+import { CartItem } from '@/types/cart';
 
 
 function* fetchCartSaga(action: PayloadAction<{ userId: number }>): SagaIterator {

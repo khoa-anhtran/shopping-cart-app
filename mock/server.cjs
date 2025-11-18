@@ -12,7 +12,7 @@ const { error } = require('node:console');
 
 const SECRET = 'dev_secret_change_me';
 const JWT_REFRESH_SECRET = 'refresh_secret_change_me';
-const ACCESS_TTL = '10s';
+const ACCESS_TTL = '10m';
 const REFRESH_TTL = '30d';
 
 const API_AUDIENCE = "api://e695dd6d-99a5-49f8-92bf-6cf2558fbbb7";
@@ -47,20 +47,12 @@ server.use(jsonServer.bodyParser);
 server.use(cookieParser())
 
 const bearerStrategy = new passportAzureAd.BearerStrategy({
-  // Use COMMON + v2 metadata (not a fixed tenant)
   identityMetadata:
     'https://login.microsoftonline.com/common/v2.0/.well-known/openid-configuration',
-
-  // Do NOT hard-code issuer for multi-tenant
-  validateIssuer: false,              // or supply your own issuer validation fn
-  issuer: undefined,                  // remove the fixed issuer
-
-  clientID: authConfig.credentials.clientID, // your API app's Application (client) ID
-
-  // Passport-AAD checks `aud` against clientID.
-  // If your tokens target an App ID URI, ensure the SPA requests a scope that maps to this clientID.
+  validateIssuer: false,
+  issuer: undefined,
+  clientID: authConfig.credentials.clientID,
   audience: authConfig.credentials.clientID,
-
   passReqToCallback: true,
   loggingLevel: 'warn',
   loggingNoPII: true,
@@ -99,50 +91,6 @@ function revokeRefreshToken(db, jti) {
   dbWrite(db);
 }
 
-async function verifyMsAccessTokenMiddleware(req, res, next) {
-  passport.authenticate('oauth-bearer', {
-    session: false
-  }, (err, user, info) => {
-    if (err) {
-      return res.status(401).json({ error: err.message });
-    }
-
-    if (!user) {
-      // If no user object found, send a 401 response.
-      return res.status(401).json({ error: 'Unauthorized' });
-    }
-
-    if (info) {
-      // access token payload will be available in req.authInfo downstream
-      req.authInfo = info;
-      return next();
-    }
-  });
-}
-
-async function verifyMsAccessToken(token, audience) {
-  const { iss, tid, aud } = jose.decodeJwt(token)
-  if (!iss || !tid) throw new Error("bad_token");
-
-  // Pick metadata URL by version
-  const metadataUrl = `https://login.microsoftonline.com/${tid}/.well-known/openid-configuration`
-
-  // Fetch jwks_uri from metadata (Node 18+ has global fetch; otherwise install 'undici')
-  const metadata = await (await fetch(metadataUrl)).json();
-  const jwksUri = metadata.jwks_uri;
-
-  const jwks = jose.createRemoteJWKSet(new URL(jwksUri));
-
-  // IMPORTANT: issuer must equal the token's iss exactly
-  const { payload } = await jose.jwtVerify(token, jwks, {
-    issuer: iss,
-    audience,            // e.g., "api://<API_CLIENT_ID>" for v2 or your App ID URI for v1
-    algorithms: ["RS256"]
-  });
-
-  return payload;
-}
-
 async function authMiddleware(req, res, next) {
   const h = req.headers.authorization || '';
   const token = h.startsWith('Bearer ') ? h.slice(7) : null;
@@ -152,6 +100,9 @@ async function authMiddleware(req, res, next) {
     req.user = decoded;
     next();
   } catch (e) {
+    if (new Error(e).message.includes("jwt expired"))
+      return res.status(401).json({ message: "Invalid or expired token" })
+
     return passport.authenticate('oauth-bearer', { session: false }, (err, user, info) => {
       if (err) return res.status(401).json({ error: err.message });
       if (!user) return res.status(401).json({ error: "Unauthenticated" });
@@ -335,8 +286,6 @@ server.use(cors({
 server.use((req, res, next) => {
   const delay = 1000 + Math.random() * 1200; // 300–1500ms
   setTimeout(() => {
-    // 10% chance to simulate network error:
-    if (Math.random() < 0.1) return res.status(503).json({ message: "Temporary outage" });
     next();
   }, delay);
 });

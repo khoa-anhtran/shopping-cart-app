@@ -1,7 +1,7 @@
+import { CartItem } from "@/types/cart";
 import { CART_FETCH_FAILED, CART_FETCH_REQUESTED, CART_FETCH_SUCCEEDED, CART_TOGGLE, CHECKED_OUT, ITEM_ADDED, ITEMS_REMOVED, ITEM_SELECTED_TOGGLED, QUANTITY_DECREASED, QUANTITY_INCREASED, SELECT_ALL_TOGGLED, CART_SYNC_SUCCEEDED, CART_SYNC_FAILED } from "./actionTypes";
-import { CartItem } from "./reducers";
 
-export const fetchCartRequested = (userId: number) => ({
+export const fetchCartRequested = (userId: string) => ({
     type: CART_FETCH_REQUESTED,
     payload: { userId }
 });
@@ -31,7 +31,7 @@ export const cartSyncFailed = (message: string) => ({
     }
 });
 
-export const itemAdded = (itemId: number, userId: number) => ({
+export const itemAdded = (itemId: string, userId: string) => ({
     type: ITEM_ADDED,
     payload: {
         itemId,
@@ -39,7 +39,7 @@ export const itemAdded = (itemId: number, userId: number) => ({
     }
 });
 
-export const itemsRemoved = (itemIds: number[], userId: number) => ({
+export const itemsRemoved = (itemIds: string[], userId: string) => ({
     type: ITEMS_REMOVED,
     payload: {
         itemIds,
@@ -51,7 +51,7 @@ export const cartToggled = () => ({
     type: CART_TOGGLE,
 });
 
-export const quantityIncreased = (itemId: number, userId: number) => ({
+export const quantityIncreased = (itemId: string, userId: string) => ({
     type: QUANTITY_INCREASED,
     payload: {
         itemId,
@@ -59,7 +59,7 @@ export const quantityIncreased = (itemId: number, userId: number) => ({
     }
 });
 
-export const quantityDecreased = (itemId: number, userId: number) => ({
+export const quantityDecreased = (itemId: string, userId: string) => ({
     type: QUANTITY_DECREASED,
     payload: {
         itemId,
@@ -67,7 +67,7 @@ export const quantityDecreased = (itemId: number, userId: number) => ({
     }
 });
 
-export const itemSelectedToggled = (itemId: number) => (
+export const itemSelectedToggled = (itemId: string) => (
     {
         type: ITEM_SELECTED_TOGGLED,
         payload: {
@@ -82,7 +82,7 @@ export const selectAllToggled = () => (
     }
 )
 
-export const checkedOut = (itemIds: number[], userId: number) => (
+export const checkedOut = (itemIds: string[], userId: string) => (
     {
         type: CHECKED_OUT,
         payload: {

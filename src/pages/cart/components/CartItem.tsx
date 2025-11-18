@@ -1,13 +1,13 @@
-import { Product } from "@/pages/products/reducers";
+import { Product } from "@/types/product";
 import React from "react";
 
 type CartItemProps = {
     product: Product;
     quantity: number;
-    onDecrease: (id: number, qty: number) => void;
-    onIncrease: (id: number) => void;
-    onSelectItem: (id: number) => void;
-    onRemoveCartItem: (id: number) => void;
+    onDecrease: (id: string, qty: number) => void;
+    onIncrease: (id: string) => void;
+    onSelectItem: (id: string) => void;
+    onRemoveCartItem: (id: string) => void;
     isSelected: boolean
 }
 
@@ -16,7 +16,7 @@ const CartItem = ({ product, onDecrease, onIncrease, onRemoveCartItem, quantity,
         <div>
             <input
                 className="h-6 w-6 cursor-pointer hover:opacity-50"
-                type="checkbox" role="checkbox" aria-label="toggle select item" checked={isSelected} onChange={() => onSelectItem(product.id)} />
+                type="checkbox" role="checkbox" aria-label="toggle select item" checked={isSelected} onChange={() => onSelectItem(product._id)} />
         </div>
 
         <div className="md:w-24 md:h-24 w-18 h-18">
@@ -41,7 +41,7 @@ const CartItem = ({ product, onDecrease, onIncrease, onRemoveCartItem, quantity,
                         type="button"
                         aria-label="Decrease quantity"
                         data-testid="qty-dec"
-                        onClick={() => onDecrease(product.id, quantity)}
+                        onClick={() => onDecrease(product._id, quantity)}
                     >−</button>
 
                     <div className="font-extrabold min-w-6 text-center" aria-live="polite" data-testid="qty-value">{quantity}</div>
@@ -51,7 +51,7 @@ const CartItem = ({ product, onDecrease, onIncrease, onRemoveCartItem, quantity,
                         type="button"
                         aria-label="Increase quantity"
                         data-testid="qty-inc"
-                        onClick={() => onIncrease(product.id)}
+                        onClick={() => onIncrease(product._id)}
                     >+</button>
                 </div>
             </div>
@@ -61,7 +61,7 @@ const CartItem = ({ product, onDecrease, onIncrease, onRemoveCartItem, quantity,
             className="w-9 h-9 cursor-pointer hover:bg-gray-200 rounded-md"
             type="button"
             aria-label="Remove Item"
-            onClick={() => onRemoveCartItem(product.id)}
+            onClick={() => onRemoveCartItem(product._id)}
         >✕</button>
     </article>
 }

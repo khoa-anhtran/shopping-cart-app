@@ -25,11 +25,11 @@ const Cart = () => {
     if (!userId)
         throw new Error("User id is not existed")
 
-    const onIncrease = useCallback((itemId: number) => {
+    const onIncrease = useCallback((itemId: string) => {
         dispatch(quantityIncreased(itemId, userId))
     }, [dispatch, userId])
 
-    const onDecrease = useCallback(async (itemId: number, currentQty: number) => {
+    const onDecrease = useCallback(async (itemId: string, currentQty: number) => {
         if (currentQty === 1) {
             Modal.confirm({
                 title: "Confirm Remove Item",
@@ -43,7 +43,7 @@ const Cart = () => {
 
     }, [dispatch, userId])
 
-    const onSelectItem = useCallback((itemId: number) => {
+    const onSelectItem = useCallback((itemId: string) => {
         dispatch(itemSelectedToggled(itemId))
     }, [dispatch])
 
@@ -61,7 +61,7 @@ const Cart = () => {
         })
     }, [dispatch, selectedItems, userId])
 
-    const onRemoveCartItems = useCallback(async (itemIds: number[]) => {
+    const onRemoveCartItems = useCallback(async (itemIds: string[]) => {
         Modal.confirm({
             title: "Confirm Remove Item",
             content: 'This cannot be undone.',

@@ -1,14 +1,14 @@
-import { CartItem } from "@/pages/cart/reducers"
+import { CartItem } from "@/types/cart"
 import api from "./api"
 
 export const fetchCart = async (userId: number) => {
     const res = await api.get(`/api/carts/${userId}`)
 
-    const data = res.data as { items: Omit<CartItem, 'id'>[], id: number }
-
-    return Object.keys(data.items).map(key => ({
-        id: Number(key),
-        ...data.items[Number(key)]
+    const data = res.data as { [id: string]: Omit<CartItem, "id"> }
+    
+    return Object.keys(data).map(key => ({
+        id: key,
+        ...data[key]
     }))
 }
 

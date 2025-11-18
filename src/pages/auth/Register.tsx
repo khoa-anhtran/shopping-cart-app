@@ -1,3 +1,4 @@
+import { ROUTES } from "@/constants/routes"
 import useUserInfo from "@/hooks/useUserInfo"
 import { useCallback, useState } from "react"
 import { Link } from "react-router-dom"
@@ -74,7 +75,7 @@ export default function Register() {
                 <div className="text-red-600 mt-2">{error && error}</div>
 
                 <p className="mt-4 text-xs">
-                    Already have an account? <Link to={"/login"}>Sign in</Link>
+                    Already have an account? <Link to={ROUTES.LOGIN}>Sign in</Link>
                 </p>
 
                 <div className="text-center my-3"><b>OR</b></div>

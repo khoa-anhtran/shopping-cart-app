@@ -1,27 +1,13 @@
 import { PayloadAction } from "@/types"
 import { PRODUCTS_FETCH_FAILED, PRODUCTS_FETCH_REQUESTED, PRODUCTS_FETCH_SUCCEEDED } from "./actionTypes"
 import { STATUS } from "@/constants/api"
-
-export type Product = {
-    id: number,
-    title: string,
-    price: number,
-    thumbnail: string
-}
-
-export type ProductState = {
-    products: Record<number, Product>,
-    status: string,
-    error: string | null
-}
+import { Product, ProductPayloadAction, ProductState } from "@/types/product"
 
 const initialState: ProductState = {
     products: [],
     status: STATUS.IDLE,
     error: null
 }
-
-type ProductPayloadAction = PayloadAction<{ products: Record<number, Product> } | { message: string }>
 
 const productReducer = (state = initialState, action: ProductPayloadAction): ProductState => {
     switch (action.type) {

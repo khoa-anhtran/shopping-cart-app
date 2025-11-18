@@ -10,7 +10,7 @@ const Products = () => {
     const { products, isLoading } = useProducts()
     const { userId } = useUserInfo()
 
-    const onAddToCart = useCallback((productId: number) => {
+    const onAddToCart = useCallback((productId: string) => {
         dispatch(itemAdded(productId, userId!))
     }, [dispatch, userId])
 

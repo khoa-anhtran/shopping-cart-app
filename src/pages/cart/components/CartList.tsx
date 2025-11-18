@@ -1,5 +1,5 @@
-import { Product } from "@/pages/products/reducers"
-import { CartItem as CartItemType } from "../reducers"
+import { Product } from "@/types/product";
+import { CartItem as CartItemType } from "@/types/cart"
 import CartItem from "./CartItem";
 import { notification } from "antd";
 import { useEffect } from "react";
@@ -7,11 +7,11 @@ import React from "react";
 
 type CartListProps = {
     cartItems: CartItemType[];
-    products: Record<number, Product>;
-    onRemoveCartItems: (ids: number[]) => void;
-    onDecrease: (id: number, currentQty: number) => void;
-    onIncrease: (id: number) => void;
-    onSelectItem: (id: number) => void;
+    products: Record<string, Product>;
+    onRemoveCartItems: (ids: string[]) => void;
+    onDecrease: (id: string, currentQty: number) => void;
+    onIncrease: (id: string) => void;
+    onSelectItem: (id: string) => void;
 }
 
 const CartList = ({ cartItems, onDecrease, onIncrease, onRemoveCartItems, onSelectItem, products }: CartListProps) => {

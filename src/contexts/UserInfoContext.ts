@@ -2,7 +2,7 @@ import { AuthPayload } from "@/pages/auth/reducers";
 import { createContext } from "react";
 
 export type UserInfoCtx = {
-    userId: null | number,
+    userId: null | string,
     email: null | string,
     loginAction: (payload: AuthPayload) => Promise<void | string>,
     registerAction: (payload: AuthPayload) => Promise<void | string>,

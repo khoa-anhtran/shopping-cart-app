@@ -1,15 +1,9 @@
-import { AuthPayload } from "@/pages/auth/reducers";
-import { getUserInfo, postLogin, postLogout, postRefreshToken } from "@/services/authService";
-import { useState, ReactNode, useCallback, useMemo, useRef, useEffect } from "react";
-import { config } from "@/msal/config";
+import { ReactNode, useCallback, useMemo, useRef, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { tokenAdded } from "@/pages/auth/actions";
-import { getApiToken, initAccount, msalClient } from "@/msal";
 import CartContext from "@/contexts/CartContext";
 import { Modal } from "antd";
 import { cartToggled, checkedOut, fetchCartRequested, itemSelectedToggled, itemsRemoved, quantityDecreased, quantityIncreased, selectAllToggled } from "@/pages/cart/actions";
 import useUserInfo from "@/hooks/useUserInfo";
-import { useCart } from "@/hooks/useCart";
 import { selectCart, selectCartStatus } from "@/pages/cart/selectors";
 import { selectProducts } from "@/pages/products/selectors";
 import { STATUS } from "@/constants/api";

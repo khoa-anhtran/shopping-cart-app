@@ -1,19 +1,9 @@
 import { useSelector } from "react-redux"
-import { lazy, Suspense, useCallback, useEffect, useRef } from "react"
-import { selectProducts } from "../products/selectors"
-import { useDispatch } from "react-redux"
-import { cartToggled, checkedOut, fetchCartRequested, itemsRemoved, itemSelectedToggled, quantityDecreased, quantityIncreased, selectAllToggled } from "./actions"
-import { roundTo } from "@/utils/helpers"
-import { Modal } from "antd"
-import CartHeader from "./components/CartHeader"
-import CartActions from "./components/CartActions"
-import CartList from "./components/CartList"
-import { useCart } from "@/hooks/useCart"
+import { lazy, Suspense, useEffect, useRef } from "react"
 import useUserInfo from "@/hooks/useUserInfo"
 import { Skeleton } from 'antd';
 import useCartContext from "@/hooks/useCartContext"
 import { selectCartOpen, selectCartStatus } from "./selectors"
-import { STATUS } from "@/constants/api"
 
 const CartContainer = lazy(() => import('./components/CartContainer'))
 

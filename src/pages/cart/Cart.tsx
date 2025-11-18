@@ -4,12 +4,12 @@ import useUserInfo from "@/hooks/useUserInfo"
 import { Skeleton } from 'antd';
 import useCart from "@/hooks/useCart"
 import { selectCartOpen, selectCartStatus } from "./selectors"
+import CartSkeleton from "./components/CartSkeleton";
 
 const CartContainer = lazy(() => import('./components/CartContainer'))
 
 const Cart = () => {
     const { onClickCloseCart } = useCart()
-    const status = useSelector(selectCartStatus)
     const open = useSelector(selectCartOpen)
 
     const { userId } = useUserInfo()
@@ -57,11 +57,7 @@ const Cart = () => {
         onClick={onClickCloseCart}
         ref={modalRef}
     >
-        {open && <Suspense fallback={<aside
-            className="cart-modal__panel border-l rounded-tl-xl rounded-bl-xl absolute top-0 right-0 h-full flex flex-col w-full md:w-[70%] lg:w-[50%]
-                dark:bg-gray-800 bg-white dark:text-white">
-            <Skeleton />
-        </aside>}>
+        {open && <Suspense fallback={<CartSkeleton />}>
             <CartContainer />
         </Suspense>}
     </div>

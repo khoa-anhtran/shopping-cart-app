@@ -1,4 +1,4 @@
-import useCartContext from "@/hooks/useCartContext"
+import useCart from "@/hooks/useCart"
 import { roundTo } from "@/utils/helpers"
 
 type CartFooterProps = {
@@ -6,7 +6,7 @@ type CartFooterProps = {
 }
 
 const CartFooter = ({ hasSelectedItem }: CartFooterProps) => {
-    const { totalValues, onCheckout } = useCartContext()
+    const { totalValues, onCheckout } = useCart()
 
     return <footer
         className="flex items-center justify-between px-4 shadow-2xl fixed bottom-0 w-full border-t h-[5%]"

@@ -1,4 +1,4 @@
-import useCartContext from "@/hooks/useCartContext"
+import useCart from "@/hooks/useCart"
 import CartActions from "./CartActions"
 import CartHeader from "./CartHeader"
 import { useSelector } from "react-redux"
@@ -10,7 +10,7 @@ import { roundTo } from "@/utils/helpers"
 import CartFooter from "./CartFooter"
 
 const CartContainer = () => {
-    const { selectedItems, onRemoveCartItems, onClickCloseCart, totalQty } = useCartContext()
+    const { selectedItems, onRemoveCartItems, onClickCloseCart, totalQty } = useCart()
     const cartItems = useSelector(selectCart)
     const status = useSelector(selectCartStatus)
 

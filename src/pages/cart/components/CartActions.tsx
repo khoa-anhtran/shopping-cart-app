@@ -1,4 +1,4 @@
-import useCartContext from "@/hooks/useCartContext";
+import useCart from "@/hooks/useCart";
 import React from "react";
 import { useSelector } from "react-redux";
 import { selectCartIsSelectAll } from "../selectors";
@@ -10,7 +10,7 @@ type CartActionsProps = {
 }
 
 const CartActions = ({ isCartEmpty, hasSelectedItem, onRemoveCartItems }: CartActionsProps) => {
-    const { onSelectAllItems, onRefresh } = useCartContext()
+    const { onSelectAllItems, onRefresh } = useCart()
     const isSelectAll = useSelector(selectCartIsSelectAll)
 
     return <div className="flex items-center gap-8 mb-4">

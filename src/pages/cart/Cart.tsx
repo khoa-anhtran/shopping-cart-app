@@ -2,13 +2,13 @@ import { useSelector } from "react-redux"
 import { lazy, Suspense, useEffect, useRef } from "react"
 import useUserInfo from "@/hooks/useUserInfo"
 import { Skeleton } from 'antd';
-import useCartContext from "@/hooks/useCartContext"
+import useCart from "@/hooks/useCart"
 import { selectCartOpen, selectCartStatus } from "./selectors"
 
 const CartContainer = lazy(() => import('./components/CartContainer'))
 
 const Cart = () => {
-    const { onClickCloseCart } = useCartContext()
+    const { onClickCloseCart } = useCart()
     const status = useSelector(selectCartStatus)
     const open = useSelector(selectCartOpen)
 

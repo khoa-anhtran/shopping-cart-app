@@ -7,7 +7,7 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { selectCart } from "../selectors";
 import { selectProducts } from "@/pages/products/selectors";
-import useCartContext from "@/hooks/useCartContext";
+import useCart from "@/hooks/useCart";
 
 const CartList = () => {
     const cartItems = useSelector(selectCart)
@@ -15,7 +15,7 @@ const CartList = () => {
 
     console.log(cartItems)
 
-    const { onIncrease, onDecrease, onRemoveCartItems, onSelectItem } = useCartContext()
+    const { onIncrease, onDecrease, onRemoveCartItems, onSelectItem } = useCart()
 
     const missing = cartItems.filter(i => !products[i.itemId]).map(i => i.itemId);
 

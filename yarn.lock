@@ -1280,6 +1280,13 @@
   resolved "https://registry.yarnpkg.com/@types/react-dom/-/react-dom-19.2.2.tgz#a4cc874797b7ddc9cb180ef0d5dc23f596fc2332"
   integrity sha512-9KQPoO6mZCi7jcIStSnlOWn2nEF3mNmyr3rIAsGnAbQKYbRLyqmeSc39EVgtxXVia+LMT8j3knZLAZAh+xLmrw==
 
+"@types/react-lazyload@^3.2.3":
+  version "3.2.3"
+  resolved "https://registry.yarnpkg.com/@types/react-lazyload/-/react-lazyload-3.2.3.tgz#42129b6e11353bfe8ed2ba5e1b964676ee23668b"
+  integrity sha512-s03gWlHXiFqZr7TEFDTx8Lkl+ZEYrwTkXP9MNZ3Z3blzsPrnkYjgeSK2tjfzVv/TYVCnDk6TZwNRDHQlHy/1Ug==
+  dependencies:
+    "@types/react" "*"
+
 "@types/react-redux@^7.1.34":
   version "7.1.34"
   resolved "https://registry.yarnpkg.com/@types/react-redux/-/react-redux-7.1.34.tgz#83613e1957c481521e6776beeac4fd506d11bd0e"
@@ -4429,6 +4436,11 @@ react-is@^18.2.0:
   version "18.3.1"
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-18.3.1.tgz#e83557dc12eae63a99e003a46388b1dcbb44db7e"
   integrity sha512-/LLMVyas0ljjAtoYiPqYiL8VWXzUUdThrmU5+n20DZv+a+ClRoevUzw5JxU+Ieh5/c87ytoTBV9G1FiKfNJdmg==
+
+react-lazyload@^3.2.1:
+  version "3.2.1"
+  resolved "https://registry.yarnpkg.com/react-lazyload/-/react-lazyload-3.2.1.tgz#320087741ee6aaf693369b67690799423ed4d7a3"
+  integrity sha512-oDLlLOI/rRLY0fUh/HYFCy4CqCe7zdJXv6oTl2pC30tN3ezWxvwcdHYfD/ZkrGOMOOT5pO7hNLSvg7WsmAij1w==
 
 react-redux@^9.2.0:
   version "9.2.0"

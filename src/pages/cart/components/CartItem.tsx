@@ -1,3 +1,4 @@
+import { ImageWithPreview } from "@/components/ImageWithPreview";
 import { Product } from "@/types/product";
 import React from "react";
 
@@ -19,12 +20,15 @@ const CartItem = ({ product, onDecrease, onIncrease, onRemoveCartItem, quantity,
                 type="checkbox" role="checkbox" aria-label="toggle select item" checked={isSelected} onChange={() => onSelectItem(product._id)} />
         </div>
 
-        <div className="md:w-24 md:h-24 w-18 h-18">
+        <ImageWithPreview src={product?.thumbnail} alt={product.title} className="md:w-24 md:h-24 w-18 h-18" />
+
+        {/* <div className="md:w-24 md:h-24 w-18 h-18">
             <img
                 src={product?.thumbnail} alt={product.title}
-                className="max-w-[90%] max-h-[90%} object-contain"
+                className="max-w-[90%] max-h-[90%] object-contain"
             />
-        </div>
+
+        </div> */}
 
         <div className="flex flex-1 md:items-center gap-4 flex-col md:flex-row">
             <div className="flex-1 space-y-2">

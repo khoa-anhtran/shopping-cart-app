@@ -10,6 +10,7 @@ import { ROUTES } from './constants/routes'
 import Loading from './pages/layout/Loading'
 import ErrorFallback from './pages/layout/ErrorFallback'
 import { useAppStart } from './hooks/useAppStart'
+import CartProvider from './providers/CartProvider'
 
 const Products = lazy(() => import('./pages/products/Products'))
 const Header = lazy(() => import('./pages/layout/Header'))
@@ -32,7 +33,7 @@ function App() {
             <Route element={<RequireAuth />}>
               <Route path={ROUTES.HOME} element={<Home />} />
             </Route>
-            
+
             <Route
               path="*"
               element={
@@ -59,7 +60,9 @@ function Home() {
     <ErrorBoundary FallbackComponent={ErrorFallback}>
       <Products />
     </ErrorBoundary>
-    <Cart />
+    <CartProvider>
+      <Cart />
+    </CartProvider>
   </>
 }
 

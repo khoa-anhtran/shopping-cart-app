@@ -8,11 +8,11 @@ import useUserInfo from "./useUserInfo"
 
 export function useCart() {
     const dispatch = useDispatch()
+    const { userId } = useUserInfo()
 
     const status = useSelector(selectCartStatus)
     const cartItems = useSelector(selectCart)
     const isSelectAll = useSelector(selectCartIsSelectAll)
-    const { userId } = useUserInfo()
     const open = useSelector(selectCartOpen)
     const products = useSelector(selectProducts)
 
@@ -55,5 +55,5 @@ export function useCart() {
 
     }, [status, userId, dispatch])
 
-    return { isLoading, cartItems, isSelectAll, open, totalQty, totalValues, selectedItems }
+    // return { isLoading, cartItems, isSelectAll, open, totalQty, totalValues, selectedItems }
 }

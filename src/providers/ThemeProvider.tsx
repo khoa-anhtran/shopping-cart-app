@@ -1,5 +1,5 @@
+import ThemeContext, { Theme } from "@/contexts/ThemeContext";
 import { ReactNode, useCallback, useEffect, useState } from "react";
-import ThemeContext, { Theme } from "./ThemeContext";
 
 const ThemeProvider = ({ children }: { children: ReactNode }) => {
 
@@ -12,7 +12,7 @@ const ThemeProvider = ({ children }: { children: ReactNode }) => {
         const prefersDark = window.matchMedia?.(
             "(prefers-color-scheme: dark)"
         ).matches;
-        
+
         return prefersDark ? "dark" : "light";
     });
 

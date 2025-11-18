@@ -1,11 +1,11 @@
 import { AuthPayload } from "@/pages/auth/reducers";
 import { getUserInfo, postLogin, postLogout, postRefreshToken } from "@/services/authService";
 import { useState, ReactNode, useCallback } from "react";
-import UserInfoContext from "./UserInfoContext";
 import { config } from "@/msal/config";
 import { useDispatch } from "react-redux";
 import { tokenAdded } from "@/pages/auth/actions";
 import { getApiToken, initAccount, msalClient } from "@/msal";
+import UserInfoContext from "@/contexts/UserInfoContext";
 
 const UserInfoProvider = ({ children }: { children: ReactNode }) => {
     const dispatch = useDispatch()

@@ -7,8 +7,8 @@ import '@/styles/index.scss'
 import { Provider } from 'react-redux'
 import store from './store/store'
 import { BrowserRouter } from 'react-router-dom'
-import UserInfoProvider from './contexts/UserInfoProvider';
-import ThemeProvider from './contexts/ThemeProvider';
+import ThemeProvider from './providers/ThemeProvider';
+import UserInfoProvider from './providers/UserInfoProvider';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>

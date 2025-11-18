@@ -1,15 +1,18 @@
+import useCartContext from "@/hooks/useCartContext";
 import React from "react";
+import { useSelector } from "react-redux";
+import { selectCartIsSelectAll } from "../selectors";
 
 type CartActionsProps = {
     isCartEmpty: boolean;
     hasSelectedItem: boolean;
-    isSelectAll: boolean;
-    onSelectAllItems: () => void;
     onRemoveCartItems: () => void
-    onRefresh: () => void;
 }
 
-const CartActions = ({ isCartEmpty, hasSelectedItem, isSelectAll, onRemoveCartItems, onSelectAllItems, onRefresh }: CartActionsProps) => {
+const CartActions = ({ isCartEmpty, hasSelectedItem, onRemoveCartItems }: CartActionsProps) => {
+    const { onSelectAllItems, onRefresh } = useCartContext()
+    const isSelectAll = useSelector(selectCartIsSelectAll)
+
     return <div className="flex items-center gap-8 mb-4">
         <div className="row-center gap-4">
             <input

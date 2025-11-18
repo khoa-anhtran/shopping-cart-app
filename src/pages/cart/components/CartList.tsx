@@ -15,17 +15,17 @@ type CartListProps = {
 }
 
 const CartList = ({ cartItems, onDecrease, onIncrease, onRemoveCartItems, onSelectItem, products }: CartListProps) => {
-    const missing = cartItems.filter(i => !products[i.id]).map(i => i.id);
+    const missing = cartItems.filter(i => !products[i.itemId]).map(i => i.itemId);
 
     useEffect(() => {
         if (missing.length) notification.error({ message: "Some products no longer exist" });
     }, [missing.length]);
 
-    return <div className="space-y-4"> {cartItems.filter(i => products[i.id]).map(item => {
-        const product = products[item.id]!;
+    return <div className="space-y-4"> {cartItems.filter(i => products[i.itemId]).map(item => {
+        const product = products[item.itemId]!;
         return (
             <CartItem
-                key={product.id}
+                key={product._id}
                 product={product}
                 onRemoveCartItem={(id) => onRemoveCartItems([id])}
                 onDecrease={onDecrease}

@@ -29,13 +29,14 @@ export const postLogin = async (authPayload: AuthPayload) => {
     try {
         const res = await api.post<AuthResponse>("/auth/login", authPayload);
 
-        if (res?.status === 200) {
+        console.log(res)
+
+        if (res?.status === 201) {
             notify({ status: STATUS.SUCCESS, message: "Login successfully" })
             store.dispatch(tokenAdded(res.data.accessToken))
             return res.data;
         }
     } catch (err) {
-        console.log(err)
         notify({ status: STATUS.FAIL, message: String(err) })
         if (isAxiosError(err))
             throw new Error(err?.response?.data?.message);
@@ -48,7 +49,7 @@ export const postRegister = async (authPayload: AuthPayload) => {
     try {
         const res = await api.post<AuthResponse>("/auth/register", authPayload);
 
-        if (res.status === 200) {
+        if (res.status === 201) {
             notify({ status: STATUS.SUCCESS, message: "Register successfully" })
             store.dispatch(tokenAdded(res.data.accessToken))
             return res.data;
@@ -80,7 +81,7 @@ export const postLogout = async () => {
 
 export const getUserInfo = async (token: string) => {
     try {
-        const res = await api.get<{ userId: number }>("/auth/me", { headers: { Authorization: `Bearer ${token}` } });
+        const res = await api.get<{ userId: string }>("/auth/me", { headers: { Authorization: `Bearer ${token}` } });
 
         return res.data;
     } catch (err) {

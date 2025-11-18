@@ -4,6 +4,7 @@ import { createContext } from "react";
 export type UserInfoCtx = {
     userId: null | string,
     email: null | string,
+    name: null | string,
     loginAction: (payload: AuthPayload) => Promise<void | string>,
     registerAction: (payload: AuthPayload) => Promise<void | string>,
     refreshAction: () => Promise<void>
@@ -14,6 +15,7 @@ export type UserInfoCtx = {
 const UserInfoContext = createContext<UserInfoCtx>({
     email: null,
     userId: null,
+    name: null,
     loginAction: async () => { },
     registerAction: async () => { },
     refreshAction: async () => { },

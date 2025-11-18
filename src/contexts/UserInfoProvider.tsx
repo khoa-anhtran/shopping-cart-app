@@ -10,8 +10,10 @@ import { getApiToken, initAccount, msalClient } from "@/msal";
 const UserInfoProvider = ({ children }: { children: ReactNode }) => {
     const dispatch = useDispatch()
 
-    const [userId, setUserId] = useState<null | number>(null);
+    const [userId, setUserId] = useState<null | string>(null);
     const [email, setEmail] = useState<null | string>(null);
+    const [name, setName] = useState<null | string>(null);
+
 
     const { apiScope, scopes } = config
 
@@ -20,9 +22,10 @@ const UserInfoProvider = ({ children }: { children: ReactNode }) => {
             const data = await postLogin(authPayload)
 
             if (data) {
-                const { email, id } = data.user
+                const { email, id, name } = data.user
                 setUserId(id);
                 setEmail(email)
+                setName(name)
                 return;
             }
 
@@ -58,7 +61,7 @@ const UserInfoProvider = ({ children }: { children: ReactNode }) => {
 
             if (data) {
                 const { username } = data.account
-                const { userId } = await getUserInfo(accessToken) as { userId: number }
+                const { userId } = await getUserInfo(accessToken) as { userId: string }
 
                 setUserId(userId);
                 setEmail(username)
@@ -103,7 +106,7 @@ const UserInfoProvider = ({ children }: { children: ReactNode }) => {
             if (currentAccount) {
                 const { accessToken, email } = await getApiToken(apiScope)
 
-                const { userId } = await getUserInfo(accessToken) as { userId: number }
+                const { userId } = await getUserInfo(accessToken) as { userId: string }
 
                 setUserId(userId);
                 setEmail(email)
@@ -117,7 +120,7 @@ const UserInfoProvider = ({ children }: { children: ReactNode }) => {
     }, [dispatch, apiScope])
 
     return (
-        <UserInfoContext value={{ userId, email, loginAction, registerAction, refreshAction, logOut, MSLoginAction }}>
+        <UserInfoContext value={{ userId, name, email, loginAction, registerAction, refreshAction, logOut, MSLoginAction }}>
             {children}
         </UserInfoContext>
     );

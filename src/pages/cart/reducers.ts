@@ -71,16 +71,16 @@ const cartReducer = (state = initialState, action: CartPayloadAction): CartState
         }
 
         case ITEM_ADDED: {
-            const { itemId } = action.payload as { itemId: number };
+            const { itemId } = action.payload as { itemId: string };
 
-            const newItem = { id: itemId, quantity: 1, addedAt: new Date().toISOString(), isSelected: false }
+            const newItem = { itemId, quantity: 1, addedAt: new Date().toISOString(), isSelected: false }
 
-            if (state.items.find(item => item.id === itemId))
+            if (state.items.find(item => item.itemId === itemId))
                 return {
                     ...state,
                     syncStatus: STATUS.LOADING,
                     items: state.items.map(item => {
-                        if (item.id === itemId)
+                        if (item.itemId === itemId)
                             return { ...item, quantity: item.quantity + 1 }
 
                         return item
@@ -95,9 +95,9 @@ const cartReducer = (state = initialState, action: CartPayloadAction): CartState
         }
 
         case ITEMS_REMOVED: {
-            const { itemIds } = action.payload as { itemIds: number[] };
+            const { itemIds } = action.payload as { itemIds: string[] };
 
-            const items = state.items.filter(item => !itemIds.includes(item.id)) as CartItem[]
+            const items = state.items.filter(item => !itemIds.includes(item.itemId)) as CartItem[]
 
             const isSelectAll = items.length !== 0 && !items.find(item => !item.isSelected)
 
@@ -110,13 +110,13 @@ const cartReducer = (state = initialState, action: CartPayloadAction): CartState
         }
 
         case QUANTITY_INCREASED: {
-            const { itemId } = action.payload as { itemId: number };
+            const { itemId } = action.payload as { itemId: string };
 
             return {
                 ...state,
                 syncStatus: STATUS.LOADING,
                 items: state.items.map(item =>
-                    item.id === itemId
+                    item.itemId === itemId
                         ? { ...item, quantity: item.quantity + 1 }
                         : item
                 )
@@ -124,21 +124,21 @@ const cartReducer = (state = initialState, action: CartPayloadAction): CartState
         }
 
         case QUANTITY_DECREASED: {
-            const { itemId } = action.payload as { itemId: number };
-            const item = state.items.find(item => item.id == itemId)
+            const { itemId } = action.payload as { itemId: string };
+            const item = state.items.find(item => item.itemId == itemId)
 
             if (item?.quantity === 1)
                 return {
                     ...state,
                     syncStatus: STATUS.LOADING,
-                    items: state.items.filter(myItem => myItem.id !== item.id)
+                    items: state.items.filter(myItem => myItem.itemId !== item.itemId)
                 };
 
             return {
                 ...state,
                 syncStatus: STATUS.LOADING,
                 items: state.items.map(item =>
-                    item.id === itemId
+                    item.itemId === itemId
                         ? { ...item, quantity: item.quantity - 1 }
                         : item
                 )
@@ -147,7 +147,7 @@ const cartReducer = (state = initialState, action: CartPayloadAction): CartState
 
         case CHECKED_OUT: {
 
-            const { itemIds } = action.payload as { itemIds: number[] }
+            const { itemIds } = action.payload as { itemIds: string[] }
 
             const isCheckedOutAll = itemIds.length === state.items.length
 
@@ -155,15 +155,15 @@ const cartReducer = (state = initialState, action: CartPayloadAction): CartState
                 ...state,
                 syncStatus: STATUS.LOADING,
                 isSelectAll: isCheckedOutAll ? false : state.isSelectAll,
-                items: state.items.filter(item => !itemIds.includes(item.id))
+                items: state.items.filter(item => !itemIds.includes(item.itemId))
             };
         }
 
         case ITEM_SELECTED_TOGGLED: {
-            const { itemId } = action.payload as { itemId: number }
+            const { itemId } = action.payload as { itemId: string }
 
             const newItems = state.items.map(item => {
-                if (item.id === itemId)
+                if (item.itemId === itemId)
                     return {
                         ...item, isSelected: !item.isSelected
                     }

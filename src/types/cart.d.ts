@@ -1,5 +1,5 @@
 export type CartItem = {
-    id: string,
+    itemId: string,
     quantity: number,
     addedAt: string,
     isSelected: boolean,
@@ -18,6 +18,6 @@ export type CartState = {
 export type CartPayloadAction = PayloadAction<
     { message: string } |
     { items: Omit<CartItem, 'isSelected'>[] } |
-    { itemIds: number[] } |
-    { itemId: number }
+    { itemIds: string[] } |
+    { itemId: string }
 >

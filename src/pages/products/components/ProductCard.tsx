@@ -1,4 +1,4 @@
-import { Product } from "../reducers";
+import { Product } from "@/types/product";
 
 export default function ProductCard({ product, onAddToCart }: { product: Product, onAddToCart: () => void }) {
 

@@ -24,7 +24,7 @@ export function useCart() {
         if (products) {
             return cartItems.reduce((sum, item) => {
                 if (item.isSelected) {
-                    const product = products[item.id]
+                    const product = products[item.itemId]
                     return sum + item.quantity * product.price
                 }
                 return sum
@@ -41,7 +41,7 @@ export function useCart() {
     }, [cartItems])
 
     const selectedItems = useMemo(() => {
-        return cartItems.filter(item => item.isSelected).map(item => item.id)
+        return cartItems.filter(item => item.isSelected).map(item => item.itemId)
     }, [cartItems])
 
     if (!userId)

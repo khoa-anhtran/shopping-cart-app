@@ -8,8 +8,9 @@ export type AuthState = {
 export type AuthResponse = {
     accessToken: string;
     user: {
-        id: number;
+        id: string;
         email: string;
+        name: string;
     }
 }
 

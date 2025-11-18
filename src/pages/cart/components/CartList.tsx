@@ -29,7 +29,7 @@ const CartList = () => {
 
             return (
                 <CartItem
-                    key={product._id}
+                    key={product.id}
                     product={product}
                     onRemoveCartItem={(id) => onRemoveCartItems([id])}
                     onDecrease={onDecrease}

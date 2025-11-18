@@ -1,10 +1,14 @@
 import { PayloadAction } from "@/types"
-import { PRODUCTS_FETCH_FAILED, PRODUCTS_FETCH_REQUESTED, PRODUCTS_FETCH_SUCCEEDED } from "./actionTypes"
+import { PRODUCTS_FETCH_FAILED, PRODUCTS_FETCH_REQUESTED, PRODUCTS_FETCH_SUCCEEDED, PRODUCTS_FILTERED } from "./actionTypes"
 import { STATUS } from "@/constants/api"
 import { Product, ProductPayloadAction, ProductState } from "@/types/product"
 
 const initialState: ProductState = {
-    products: [],
+    products: {},
+    filteredProducts: {},
+    // filter: {
+    //     category: "all"
+    // },
     status: STATUS.IDLE,
     error: null
 }
@@ -24,6 +28,7 @@ const productReducer = (state = initialState, action: ProductPayloadAction): Pro
             return {
                 ...state,
                 products: { ...state.products, ...products },
+                filteredProducts: { ...state.products, ...products },
                 status: STATUS.SUCCESS
             };
         }
@@ -36,6 +41,26 @@ const productReducer = (state = initialState, action: ProductPayloadAction): Pro
                 error: message,
                 status: STATUS.FAIL
             };
+        }
+
+        case PRODUCTS_FILTERED: {
+            const { category } = action.payload
+
+            if (category.toLowerCase() === "all")
+                return {
+                    ...state,
+                    filteredProducts: state.products
+                }
+
+            return {
+                ...state,
+                filteredProducts: Object.fromEntries(
+                    Object.entries(state.products).filter(([, value]) => {
+                        console.log(value)
+                        return value.category.toLowerCase() === category.toLowerCase()
+                    })
+                )
+            }
         }
 
         default:

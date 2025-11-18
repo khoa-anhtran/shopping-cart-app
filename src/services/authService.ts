@@ -29,8 +29,6 @@ export const postLogin = async (authPayload: AuthPayload) => {
     try {
         const res = await api.post<AuthResponse>("/auth/login", authPayload);
 
-        console.log(res)
-
         if (res?.status === 201) {
             notify({ status: STATUS.SUCCESS, message: "Login successfully" })
             store.dispatch(tokenAdded(res.data.accessToken))

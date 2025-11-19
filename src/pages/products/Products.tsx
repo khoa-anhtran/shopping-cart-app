@@ -5,7 +5,10 @@ import { itemAdded } from "../cart/actions"
 import { useProducts } from "@/hooks/useProducts"
 import useUserInfo from "@/hooks/useUserInfo"
 import Segmented from "antd/es/segmented"
-import { productsFiltered } from "./actions"
+import { fetchProductsRequested, productsFiltered } from "./actions"
+import { showPDsModal } from "../layout/ui/uiActions"
+import { fetchComments } from "@/services/commentService"
+import { fetchCommentsRequested } from "../comments/actions"
 
 const data = ['All', 'Beauty & Makeup', 'Fragrances', 'Furniture', 'Groceries', 'Pet Supplies']
 
@@ -22,6 +25,11 @@ const Products = () => {
         dispatch(productsFiltered(value))
     }, [])
 
+    const onOpenPDsModal = useCallback((productId: string) => {
+        dispatch(showPDsModal(productId))
+        dispatch(fetchCommentsRequested(productId))
+    }, [])
+
     if (!isLoading)
         return <section className="dark:bg-black dark:text-white">
             <div className="w-full row-center py-8">
@@ -34,7 +42,7 @@ const Products = () => {
                 />
             </div>
 
-            <ProductGrid products={products} onAddToCart={onAddToCart} />
+            <ProductGrid products={products} onAddToCart={onAddToCart} onOpenPDsModal={onOpenPDsModal} />
         </section>
 
 }

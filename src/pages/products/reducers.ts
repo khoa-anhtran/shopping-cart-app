@@ -56,7 +56,6 @@ const productReducer = (state = initialState, action: ProductPayloadAction): Pro
                 ...state,
                 filteredProducts: Object.fromEntries(
                     Object.entries(state.products).filter(([, value]) => {
-                        console.log(value)
                         return value.category.toLowerCase() === category.toLowerCase()
                     })
                 )

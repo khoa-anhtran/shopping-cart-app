@@ -13,8 +13,6 @@ const CartList = () => {
     const cartItems = useSelector(selectCart)
     const products = useSelector(selectProducts)
 
-    console.log(cartItems)
-
     const { onIncrease, onDecrease, onRemoveCartItems, onSelectItem } = useCart()
 
     const missing = cartItems.filter(i => !products[i.itemId]).map(i => i.itemId);

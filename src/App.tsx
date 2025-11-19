@@ -11,6 +11,7 @@ import Loading from './pages/layout/Loading'
 import ErrorFallback from './pages/layout/ErrorFallback'
 import { useAppStart } from './hooks/useAppStart'
 import CartProvider from './providers/CartProvider'
+import ProductDetailsModal from './pages/products/components/ProductDetailsModal'
 
 const Products = lazy(() => import('./pages/products/Products'))
 const Header = lazy(() => import('./pages/layout/Header'))
@@ -59,6 +60,7 @@ function Home() {
     <Header></Header>
     <ErrorBoundary FallbackComponent={ErrorFallback}>
       <Products />
+      <ProductDetailsModal />
     </ErrorBoundary>
     <CartProvider>
       <Cart />

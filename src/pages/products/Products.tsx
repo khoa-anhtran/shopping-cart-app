@@ -4,11 +4,11 @@ import ProductGrid from "./components/ProductGrid"
 import { itemAdded } from "../cart/actions"
 import { useProducts } from "@/hooks/useProducts"
 import useUserInfo from "@/hooks/useUserInfo"
-import Segmented from "antd/es/segmented"
 import { fetchProductsRequested, productsFiltered } from "./actions"
 import { showPDsModal } from "../layout/ui/uiActions"
 import { fetchComments } from "@/services/commentService"
 import { fetchCommentsRequested } from "../comments/actions"
+import { Segmented } from "antd"
 
 const data = ['All', 'Beauty & Makeup', 'Fragrances', 'Furniture', 'Groceries', 'Pet Supplies']
 
@@ -33,8 +33,8 @@ const Products = () => {
     if (!isLoading)
         return <section className="dark:bg-black dark:text-white">
             <div className="w-full row-center py-8">
-                <Segmented<string>
-                    className="shadow-2xl"
+                <Segmented
+                    className="shadow-2xl max-w-[80vw] overflow-x-scroll md:overflow-hidden"
                     size="large"
                     options={data}
                     onChange={onChangeCategory}

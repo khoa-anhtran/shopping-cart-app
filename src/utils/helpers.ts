@@ -1,5 +1,5 @@
 import { STATUS } from "@/constants/api";
-import { notification } from "antd";
+import { App, notification } from "antd";
 import axios, { AxiosError } from "axios";
 
 export function roundTo(n: number, decimals = 2): number {
@@ -11,6 +11,8 @@ export const isAxiosError = <T = unknown>(e: unknown): e is AxiosError<T> =>
     axios.isAxiosError(e);
 
 export function notify({ duration = 2, status, message }: { status: string, message?: string | null, duration?: number }) {
+    // const { notification } = App.useApp();
+
     if (status === STATUS.FAIL) notification.error({ message, duration });
     if (status === STATUS.SUCCESS) notification.success({ message, duration });
 }

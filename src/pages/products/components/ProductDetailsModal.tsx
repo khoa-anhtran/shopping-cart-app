@@ -10,6 +10,7 @@ import { selectCommentIds, selectComments } from "@/pages/comments/selectors"
 import CommentRow from "@/pages/comments/components/CommentRow"
 import { CommentPostPayload } from "@/types/comment"
 import { commentPosted } from "@/pages/comments/actions"
+import { useMediaQuery } from "react-responsive"
 
 const ProductDetailsModal = () => {
     const products = useSelector(selectProducts)
@@ -17,6 +18,7 @@ const ProductDetailsModal = () => {
     const id = useSelector(selectProductIdOpen) ?? ""
     const comments = useSelector(selectComments)
     const commentIds = useSelector(selectCommentIds)
+    const isMobile = useMediaQuery({ query: '(max-width: 768px)' })
 
     const [text, setText] = useState("")
 
@@ -73,20 +75,21 @@ const ProductDetailsModal = () => {
         onClick={onClickCloseModal}
     >
         <div
-            className="bg-white dark:bg-gray-800 rounded-lg shadow-lg mx-4 lg:w-[60vw] lg:h-[70vh] flex flex-col"
+            className="bg-white dark:bg-gray-800 rounded-lg shadow-lg mx-4 w-screen h-[90vh] md:w-[90vw] md:h-[70vh] 
+            lg:w-[60vw] lg:h-[70vh] flex flex-col"
             onClick={(e) => {
                 e.stopPropagation()
             }}>
 
-            <div className="px-4 py-3 text-gray-700 dark:text-gray-200 flex h-[90%]">
-                <ImageWithPreview src={product.thumbnail} className="w-[40%]" />
+            <div className="px-4 py-3 text-gray-700 dark:text-gray-200 flex h-[90%] flex-col md:flex-row overflow-y-scroll md:overflow-hidden">
+                <ImageWithPreview src={product.thumbnail} className="md:w-[40%] w-full h-96" isMobile={isMobile} />
 
-                <div className="w-[60%] border-l border-gray-200 dark:border-gray-700 px-4 py-3 flex flex-col gap-4">
+                <div className="md:w-[60%] border-l border-gray-200 dark:border-gray-700 px-4 py-3 flex flex-col gap-4">
 
                     <div className="font-extrabold text-xl">{product.title}</div>
                     <div className="font-bold">Comments</div>
 
-                    <div className="flex flex-col overflow-y-scroll gap-4 h-[80%]" ref={commentListRef}>
+                    <div className="flex flex-col md:overflow-y-scroll gap-4 md:h-[80%]" ref={commentListRef}>
                         {commentIds.map(commentId => {
                             const comment = comments[commentId]
 
@@ -96,13 +99,13 @@ const ProductDetailsModal = () => {
 
                     </div>
 
-                    <form className="h-[10%] row-center gap-2" onSubmit={(e) => {
+                    <form className="h-[5%] row-center gap-2" onSubmit={(e) => {
                         e.preventDefault()
                         onSendComment({ depth: 0, text })
                         setText("")
                     }}>
                         <div className="bg-black text-white rounded-full h-full row-center px-2 border border-gray-300">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                            <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12"
                                 fill="currentColor" viewBox="0 0 24 24" >
                                 <path d="M12 2a5 5 0 1 0 0 10 5 5 0 1 0 0-10M4 22h16c.55 0 1-.45 1-1v-1c0-3.86-3.14-7-7-7h-4c-3.86 0-7 3.14-7 7v1c0 .55.45 1 1 1"></path>
                             </svg>

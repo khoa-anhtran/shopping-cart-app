@@ -7,7 +7,8 @@ type ImageWithPreviewProps = {
     alt?: string;
     className?: string;
     previewSrc?: string;  // small/placeholder image (optional)
-    size?: "sm" | "md" | "lg"
+    size?: "sm" | "md" | "lg";
+    isMobile?: boolean
 };
 
 export function ImageWithPreview({
@@ -15,7 +16,8 @@ export function ImageWithPreview({
     alt = "",
     previewSrc,
     className = "",
-    size = "sm"
+    size = "sm",
+    isMobile
 }: ImageWithPreviewProps) {
     const [loaded, setLoaded] = useState(false);
     const [error, setError] = useState(false);
@@ -24,7 +26,7 @@ export function ImageWithPreview({
         <div
             style={{
                 position: "relative",
-                overflow: "hidden",
+                overflow: isMobile ? "unset" : "hidden",
             }}
             className={className}
         >
@@ -64,7 +66,7 @@ export function ImageWithPreview({
                         width: "100%",
                         height: "100%",
                         objectFit: "contain",
-                        position: "absolute",
+                        position: isMobile ? "unset" : "absolute",
                         top: 0,
                         left: 0,
                         opacity: loaded ? 1 : 0,

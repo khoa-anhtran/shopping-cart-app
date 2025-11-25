@@ -89,6 +89,7 @@ const ProductDetailsModal = () => {
         previews.forEach((url) => URL.revokeObjectURL(url))
         setPreviews([])
         setFiles([])
+        setText("")
     }, [])
 
     const uploadToCloudinary = useCallback(async () => {
@@ -199,10 +200,9 @@ const ProductDetailsModal = () => {
                         if (files.length !== 0) {
                             const res = await uploadToCloudinary()
                             onResetFiles()
-
-                            console.log(res)
+                            onSendComment({ depth: 0, text, images: res?.results })
                         }
-                        if (text) {
+                        else if (text) {
                             onSendComment({ depth: 0, text })
                             setText("")
                         }
@@ -274,13 +274,6 @@ const ProductDetailsModal = () => {
                             <button className="px-2 py-1 bg-blue-500 text-gray-200 rounded-md cursor-pointer hover:opacity-70 text-xs" type="submit">SEND</button>
                         </div>
 
-
-                        {/* <button className="row-center cursor-pointer hover:opacity-60" type="submit">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                fill="currentColor" viewBox="0 0 24 24" >
-                                <path d="m2.6 10.42 7.64 3.34 3.34 7.64c.16.37.52.6.92.6h.05a1 1 0 0 0 .9-.69l5.5-17c.12-.36.02-.75-.24-1.01a.98.98 0 0 0-1.01-.24L2.69 8.55c-.4.13-.67.49-.69.9-.02.42.22.8.6.97m15.85-4.86-4.09 12.63-2.44-5.59c-.1-.23-.28-.41-.52-.52L5.81 9.64l12.63-4.09Z"></path>
-                            </svg>
-                        </button> */}
                     </form>
 
                 </div>
@@ -292,22 +285,6 @@ const ProductDetailsModal = () => {
                         {product.price}<span> $</span>
                     </div>
                 </div>
-
-                {/* <div className="row-center gap-4 bg-blue-600 text-white rounded-md">
-                    <button className="text-2xl cursor-pointer hover:bg-blue-400 active:bg-blue-700 px-2 rounded-tl-md rounded-bl-md h-full border-r border-gray-200">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                            fill="currentColor" viewBox="0 0 24 24" >
-                            <path d="M3 11h18v2H3z"></path>
-                        </svg>
-                    </button>
-                    <div>10</div>
-                    <button className="text-2xl cursor-pointer hover:bg-blue-400 active:bg-blue-700 px-2 rounded-tr-md rounded-br-md h-full border-l border-gray-200">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                            fill="currentColor" viewBox="0 0 24 24" >
-                            <path d="M11 17v4h2v-8h8v-2h-8V3h-2v8H3v2h8v4"></path>
-                        </svg>
-                    </button>
-                </div> */}
 
                 <button
                     type="button"

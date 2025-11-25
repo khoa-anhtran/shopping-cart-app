@@ -74,6 +74,24 @@ const CommentRow = ({ comment, className, onSendComment, depth }: CommentRowProp
             <p className="text-justify">
                 {comment.text}
             </p>
+
+            {comment.images?.length !== 0 &&
+                <div className="flex gap-2 mb-2 overflow-x-auto bg-white w-full px-1 py-2">
+                    {comment.images?.map(({ publicId, url }, index) => (
+                        <div
+                            key={index}
+                            className="w-16 h-16 rounded-md overflow-hidden border border-gray-200"
+                        >
+                            <img
+                                src={url}
+                                alt="preview"
+                                className="w-full h-full object-cover"
+                            />
+                        </div>
+                    ))}
+                </div>
+            }
+
             <div className="space-y-2">
                 <button className="cursor-pointer underline" onClick={() => setInputOpen(!isInputOpen)}>reply</button>
 

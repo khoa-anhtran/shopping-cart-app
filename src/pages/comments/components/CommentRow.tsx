@@ -4,6 +4,7 @@ import { selectComments } from "../selectors"
 import { CSSProperties, useCallback, useMemo, useState } from "react";
 import { Collapse, CollapseProps } from "antd";
 import { timeAgo } from "@/utils/helpers";
+import useTheme from "@/hooks/useTheme";
 
 type CommentRowProps = {
     comment: Comment;
@@ -14,36 +15,42 @@ type CommentRowProps = {
 
 const CommentRow = ({ comment, className, onSendComment, depth }: CommentRowProps) => {
     const comments = useSelector(selectComments)
+    const { theme } = useTheme()
     const [text, setText] = useState("")
     const [isInputOpen, setInputOpen] = useState(false)
 
-    const items: CollapseProps['items'] = useMemo(() => [
-        {
-            key: '1',
-            label: 'Show all comments',
-            children: <>{comment.replies.map((id =>
-                <CommentRow
-                    key={id}
-                    comment={comments[id]}
-                    onSendComment={onSendComment}
-                    depth={depth + 1}
-                />))}
-            </>,
-            classNames: {
-                header: 'my-classname',
-                body: 'my-classname'
-            },
-            styles: {
-                header: {
-                    padding: "0.5rem 0"
+    const getItems = useCallback((numberOfReplies: number) => {
+        const items: CollapseProps['items'] = [
+            {
+                key: comment.id,
+                label: `${numberOfReplies} ${numberOfReplies > 1 ? "replies" : "reply"} `,
+                children: <>{comment.replies.map((id =>
+                    <CommentRow
+                        key={id}
+                        comment={comments[id]}
+                        onSendComment={onSendComment}
+                        depth={depth + 1}
+                    />))}
+                </>,
+                classNames: {
+                    header: 'my-classname',
+                    body: 'my-classname'
                 },
-                body: {
-                    padding: 0
-                }
-            },
-        },], [comment])
+                styles: {
+                    header: {
+                        padding: "0.5rem 0",
+                        color: theme === "dark" ? "white" : "black"
+                    },
+                    body: {
+                        padding: 0
+                    }
+                },
+            },]
 
-    return <div className={`px-4 mb-2 space-y-2 border-l border-gray-200 ${className}`}>
+        return items
+    }, [comment, comments])
+
+    return <div className={`px-4 mb-2 space-y-2 border-l border-gray-200 dark:text-white ${className}`}>
         <div className="flex gap-4 items-center justify-baseline">
             <div className="bg-black text-white rounded-full p-2 border border-gray-300">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
@@ -64,14 +71,15 @@ const CommentRow = ({ comment, className, onSendComment, depth }: CommentRowProp
 
         <div className="space-y-2 flex-1">
 
-            <p>
+            <p className="text-justify">
                 {comment.text}
             </p>
             <div className="space-y-2">
                 <button className="cursor-pointer underline" onClick={() => setInputOpen(!isInputOpen)}>reply</button>
+
                 {isInputOpen && <form className="row-center gap-2" onSubmit={(e) => {
                     e.preventDefault()
-                    onSendComment({ depth, text, parentId: comment.id })
+                    onSendComment({ depth: depth + 1, text, parentId: comment.id })
                     setText("")
                 }}>
                     <div className="bg-black text-white rounded-full row-center py-2 px-2 border border-gray-300">
@@ -84,7 +92,7 @@ const CommentRow = ({ comment, className, onSendComment, depth }: CommentRowProp
                     <input type="text"
                         value={text}
                         onChange={(e) => setText(e.target.value)}
-                        className="h-full flex-1 border-b border-gray-300 px-1 py-2 focus-visible:border-0"
+                        className="flex-1 border-b border-gray-300 focus-visible:outline-0 focus-visible:border-b-2 focus-visible:border-black px-1 py-2"
                     />
 
                     <button className="row-center cursor-pointer hover:opacity-60" type="submit">
@@ -96,14 +104,10 @@ const CommentRow = ({ comment, className, onSendComment, depth }: CommentRowProp
                 </form>}
 
 
-
                 {comment.replies.length === 0 ? "" :
-                    <Collapse items={items} ghost bordered={false}></Collapse>
+                    <Collapse items={getItems(comment.replies.length)} ghost bordered={false}></Collapse>
                 }
 
-            </div>
-            <div className="hidden">
-                <textarea name="" id="" className="whitespace-pre-wrap w-full"></textarea>
             </div>
         </div>
     </div >

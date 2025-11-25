@@ -16,6 +16,7 @@ import { itemAdded } from "@/pages/cart/actions"
 import { SignatureResponse } from "@/types"
 import api from "@/services/api"
 import axios from "axios"
+import CommentInput from "@/pages/comments/components/CommentInput"
 
 const ProductDetailsModal = () => {
     const products = useSelector(selectProducts)
@@ -25,17 +26,12 @@ const ProductDetailsModal = () => {
     const commentIds = useSelector(selectCommentIds)
     const isMobile = useMediaQuery({ query: '(max-width: 768px)' })
 
-    const [text, setText] = useState("")
-    const [previews, setPreviews] = useState<string[]>([]);
-    const [files, setFiles] = useState<File[]>([]);
-
     const dispatch = useDispatch()
+    const { userId } = useUserInfo()
 
     const previouslyFocused = useRef<HTMLElement | null>(null);
     const modalRef = useRef<HTMLDivElement>(null);
     const commentListRef = useRef<HTMLDivElement>(null)
-    const formRef = useRef<HTMLFormElement>(null)
-    const fileInputRef = useRef<HTMLInputElement>(null)
 
     const product = products[id]
 
@@ -43,89 +39,9 @@ const ProductDetailsModal = () => {
         dispatch(hidePDsModal())
     }, [])
 
-    const onSendComment = useCallback((payload: CommentPostPayload) => {
-        dispatch(commentPosted(id, payload))
-    }, [id])
-
-    const { userId } = useUserInfo()
-
     const onAddToCart = useCallback(() => {
         dispatch(itemAdded(id, userId!))
     }, [dispatch, userId, id])
-
-
-    const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const list = Array.from(e.target.files ?? []);
-        setFiles(list);
-
-        // create preview URLs
-        const urls = list.map((file) => URL.createObjectURL(file));
-        setPreviews(urls);
-    };
-
-    const onRemoveFile = useCallback((index: number) => {
-        // 1) Update React state (used for upload + previews)
-        setFiles(prev => prev.filter((_, i) => i !== index));
-        setPreviews(prev => prev.filter((_, i) => i !== index));
-
-        // 2) (Optional) Update <input>.files so it matches state
-        const input = fileInputRef.current;
-        if (!input || !input.files) return;
-
-        const dt = new DataTransfer();
-        Array.from(input.files).forEach((file, i) => {
-            if (i !== index) dt.items.add(file);
-        });
-
-        input.files = dt.files;
-    }, [])
-
-    const onResetFiles = useCallback(() => {
-        const input = fileInputRef.current;
-        if (!input || !input.files) return;
-
-        const dt = new DataTransfer();
-        input.files = dt.files
-        previews.forEach((url) => URL.revokeObjectURL(url))
-        setPreviews([])
-        setFiles([])
-        setText("")
-    }, [])
-
-    const uploadToCloudinary = useCallback(async () => {
-        if (files.length === 0) return;
-
-        // 1) get signature from NestJS
-        const sigRes: SignatureResponse = await api.post(`/api/uploads/image-signature/${id}`).then((r) => r.data);
-
-        const { timestamp, folder, signature, cloudName, apiKey } =
-            sigRes;
-
-        const uploadUrl = `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`;
-
-        // 2) upload all files in parallel
-        const results = await Promise.all(
-            files.map(async (file) => {
-                const fd = new FormData();
-                fd.append("file", file);
-                fd.append("api_key", apiKey);
-                fd.append("timestamp", String(timestamp));
-                fd.append("folder", folder);
-                fd.append("signature", signature);
-
-                const res = await axios.post(uploadUrl, fd).then((r) => r.data);
-
-                return {
-                    url: res.secure_url as string,
-                    publicId: res.public_id as string,
-                };
-            })
-        );
-
-        return {
-            results
-        };
-    }, [id, files])
 
     useEffect(() => {
         if (!open) return;
@@ -155,12 +71,6 @@ const ProductDetailsModal = () => {
         };
     }, [open, onClickCloseModal]);
 
-    // useEffect(() => {
-    //     return () => {
-    //         previews.forEach((url) => URL.revokeObjectURL(url));
-    //     };
-    // }, [previews]);
-
     if (!open)
         return <></>
 
@@ -189,92 +99,12 @@ const ProductDetailsModal = () => {
                             const comment = comments[commentId]
 
                             if (comment && comment.depth === 0)
-                                return <CommentRow key={commentId} comment={comment} className="" onSendComment={onSendComment} depth={0} />
+                                return <CommentRow key={commentId} comment={comment} className="" depth={0} productId={id}/>
                         })}
 
                     </div>
 
-                    {/* my chat input here  */}
-                    <form ref={formRef} className="h-[15%] flex flex-col border-t border-gray-200 py-1 relative" onSubmit={async (e) => {
-                        e.preventDefault()
-                        if (files.length !== 0) {
-                            const res = await uploadToCloudinary()
-                            onResetFiles()
-                            onSendComment({ depth: 0, text, images: res?.results })
-                        }
-                        else if (text) {
-                            onSendComment({ depth: 0, text })
-                            setText("")
-                        }
-                    }}>
-                        {previews.length > 0 && (
-                            <div className="flex gap-2 mb-2 overflow-x-auto absolute -top-22 bg-white shadow-xl w-full px-1 py-2">
-                                {previews.map((url, index) => (
-                                    <div
-                                        key={index}
-                                        className="w-16 h-16 rounded-md overflow-hidden border border-gray-200 relative"
-                                    >
-                                        <img
-                                            src={url}
-                                            alt="preview"
-                                            className="w-full h-full object-cover"
-                                        />
-                                        <button className="absolute top-0 right-0 cursor-pointer hover:bg-gray-100 hover:opacity-70" type="button"
-                                            onClick={() => onRemoveFile(index)}
-                                        >
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                                fill="currentColor" viewBox="0 0 24 24" >
-                                                <path d="m7.76 14.83-2.83 2.83 1.41 1.41 2.83-2.83 2.12-2.12.71-.71.71.71 1.41 1.42 3.54 3.53 1.41-1.41-3.53-3.54-1.42-1.41-.71-.71 5.66-5.66-1.41-1.41L12 10.59 6.34 4.93 4.93 6.34 10.59 12l-.71.71z"></path>
-                                            </svg>
-                                        </button>
-                                    </div>
-                                ))}
-                            </div>
-                        )}
-
-                        <div className="row-center flex-1 gap-2">
-                            <div className="bg-black text-white rounded-full row-center px-1 py-1 border border-gray-300">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12"
-                                    fill="currentColor" viewBox="0 0 24 24" >
-                                    <path d="M12 2a5 5 0 1 0 0 10 5 5 0 1 0 0-10M4 22h16c.55 0 1-.45 1-1v-1c0-3.86-3.14-7-7-7h-4c-3.86 0-7 3.14-7 7v1c0 .55.45 1 1 1"></path>
-                                </svg>
-                            </div>
-
-                            <textarea
-                                placeholder="Write a comment..."
-                                className="flex-1 border-none outline-none text-sm placeholder-gray-400 bg-transparent resize-none h-full"
-                                value={text}
-                                onChange={(e) => setText(e.target.value)}
-                                onKeyDown={(e) => {
-                                    if (e.key === "Enter") {
-                                        e.preventDefault()
-                                        formRef.current?.requestSubmit()
-                                    }
-                                }}
-                                rows={3}
-                            />
-
-                            {/* <input type="text"
-                                value={text}
-                                onChange={(e) => setText(e.target.value)}
-                                className="flex-1 border-b border-gray-300 focus-visible:outline-0 focus-visible:border-b-2 focus-visible:border-black px-1 py-2"
-                            /> */}
-                        </div>
-
-                        <div className="flex w-full items-center justify-between h-fit">
-                            <div>
-                                <label htmlFor="images" className="hover:bg-gray-200 p-1 cursor-pointer block rounded-md">
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                        fill="currentColor" viewBox="0 0 24 24" >
-                                        <path d="M5 21h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2m0-2v-1.59l3-3 1.29 1.29c.39.39 1.02.39 1.41 0l5.29-5.29 3 3V19h-14ZM19 5v5.59L16.71 8.3a.996.996 0 0 0-1.41 0l-5.29 5.29-1.29-1.29a.996.996 0 0 0-1.41 0l-2.29 2.29V5h14Z"></path><path d="M8.5 7a1.5 1.5 0 1 0 0 3 1.5 1.5 0 1 0 0-3"></path>
-                                    </svg>
-                                </label>
-                                <input ref={fileInputRef} type="file" multiple name="images" id="images" accept="image/*" className="hidden" onChange={onFileChange} />
-                            </div>
-                            <button className="px-2 py-1 bg-blue-500 text-gray-200 rounded-md cursor-pointer hover:opacity-70 text-xs" type="submit">SEND</button>
-                        </div>
-
-                    </form>
+                    <CommentInput id={id} depth={0}></CommentInput>
 
                 </div>
             </div>

@@ -1,5 +1,6 @@
 import useUserInfo from "@/hooks/useUserInfo"
 import { itemAdded } from "@/pages/cart/actions"
+import React from "react"
 import { useCallback } from "react"
 import { useDispatch } from "react-redux"
 
@@ -8,7 +9,7 @@ type ProductDetailsFooterProps = {
     productId: string
 }
 
-const ProductDetailsFooter = ({ price, productId }: ProductDetailsFooterProps) => {
+const ProductDetailsFooter = React.memo(({ price, productId }: ProductDetailsFooterProps) => {
     const dispatch = useDispatch()
     const { userId } = useUserInfo()
 
@@ -33,6 +34,6 @@ const ProductDetailsFooter = ({ price, productId }: ProductDetailsFooterProps) =
             </svg>
         </button>
     </div>
-}
+})
 
 export default ProductDetailsFooter

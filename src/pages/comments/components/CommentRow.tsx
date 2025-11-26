@@ -13,9 +13,10 @@ type CommentRowProps = {
     className?: string;
     depth: number;
     productId: string;
+    setScrolToBottom: () => void
 }
 
-const CommentRow = React.memo(({ comment, className, depth, productId }: CommentRowProps) => {
+const CommentRow = React.memo(({ comment, className, depth, productId, setScrolToBottom }: CommentRowProps) => {
     const comments = useSelector(selectComments)
     const { theme } = useTheme()
     const [isInputOpen, setInputOpen] = useState(false)
@@ -31,6 +32,7 @@ const CommentRow = React.memo(({ comment, className, depth, productId }: Comment
                         comment={comments[id]}
                         depth={depth + 1}
                         productId={productId}
+                        setScrolToBottom={setScrolToBottom}
                     />))}
                 </>,
                 classNames: {
@@ -96,7 +98,7 @@ const CommentRow = React.memo(({ comment, className, depth, productId }: Comment
             <div className="space-y-2">
                 <button className="cursor-pointer underline" onClick={() => setInputOpen(!isInputOpen)}>reply</button>
 
-                {isInputOpen && <CommentInput id={productId} depth={depth + 1} parentId={comment.id}></CommentInput>}
+                {isInputOpen && <CommentInput key={comment.id} id={productId} depth={depth + 1} parentId={comment.id} setScrolToBottom={setScrolToBottom}></CommentInput>}
 
                 {comment.replies.length === 0 ? "" :
                     <Collapse items={getItems(comment.replies.length)} ghost bordered={false}></Collapse>

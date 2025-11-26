@@ -56,7 +56,7 @@ const ProductDetailsContainer = () => {
                         const comment = comments[commentId]
 
                         if (comment && comment.depth === 0)
-                            return <CommentRow key={commentId} comment={comment} className="" depth={0} productId={id} />
+                            return <CommentRow key={commentId} comment={comment} className="" depth={0} productId={id} setScrolToBottom={() => setScrolToBottom(true)} />
                     })}
 
                     {canScrollToBottom && <div className="sticky bottom-2 row-center">
@@ -74,10 +74,10 @@ const ProductDetailsContainer = () => {
                 </div>
 
                 <CommentInput id={id} depth={0} setScrolToBottom={() => setScrolToBottom(true)}></CommentInput>
-
-                <ProductDetailsFooter price={product.price} productId={id}></ProductDetailsFooter>
             </div>
         </div>
+        <ProductDetailsFooter price={product.price} productId={id}></ProductDetailsFooter>
+
 
     </div>
 }

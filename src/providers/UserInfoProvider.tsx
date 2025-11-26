@@ -14,7 +14,6 @@ const UserInfoProvider = ({ children }: { children: ReactNode }) => {
     const [email, setEmail] = useState<null | string>(null);
     const [name, setName] = useState<null | string>(null);
 
-
     const { apiScope, scopes } = config
 
     const registerAction = useCallback(async (authPayload: AuthPayload) => {
@@ -86,6 +85,7 @@ const UserInfoProvider = ({ children }: { children: ReactNode }) => {
         await postLogout()
 
         setUserId(null);
+        setName(null)
         setEmail(null);
     }, []);
 
@@ -94,8 +94,9 @@ const UserInfoProvider = ({ children }: { children: ReactNode }) => {
             const data = await postRefreshToken()
 
             if (data) {
-                const { email, id } = data.user
+                const { email, id, name } = data.user
                 setUserId(id);
+                setName(name)
                 setEmail(email)
                 return;
             }

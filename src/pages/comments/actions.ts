@@ -22,11 +22,12 @@ export const fetchCommentsFailed = (message: string) => ({
     }
 });
 
-export const commentPosted = (productId: string, payload: CommentPostPayload) => ({
+export const commentPosted = (productId: string, payload: CommentPostPayload, files: File[]) => ({
     type: COMMENT_POSTED,
     payload: {
         productId,
-        payload
+        payload,
+        files
     }
 });
 

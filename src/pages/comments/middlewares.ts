@@ -1,15 +1,15 @@
-import { call, put, takeLatest } from 'redux-saga/effects'
+import { all, call, put, takeLatest } from 'redux-saga/effects'
 
 import { SagaIterator } from 'redux-saga';
 import { notify } from '@/utils/helpers';
 import { STATUS } from '@/constants/api';
-import { PayloadAction } from '@/types';
+import { PayloadAction, SignatureResponse } from '@/types';
 import { COMMENT_POST_FAILED, COMMENT_POST_SUCCEEDED, COMMENT_POSTED, COMMENTS_FETCH_FAILED, COMMENTS_FETCH_REQUESTED, COMMENTS_FETCH_SUCCEEDED } from './actionTypes';
-import { Comment } from '@/types/comment';
+import { Comment, CommentPayloadAction, CommentPostPayload } from '@/types/comment';
 import { fetchComments, postComment } from '@/services/commentService';
 import { commentPostFailed, commentPostSucceeded, fetchCommentsFailed, fetchCommentsSucceeded } from './actions';
 import { ProductPayloadAction } from '@/types/product';
-
+import { postGetImageSignature, postUploadImage } from '@/services/uploadService';
 
 function* fetchCommentsSaga(action: PayloadAction<{ productId: string }>): SagaIterator {
     try {
@@ -21,13 +21,44 @@ function* fetchCommentsSaga(action: PayloadAction<{ productId: string }>): SagaI
     }
 }
 
-function* postCommentSaga(action: PayloadAction<{ productId: string, payload: ProductPayloadAction }>): SagaIterator {
+function* postCommentSaga(action: PayloadAction<{ productId: string, files: File[], payload: CommentPostPayload }>): SagaIterator {
     try {
         if (!action.payload)
             throw new Error("Missing payload")
 
-        const comment: Comment = yield call(postComment, action.payload.productId, action.payload.payload);
+        const { files, payload, productId } = action.payload
+
+        if (files && files.length !== 0) {
+            const sigRes: SignatureResponse = yield call(postGetImageSignature, productId)
+
+            const results: { url: string; publicId: string }[] = yield all(
+                files.map((file) => call(uploadImageSaga, sigRes, file))
+            )
+
+            payload.images = results
+        }
+
+        const comment: Comment = yield call(postComment, productId, payload);
         yield put(commentPostSucceeded(comment));
+    } catch (e) {
+        const message = e instanceof Error ? e.message : String(e);
+        yield put(commentPostFailed(`Post comments failed: ${message}`));
+    }
+}
+
+function* uploadImageSaga(sigRes: SignatureResponse, file: File): SagaIterator {
+    try {
+        const { apiKey, folder, signature, timestamp, cloudName } = sigRes
+        const fd = new FormData();
+        fd.append("file", file);
+        fd.append("api_key", apiKey);
+        fd.append("timestamp", String(timestamp));
+        fd.append("folder", folder);
+        fd.append("signature", signature);
+
+        const data: { url: string; publicId: string } = yield call(postUploadImage, cloudName, fd)
+
+        return data
     } catch (e) {
         const message = e instanceof Error ? e.message : String(e);
         yield put(commentPostFailed(`Post comments failed: ${message}`));

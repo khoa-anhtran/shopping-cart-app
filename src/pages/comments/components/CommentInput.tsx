@@ -5,6 +5,7 @@ import axios from "axios";
 import { useCallback, useRef, useState } from "react"
 import { useDispatch } from "react-redux";
 import { commentPosted } from "../actions";
+import { postGetImageSignature } from "@/services/uploadService";
 
 type CommentInputProps = {
     id: string,
@@ -48,7 +49,7 @@ const CommentInput = ({ id, depth, parentId }: CommentInputProps) => {
         input.files = dt.files;
     }, [])
 
-    const onResetFiles = useCallback(() => {
+    const onResetInput = useCallback(() => {
         const input = fileInputRef.current;
         if (!input || !input.files) return;
 
@@ -60,57 +61,15 @@ const CommentInput = ({ id, depth, parentId }: CommentInputProps) => {
         setText("")
     }, [])
 
-    const onSendComment = useCallback((payload: CommentPostPayload) => {
-        dispatch(commentPosted(id, payload))
+    const onSendComment = useCallback((payload: CommentPostPayload, files: File[]) => {
+        dispatch(commentPosted(id, payload, files))
     }, [id])
-
-
-    const uploadToCloudinary = useCallback(async () => {
-        if (files.length === 0) return;
-
-        // 1) get signature from NestJS
-        const sigRes: SignatureResponse = await api.post(`/api/uploads/image-signature/${id}`).then((r) => r.data);
-
-        const { timestamp, folder, signature, cloudName, apiKey } =
-            sigRes;
-
-        const uploadUrl = `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`;
-
-        // 2) upload all files in parallel
-        const results = await Promise.all(
-            files.map(async (file) => {
-                const fd = new FormData();
-                fd.append("file", file);
-                fd.append("api_key", apiKey);
-                fd.append("timestamp", String(timestamp));
-                fd.append("folder", folder);
-                fd.append("signature", signature);
-
-                const res = await axios.post(uploadUrl, fd).then((r) => r.data);
-
-                return {
-                    url: res.secure_url as string,
-                    publicId: res.public_id as string,
-                };
-            })
-        );
-
-        return {
-            results
-        };
-    }, [id, files])
-
 
     return <form ref={formRef} className="h-[15%] flex flex-col border-t border-gray-200 py-1 relative" onSubmit={async (e) => {
         e.preventDefault()
-        if (files.length !== 0) {
-            const res = await uploadToCloudinary()
-            onResetFiles()
-            onSendComment({ depth, text, images: res?.results, parentId })
-        }
-        else if (text) {
-            onSendComment({ depth, text, parentId })
-            setText("")
+        if (text || files.length !== 0) {
+            onSendComment({ text, depth, parentId }, files)
+            onResetInput()
         }
     }}>
         {previews.length > 0 && (

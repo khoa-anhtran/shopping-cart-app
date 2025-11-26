@@ -59,7 +59,7 @@ export function ImageWithPreview({
                 <img
                     src={src}
                     alt={alt}
-                    loading="lazy"            // browser-level lazy loading
+                    // loading="lazy"            // browser-level lazy loading
                     onLoad={() => setLoaded(true)}
                     onError={() => setError(true)}
                     style={{

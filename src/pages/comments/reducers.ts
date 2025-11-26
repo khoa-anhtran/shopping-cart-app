@@ -6,6 +6,7 @@ const initialState: CommentState = {
     ids: [],
     entities: {},
     status: STATUS.IDLE,
+    uploadStatus: STATUS.IDLE,
     error: null
 }
 

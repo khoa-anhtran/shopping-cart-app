@@ -14,6 +14,7 @@ export type CommentState = {
     ids: string[],
     entities: Record<string, Comment>,
     status: string,
+    uploadStatus: string,
     error: string | null
 }
 

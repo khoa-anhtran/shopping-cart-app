@@ -1,16 +1,14 @@
 import { ImageWithPreview } from "@/components/ImageWithPreview"
-import useUserInfo from "@/hooks/useUserInfo"
-import { itemAdded } from "@/pages/cart/actions"
 import CommentInput from "@/pages/comments/components/CommentInput"
 import CommentRow from "@/pages/comments/components/CommentRow"
 import { selectComments, selectCommentIds } from "@/pages/comments/selectors"
-import { hidePDsModal } from "@/pages/layout/ui/uiActions"
-import { selectPDsModalOpen, selectProductIdOpen } from "@/pages/layout/ui/uiSelectors"
-import { useRef, useMemo, useCallback, useState, useEffect } from "react"
-import { useSelector, useDispatch } from "react-redux"
+import { selectProductIdOpen } from "@/pages/layout/ui/uiSelectors"
+import { useRef, useMemo, useCallback, useState, useOptimistic, useEffect } from "react"
+import { useSelector } from "react-redux"
 import { useMediaQuery } from "react-responsive"
 import { selectProducts } from "../selectors"
 import ProductDetailsFooter from "./ProductDetailsFooter"
+import { Comment } from "@/types/comment"
 
 const ProductDetailsContainer = () => {
     const products = useSelector(selectProducts)
@@ -47,22 +45,25 @@ const ProductDetailsContainer = () => {
 
                 <div className="flex flex-col md:overflow-y-scroll gap-4 md:h-[80%] relative" ref={commentListRef} onScroll={(e) => {
                     const list = e.currentTarget
-                    if (list.scrollTop + list.clientHeight >= list.scrollHeight - 20)
+                    if (list.scrollTop + list.clientHeight >= list.scrollHeight - 40)
                         setScrolToBottom(false)
                     else
                         setScrolToBottom(true)
                 }}>
                     {commentIds.map(commentId => {
+
                         const comment = comments[commentId]
 
                         if (comment && comment.depth === 0)
-                            return <CommentRow key={commentId} comment={comment} className="" depth={0} productId={id} setScrolToBottom={() => setScrolToBottom(true)} />
+                            return <CommentRow key={commentId} comment={comment} depth={0} productId={id} setScrolToBottom={() => setScrolToBottom(true)} />
                     })}
 
                     {canScrollToBottom && <div className="sticky bottom-2 row-center">
                         <button
-                            type="button" className="rounded-full bg-gray-200 p-1 cursor-pointer hover:opacity-70"
-                            onClick={onScrollToBottom}>
+                            type="button"
+                            className="rounded-full bg-gray-200 p-1 cursor-pointer hover:opacity-70"
+                            onClick={onScrollToBottom}
+                        >
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24" >
                                 <path d="m12 15.59-4.29-4.3-1.42 1.42 5.71 5.7 5.71-5.7-1.42-1.42z"></path>
                                 <path d="m12 10.59-4.29-4.3-1.42 1.42 5.71 5.7 5.71-5.7-1.42-1.42z"></path>
@@ -73,7 +74,11 @@ const ProductDetailsContainer = () => {
 
                 </div>
 
-                <CommentInput id={id} depth={0} setScrolToBottom={() => setScrolToBottom(true)}></CommentInput>
+                <CommentInput
+                    id={id}
+                    depth={0}
+                    setScrolToBottom={() => setScrolToBottom(true)}
+                />
             </div>
         </div>
         <ProductDetailsFooter price={product.price} productId={id}></ProductDetailsFooter>

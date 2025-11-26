@@ -1,8 +1,8 @@
 import { Comment, CommentPostPayload } from "@/types/comment"
 import { useSelector } from "react-redux"
 import { selectComments } from "../selectors"
-import { CSSProperties, useCallback, useMemo, useState } from "react";
-import { Collapse, CollapseProps } from "antd";
+import { CSSProperties, useCallback, useEffect, useMemo, useState } from "react";
+import { Collapse, CollapseProps, Skeleton } from "antd";
 import { timeAgo } from "@/utils/helpers";
 import useTheme from "@/hooks/useTheme";
 import CommentInput from "./CommentInput";
@@ -13,7 +13,7 @@ type CommentRowProps = {
     className?: string;
     depth: number;
     productId: string;
-    setScrolToBottom: () => void
+    setScrolToBottom: () => void;
 }
 
 const CommentRow = React.memo(({ comment, className, depth, productId, setScrolToBottom }: CommentRowProps) => {
@@ -53,7 +53,11 @@ const CommentRow = React.memo(({ comment, className, depth, productId, setScrolT
         return items
     }, [comment, comments])
 
-    return <div className={`px-4 mb-2 space-y-2 border-l border-gray-200 dark:text-white ${className}`}>
+    useEffect(() => {
+        setInputOpen(false)
+    }, [comments])
+
+    return <div className={`px-4 mb-2 space-y-2 border-l border-gray-200 dark:text-white ${className} ${comment.isPending && "opacity-50"}`}>
         <div className="flex gap-4 items-center justify-baseline">
             <div className="bg-gray-300 text-white rounded-full p-2 border border-gray-300">
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
@@ -78,25 +82,35 @@ const CommentRow = React.memo(({ comment, className, depth, productId, setScrolT
                 {comment.text}
             </p>
 
-            {comment.images?.length !== 0 &&
-                <div className="flex gap-2 mb-2 overflow-x-auto bg-white w-full px-1 py-2">
-                    {comment.images?.map(({ url }, index) => (
-                        <div
-                            key={index}
-                            className="w-16 h-16 rounded-md overflow-hidden border border-gray-200"
-                        >
-                            <img
-                                src={url}
-                                alt="preview"
-                                className="w-full h-full object-cover"
-                            />
-                        </div>
-                    ))}
-                </div>
+            {comment.images && comment.images.length !== 0 &&
+                (comment.isPending ?
+                    <div className="flex gap-2 mb-2 overflow-x-auto bg-white w-full px-1 py-2">
+                        {comment.images.map((_, index) => (
+                            <div
+                                key={index}
+                                className="w-16 h-16 rounded-md overflow-hidden border border-gray-200 row-center"
+                            >
+                                <Skeleton.Image active />
+                            </div>
+                        ))}
+                    </div> : <div className="flex gap-2 mb-2 overflow-x-auto bg-white w-full px-1 py-2">
+                        {comment.images.map(({ url }, index) => (
+                            <div
+                                key={index}
+                                className="w-16 h-16 rounded-md overflow-hidden border border-gray-200"
+                            >
+                                <img
+                                    src={url}
+                                    alt="preview"
+                                    className="w-full h-full object-cover"
+                                />
+                            </div>
+                        ))}
+                    </div>)
             }
 
             <div className="space-y-2">
-                <button className="cursor-pointer underline" onClick={() => setInputOpen(!isInputOpen)}>reply</button>
+                <button className="cursor-pointer underline" onClick={() => setInputOpen(!isInputOpen)} disabled={comment.isPending}>reply</button>
 
                 {isInputOpen && <CommentInput key={comment.id} id={productId} depth={depth + 1} parentId={comment.id} setScrolToBottom={setScrolToBottom}></CommentInput>}
 

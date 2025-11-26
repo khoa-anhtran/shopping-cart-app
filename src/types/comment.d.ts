@@ -1,13 +1,14 @@
 export type Comment = {
     id: string,
     user: { id: string, name: string },
-    text: string,
+    text?: string,
     images?: { publicId: string; url: string }[],
     depth: number,
     replies: string[],
     parentId?: string,
     createdAt?: Date;
     updatedAt?: Date;
+    isPending?: boolean
 }
 
 export type CommentState = {

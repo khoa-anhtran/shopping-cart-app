@@ -1,21 +1,22 @@
-import api from "@/services/api";
-import { SignatureResponse } from "@/types";
-import { CommentPostPayload } from "@/types/comment";
-import axios from "axios";
-import { useCallback, useRef, useState } from "react"
+import { Comment, CommentPostPayload } from "@/types/comment";
+import { useCallback, useEffect, useRef, useState, useTransition } from "react"
 import { useDispatch } from "react-redux";
 import { commentPosted } from "../actions";
-import { postGetImageSignature } from "@/services/uploadService";
+import useUserInfo from "@/hooks/useUserInfo";
+import { notify } from "@/utils/helpers";
+import { STATUS } from "@/constants/api";
 
 type CommentInputProps = {
     id: string,
     depth: number;
     parentId?: string;
-    setScrolToBottom: () => void
+    setScrolToBottom: () => void;
 }
 
 const CommentInput = ({ id, depth, parentId, setScrolToBottom }: CommentInputProps) => {
     const dispatch = useDispatch()
+
+    const { userId, name } = useUserInfo()
 
     const [text, setText] = useState("")
     const [previews, setPreviews] = useState<string[]>([]);
@@ -24,14 +25,14 @@ const CommentInput = ({ id, depth, parentId, setScrolToBottom }: CommentInputPro
     const formRef = useRef<HTMLFormElement>(null)
     const fileInputRef = useRef<HTMLInputElement>(null)
 
-    const onFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const onFileChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
         const list = Array.from(e.target.files ?? []);
         setFiles(list);
 
         // create preview URLs
         const urls = list.map((file) => URL.createObjectURL(file));
         setPreviews(urls);
-    };
+    }, [])
 
     const onRemoveFile = useCallback((index: number) => {
         // 1) Update React state (used for upload + previews)
@@ -62,14 +63,25 @@ const CommentInput = ({ id, depth, parentId, setScrolToBottom }: CommentInputPro
         setText("")
     }, [])
 
-    const onSendComment = useCallback((payload: CommentPostPayload, files: File[]) => {
-        dispatch(commentPosted(id, payload, files))
+    const onSendComment = useCallback((comment: Comment, files: File[]) => {
+        dispatch(commentPosted(id, comment, files))
     }, [id])
 
     return <form ref={formRef} className="h-[15%] flex flex-col border-t border-gray-200 py-1 relative" onSubmit={async (e) => {
         e.preventDefault()
         if (text || files.length !== 0) {
-            onSendComment({ text, depth, parentId }, files)
+            onSendComment({
+                text,
+                depth,
+                parentId,
+                id: crypto.randomUUID(),
+                replies: [],
+                images: new Array(files.length).fill(""),
+                user: { id: userId ?? "", name: name ?? "" },
+                isPending: true,
+                createdAt: new Date()
+            }, files)
+
             onResetInput()
             setScrolToBottom()
         }

@@ -1,4 +1,4 @@
-import { all, call, put, takeLatest } from 'redux-saga/effects'
+import { all, call, debounce, delay, put, takeLatest } from 'redux-saga/effects'
 
 import { SagaIterator } from 'redux-saga';
 import { notify } from '@/utils/helpers';
@@ -21,12 +21,22 @@ function* fetchCommentsSaga(action: PayloadAction<{ productId: string }>): SagaI
     }
 }
 
-function* postCommentSaga(action: PayloadAction<{ productId: string, files: File[], payload: CommentPostPayload }>): SagaIterator {
+function* postCommentSaga(action: PayloadAction<{ productId: string, files: File[], comment: Comment }>): SagaIterator {
     try {
         if (!action.payload)
             throw new Error("Missing payload")
 
-        const { files, payload, productId } = action.payload
+        delay(10000)
+
+        const { files, comment, productId } = action.payload
+
+        const { depth, text, parentId, id: tempId } = comment
+
+        const payload = {
+            depth,
+            text,
+            parentId
+        } as CommentPostPayload
 
         if (files && files.length !== 0) {
             const sigRes: SignatureResponse = yield call(postGetImageSignature, productId)
@@ -38,8 +48,8 @@ function* postCommentSaga(action: PayloadAction<{ productId: string, files: File
             payload.images = results
         }
 
-        const comment: Comment = yield call(postComment, productId, payload);
-        yield put(commentPostSucceeded(comment));
+        const newComment: Comment = yield call(postComment, productId, payload);
+        yield put(commentPostSucceeded(newComment, tempId));
     } catch (e) {
         const message = e instanceof Error ? e.message : String(e);
         yield put(commentPostFailed(`Post comments failed: ${message}`));
@@ -73,6 +83,8 @@ function* commentsSaga() {
     )
 
     yield takeLatest(COMMENT_POSTED, postCommentSaga)
+    // yield debounce(10000, COMMENT_POSTED, postCommentSaga)
+
     yield takeLatest(COMMENT_POST_SUCCEEDED, () => notify({ message: "Post comment successfully", status: STATUS.SUCCESS }))
     yield takeLatest(COMMENT_POST_FAILED,
         (action: PayloadAction<{ message: string }>) => notify({ message: action.payload?.message, status: STATUS.FAIL, duration: 3 })

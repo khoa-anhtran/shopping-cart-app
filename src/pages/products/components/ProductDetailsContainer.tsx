@@ -38,6 +38,18 @@ const ProductDetailsContainer = () => {
         dispatch(itemAdded(id, userId!))
     }, [dispatch, userId, id])
 
+    const onDisplayScrollToBottom = useCallback(() => {
+        const list = commentListRef.current
+
+        if (!list)
+            return
+
+        if (list.scrollTop + list.clientHeight >= list.scrollHeight - 40)
+            setScrolToBottom(false)
+        else
+            setScrolToBottom(true)
+    }, [comments])
+
     return <div
         className="bg-white dark:bg-gray-800 rounded-lg shadow-lg mx-4 w-screen h-[90vh] md:w-[90vw] md:h-[70vh] 
             lg:w-[60vw] lg:h-[90vh] flex flex-col"
@@ -72,19 +84,13 @@ const ProductDetailsContainer = () => {
                 <div className="font-extrabold text-xl">{product.title}</div>
                 <div className="font-bold">Comments</div>
 
-                <div className="flex flex-col md:overflow-y-scroll gap-4 md:h-[80%] relative" ref={commentListRef} onScroll={(e) => {
-                    const list = e.currentTarget
-                    if (list.scrollTop + list.clientHeight >= list.scrollHeight - 40)
-                        setScrolToBottom(false)
-                    else
-                        setScrolToBottom(true)
-                }}>
+                <div className="flex flex-col md:overflow-y-scroll gap-4 md:h-[80%] relative" ref={commentListRef} onScroll={onDisplayScrollToBottom}>
                     {commentIds.map(commentId => {
 
                         const comment = comments[commentId]
 
                         if (comment && comment.depth === 0)
-                            return <CommentRow key={commentId} comment={comment} depth={0} productId={id} setScrolToBottom={() => setScrolToBottom(true)} />
+                            return <CommentRow key={commentId} comment={comment} depth={0} productId={id} setScrolToBottom={onDisplayScrollToBottom} />
                     })}
 
                     {canScrollToBottom && <div className="sticky bottom-2 row-center">
@@ -106,7 +112,7 @@ const ProductDetailsContainer = () => {
                 <CommentInput
                     id={id}
                     depth={0}
-                    setScrolToBottom={() => setScrolToBottom(true)}
+                    setScrolToBottom={onDisplayScrollToBottom}
                 />
             </div>
         </div>

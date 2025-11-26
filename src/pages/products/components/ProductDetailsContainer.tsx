@@ -6,28 +6,29 @@ import CommentRow from "@/pages/comments/components/CommentRow"
 import { selectComments, selectCommentIds } from "@/pages/comments/selectors"
 import { hidePDsModal } from "@/pages/layout/ui/uiActions"
 import { selectPDsModalOpen, selectProductIdOpen } from "@/pages/layout/ui/uiSelectors"
-import { useRef, useMemo, useCallback } from "react"
+import { useRef, useMemo, useCallback, useState, useEffect } from "react"
 import { useSelector, useDispatch } from "react-redux"
 import { useMediaQuery } from "react-responsive"
 import { selectProducts } from "../selectors"
+import ProductDetailsFooter from "./ProductDetailsFooter"
 
-const ProductDetailsModalContainer = () => {
+const ProductDetailsContainer = () => {
     const products = useSelector(selectProducts)
     const id = useSelector(selectProductIdOpen) ?? ""
     const comments = useSelector(selectComments)
     const commentIds = useSelector(selectCommentIds)
-    const isMobile = useMediaQuery({ query: '(max-width: 768px)' })
 
-    const dispatch = useDispatch()
-    const { userId } = useUserInfo()
+    const [canScrollToBottom, setScrolToBottom] = useState(false)
+
+    const isMobile = useMediaQuery({ query: '(max-width: 768px)' })
 
     const commentListRef = useRef<HTMLDivElement>(null)
 
     const product = useMemo(() => products[id], [products, id])
 
-    const onAddToCart = useCallback(() => {
-        dispatch(itemAdded(id, userId!))
-    }, [dispatch, userId, id])
+    const onScrollToBottom = useCallback(() => {
+        commentListRef.current?.scrollTo({ top: commentListRef.current.scrollHeight, behavior: "smooth" })
+    }, [])
 
     return <div
         className="bg-white dark:bg-gray-800 rounded-lg shadow-lg mx-4 w-screen h-[90vh] md:w-[90vw] md:h-[70vh] 
@@ -44,7 +45,13 @@ const ProductDetailsModalContainer = () => {
                 <div className="font-extrabold text-xl">{product.title}</div>
                 <div className="font-bold">Comments</div>
 
-                <div className="flex flex-col md:overflow-y-scroll gap-4 md:h-[80%]" ref={commentListRef}>
+                <div className="flex flex-col md:overflow-y-scroll gap-4 md:h-[80%] relative" ref={commentListRef} onScroll={(e) => {
+                    const list = e.currentTarget
+                    if (list.scrollTop + list.clientHeight >= list.scrollHeight - 20)
+                        setScrolToBottom(false)
+                    else
+                        setScrolToBottom(true)
+                }}>
                     {commentIds.map(commentId => {
                         const comment = comments[commentId]
 
@@ -52,31 +59,27 @@ const ProductDetailsModalContainer = () => {
                             return <CommentRow key={commentId} comment={comment} className="" depth={0} productId={id} />
                     })}
 
+                    {canScrollToBottom && <div className="sticky bottom-2 row-center">
+                        <button
+                            type="button" className="rounded-full bg-gray-200 p-1 cursor-pointer hover:opacity-70"
+                            onClick={onScrollToBottom}>
+                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24" >
+                                <path d="m12 15.59-4.29-4.3-1.42 1.42 5.71 5.7 5.71-5.7-1.42-1.42z"></path>
+                                <path d="m12 10.59-4.29-4.3-1.42 1.42 5.71 5.7 5.71-5.7-1.42-1.42z"></path>
+                            </svg>
+                        </button>
+                    </div>}
+
+
                 </div>
 
-                <CommentInput id={id} depth={0}></CommentInput>
+                <CommentInput id={id} depth={0} setScrolToBottom={() => setScrolToBottom(true)}></CommentInput>
 
+                <ProductDetailsFooter price={product.price} productId={id}></ProductDetailsFooter>
             </div>
         </div>
 
-        <div className="flex justify-end items-center gap-4 border-t border-gray-200 dark:border-gray-700 px-4 py-3 h-[5%] dark:text-white">
-            <div className="px-4 py-2 space-y-4">
-                <div className="md:text-xl font-bold">
-                    {product.price}<span> $</span>
-                </div>
-            </div>
-
-            <button
-                type="button"
-                className="px-2 py-1.5 text-sm rounded-md bg-green-600 text-white hover:bg-green-500 active:bg-green-700  cursor-pointer"
-                onClick={onAddToCart}
-            >
-                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 24 24" >
-                    <path d="M10.5 18a1.5 1.5 0 1 0 0 3 1.5 1.5 0 1 0 0-3M17.5 18a1.5 1.5 0 1 0 0 3 1.5 1.5 0 1 0 0-3M8.82 15.77c.31.75 1.04 1.23 1.85 1.23h6.18c.79 0 1.51-.47 1.83-1.2l3.24-7.4c.14-.31.11-.67-.08-.95A1 1 0 0 0 21 7H7.33L5.92 3.62C5.76 3.25 5.4 3 5 3H2v2h2.33zM11 11h2V9h2v2h2v2h-2v2h-2v-2h-2z"></path>
-                </svg>
-            </button>
-        </div>
     </div>
 }
 
-export default ProductDetailsModalContainer
+export default ProductDetailsContainer

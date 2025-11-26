@@ -2,11 +2,11 @@ import { useSelector } from "react-redux"
 import { useDispatch } from "react-redux"
 import { selectPDsModalOpen } from "@/pages/layout/ui/uiSelectors"
 import { hidePDsModal } from "@/pages/layout/ui/uiActions"
-import { lazy, Suspense, useCallback, useEffect, useRef } from "react"
+import { lazy, Suspense, useCallback, useRef } from "react"
 import CartSkeleton from "@/pages/cart/components/CartSkeleton"
 import { useLockModal } from "@/hooks/useLockModal"
 
-const ProductDetailsModalContainer = lazy(() => import("./ProductDetailsModalContainer"))
+const ProductDetailsContainer = lazy(() => import("./ProductDetailsContainer"))
 
 const ProductDetailsModal = () => {
     const open = useSelector(selectPDsModalOpen)
@@ -28,7 +28,7 @@ const ProductDetailsModal = () => {
         onClick={onClickCloseModal}
     >
         {open && <Suspense fallback={<CartSkeleton />}>
-            <ProductDetailsModalContainer />
+            <ProductDetailsContainer />
         </Suspense>}
     </div>
 

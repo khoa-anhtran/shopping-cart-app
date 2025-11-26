@@ -11,9 +11,10 @@ type CommentInputProps = {
     id: string,
     depth: number;
     parentId?: string;
+    setScrolToBottom: () => void
 }
 
-const CommentInput = ({ id, depth, parentId }: CommentInputProps) => {
+const CommentInput = ({ id, depth, parentId, setScrolToBottom }: CommentInputProps) => {
     const dispatch = useDispatch()
 
     const [text, setText] = useState("")
@@ -70,6 +71,7 @@ const CommentInput = ({ id, depth, parentId }: CommentInputProps) => {
         if (text || files.length !== 0) {
             onSendComment({ text, depth, parentId }, files)
             onResetInput()
+            setScrolToBottom()
         }
     }}>
         {previews.length > 0 && (

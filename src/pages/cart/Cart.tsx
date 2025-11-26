@@ -5,6 +5,7 @@ import { Skeleton } from 'antd';
 import useCart from "@/hooks/useCart"
 import { selectCartOpen, selectCartStatus } from "./selectors"
 import CartSkeleton from "./components/CartSkeleton";
+import { useLockModal } from "@/hooks/useLockModal";
 
 const CartContainer = lazy(() => import('./components/CartContainer'))
 
@@ -14,40 +15,13 @@ const Cart = () => {
 
     const { userId } = useUserInfo()
 
-    const previouslyFocused = useRef<HTMLElement | null>(null);
     const modalRef = useRef<HTMLDivElement>(null);
 
     if (!userId)
         throw new Error("User id is not existed")
 
     // lock scroll & manage focus
-    useEffect(() => {
-        if (!open) return;
-
-        previouslyFocused.current = document.activeElement as HTMLElement | null;
-
-        const prevOverflow = document.documentElement.style.overflow;
-        document.documentElement.style.overflow = 'hidden';
-
-        const id = window.setTimeout(() => {
-            const el = modalRef.current;
-            if (!el) return;
-            const firstFocusable = el.querySelector<HTMLElement>(
-                'button,[href],input,select,textarea,[tabindex]:not([tabindex="-1"])'
-            );
-            firstFocusable?.focus();
-        }, 0);
-
-        const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') onClickCloseCart() }
-        window.addEventListener('keydown', onKey)
-
-        return () => {
-            window.clearTimeout(id);
-            window.removeEventListener('keydown', onKey)
-            document.documentElement.style.overflow = prevOverflow;
-            previouslyFocused.current?.focus();
-        };
-    }, [open, onClickCloseCart]);
+    useLockModal(open,modalRef, onClickCloseCart)
 
     return <div
         className={`cart-modal ${open ? "is-open" : ""}`}

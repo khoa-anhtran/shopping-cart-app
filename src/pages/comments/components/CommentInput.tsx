@@ -1,10 +1,8 @@
-import { Comment, CommentPostPayload } from "@/types/comment";
-import { useCallback, useEffect, useRef, useState, useTransition } from "react"
+import { Comment } from "@/types/comment";
+import { useCallback, useRef, useState } from "react"
 import { useDispatch } from "react-redux";
 import { commentPosted } from "../actions";
 import useUserInfo from "@/hooks/useUserInfo";
-import { notify } from "@/utils/helpers";
-import { STATUS } from "@/constants/api";
 
 type CommentInputProps = {
     id: string,

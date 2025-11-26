@@ -66,7 +66,7 @@ const commentReducer = (state = initialState, action: CommentPayloadAction): Com
 
             const newEntities = Object.fromEntries(Object.values(state.entities).map(entity => {
                 if (entity.replies.includes(tempId))
-                    return [entity.id, { ...entity, replies: [...entity.replies, comment.id] }]
+                    return [entity.id, { ...entity, replies: entity.replies.map(commentId => commentId === tempId ? comment.id : commentId) }]
 
                 if (entity.id === tempId)
                     return [comment.id, { ...comment }]

@@ -2,7 +2,6 @@ import useUserInfo from "@/hooks/useUserInfo";
 import { Navigate, Outlet } from "react-router-dom";
 
 export default function RequireGuest() {
-    // const { userId } = useAppStart()
     const { userId } = useUserInfo()
 
     if (userId) return <Navigate to="/" replace />;

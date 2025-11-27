@@ -62,11 +62,16 @@ const UserInfoProvider = ({ children }: { children: ReactNode }) => {
 
             if (data) {
                 const { username } = data.account
-                const { userId } = await getUserInfo(accessToken) as { userId: string }
+                const res = await getUserInfo(accessToken)
 
-                setUserId(userId);
-                setEmail(username)
-                dispatch(tokenAdded(accessToken))
+                if (res) {
+                    const { userId } = res?.user
+
+                    setUserId(userId);
+                    setEmail(username)
+                    dispatch(tokenAdded(accessToken))
+                }
+
                 return;
             }
 
@@ -108,13 +113,19 @@ const UserInfoProvider = ({ children }: { children: ReactNode }) => {
             const currentAccount = initAccount()
 
             if (currentAccount) {
-                const { accessToken, email } = await getApiToken(apiScope)
+                const { accessToken } = await getApiToken(apiScope)
 
-                const { userId } = await getUserInfo(accessToken) as { userId: string }
+                const res = await getUserInfo(accessToken)
 
-                setUserId(userId);
-                setEmail(email)
-                dispatch(tokenAdded(accessToken))
+                if (res) {
+                    const { email, userId, name } = res.user
+                    setUserId(userId);
+                    setEmail(email)
+                    setName(name)
+                    dispatch(tokenAdded(accessToken))
+                }
+
+
             }
             else {
                 const error = err instanceof Error ? err.message : String(err);

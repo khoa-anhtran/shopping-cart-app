@@ -79,7 +79,7 @@ export const postLogout = async () => {
 
 export const getUserInfo = async (token: string) => {
     try {
-        const res = await api.get<{ userId: string }>("/auth/me", { headers: { Authorization: `Bearer ${token}` } });
+        const res = await api.get<{ user: { userId: string; email: string; name: string } }>("/auth/me", { headers: { Authorization: `Bearer ${token}` } });
 
         return res.data;
     } catch (err) {

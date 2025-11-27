@@ -59,13 +59,13 @@ const CommentRow = React.memo(({ comment, className, depth, productId, setScrolT
 
     return <div className={`px-4 mb-2 space-y-2 border-l border-gray-200 dark:text-white ${className} ${comment.isPending && "opacity-50"}`}>
         <div className="flex gap-4 items-center justify-baseline">
-            <div className="bg-gray-300 text-white rounded-full p-2 border border-gray-300">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                    fill="currentColor" viewBox="0 0 24 24" >
-                    <path d="M12 2a5 5 0 1 0 0 10 5 5 0 1 0 0-10M4 22h16c.55 0 1-.45 1-1v-1c0-3.86-3.14-7-7-7h-4c-3.86 0-7 3.14-7 7v1c0 .55.45 1 1 1"></path>
-                </svg>
-            </div>
-
+            {comment.user.avatar ? <div><img className="w-12 h-12 rounded-full" src={comment.user.avatar} alt="" /></div>
+                : <div className="bg-gray-300 text-white rounded-full p-2 border border-gray-300">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
+                        fill="currentColor" viewBox="0 0 24 24" >
+                        <path d="M12 2a5 5 0 1 0 0 10 5 5 0 1 0 0-10M4 22h16c.55 0 1-.45 1-1v-1c0-3.86-3.14-7-7-7h-4c-3.86 0-7 3.14-7 7v1c0 .55.45 1 1 1"></path>
+                    </svg>
+                </div>}
             <div>
                 <div className="font-bold">
                     {comment.user.name}

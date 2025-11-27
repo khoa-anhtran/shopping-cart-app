@@ -1,6 +1,6 @@
 export type Comment = {
     id: string,
-    user: { id: string, name: string },
+    user: { id: string, name: string, avatar?: string },
     text?: string,
     images?: { publicId: string; url: string }[],
     depth: number,

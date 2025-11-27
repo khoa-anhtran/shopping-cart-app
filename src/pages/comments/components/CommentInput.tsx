@@ -14,7 +14,7 @@ type CommentInputProps = {
 const CommentInput = ({ id, depth, parentId, setScrolToBottom }: CommentInputProps) => {
     const dispatch = useDispatch()
 
-    const { userId, name } = useUserInfo()
+    const { userId, name, avatar } = useUserInfo()
 
     const [text, setText] = useState("")
     const [previews, setPreviews] = useState<string[]>([]);
@@ -27,17 +27,14 @@ const CommentInput = ({ id, depth, parentId, setScrolToBottom }: CommentInputPro
         const list = Array.from(e.target.files ?? []);
         setFiles(list);
 
-        // create preview URLs
         const urls = list.map((file) => URL.createObjectURL(file));
         setPreviews(urls);
     }, [])
 
     const onRemoveFile = useCallback((index: number) => {
-        // 1) Update React state (used for upload + previews)
         setFiles(prev => prev.filter((_, i) => i !== index));
         setPreviews(prev => prev.filter((_, i) => i !== index));
 
-        // 2) (Optional) Update <input>.files so it matches state
         const input = fileInputRef.current;
         if (!input || !input.files) return;
 
@@ -75,7 +72,7 @@ const CommentInput = ({ id, depth, parentId, setScrolToBottom }: CommentInputPro
                 id: crypto.randomUUID(),
                 replies: [],
                 images: new Array(files.length).fill(""),
-                user: { id: userId ?? "", name: name ?? "" },
+                user: { id: userId ?? "", name: name ?? "", avatar: avatar ?? undefined },
                 isPending: true,
                 createdAt: new Date()
             }, files)

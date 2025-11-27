@@ -5,6 +5,7 @@ import { selectCart } from "../cart/selectors";
 import useUserInfo from "@/hooks/useUserInfo";
 import useTheme from "@/hooks/useTheme";
 import { Link } from "react-router-dom";
+import { ROUTES } from "@/constants/routes";
 
 const Header = () => {
     const dispatch = useDispatch();
@@ -37,7 +38,7 @@ const Header = () => {
             {/* main row */}
             <div className="flex items-center justify-between gap-3 px-4 py-2">
                 {/* left: title */}
-                <div className="font-bold">Redux Shopping Cart</div>
+                <Link to={ROUTES.HOME} className="font-bold">Redux Shopping Cart</Link>
 
                 {/* middle: user info (desktop) */}
                 <div className="hidden items-center gap-3 md:flex">
@@ -54,7 +55,7 @@ const Header = () => {
 
                 {/* right: cart + mobile toggle */}
                 <div className="flex items-center gap-4">
-                    <Link to={"/user"} className="flex items-center justify-center cursor-pointer hover:opacity-50">
+                    <Link to={ROUTES.USER} className="flex items-center justify-center cursor-pointer hover:opacity-50">
                         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                             fill="currentColor" viewBox="0 0 24 24" >
                             <path d="M12 2a5 5 0 1 0 0 10 5 5 0 1 0 0-10M4 22h16c.55 0 1-.45 1-1v-1c0-3.86-3.14-7-7-7h-4c-3.86 0-7 3.14-7 7v1c0 .55.45 1 1 1"></path>

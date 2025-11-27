@@ -5,6 +5,7 @@ export type UserInfoCtx = {
     userId: null | string,
     email: null | string,
     name: null | string,
+    avatar: null | string | undefined,
     loginAction: (payload: AuthPayload) => Promise<void | string>,
     registerAction: (payload: AuthPayload) => Promise<void | string>,
     refreshAction: () => Promise<void>
@@ -16,6 +17,7 @@ const UserInfoContext = createContext<UserInfoCtx>({
     email: null,
     userId: null,
     name: null,
+    avatar: null,
     loginAction: async () => { },
     registerAction: async () => { },
     refreshAction: async () => { },

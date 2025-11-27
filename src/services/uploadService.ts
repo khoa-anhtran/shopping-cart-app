@@ -1,7 +1,8 @@
 import axios from "axios"
 import api from "./api"
+import { SignatureResponse } from "@/types"
 
-export const postGetImageSignature = async (productId: string) => {
+export const postGetImageSignature = async (productId: string): Promise<SignatureResponse> => {
     const res = await api.post(`/api/uploads/image-signature/${productId}`)
 
     return res.data

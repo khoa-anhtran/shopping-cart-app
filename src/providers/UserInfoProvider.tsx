@@ -13,6 +13,7 @@ const UserInfoProvider = ({ children }: { children: ReactNode }) => {
     const [userId, setUserId] = useState<null | string>(null);
     const [email, setEmail] = useState<null | string>(null);
     const [name, setName] = useState<null | string>(null);
+    const [avatar, setAvatar] = useState<null | string | undefined>(null);
 
     const { apiScope, scopes } = config
 
@@ -21,10 +22,11 @@ const UserInfoProvider = ({ children }: { children: ReactNode }) => {
             const data = await postLogin(authPayload)
 
             if (data) {
-                const { email, id, name } = data.user
+                const { email, id, name, avatar } = data.user
                 setUserId(id);
                 setEmail(email)
                 setName(name)
+                setAvatar(avatar)
                 return;
             }
 
@@ -94,10 +96,11 @@ const UserInfoProvider = ({ children }: { children: ReactNode }) => {
             const data = await postRefreshToken()
 
             if (data) {
-                const { email, id, name } = data.user
+                const { email, id, name, avatar } = data.user
                 setUserId(id);
                 setName(name)
                 setEmail(email)
+                setAvatar(avatar)
                 return;
             }
 
@@ -121,7 +124,7 @@ const UserInfoProvider = ({ children }: { children: ReactNode }) => {
     }, [dispatch, apiScope])
 
     return (
-        <UserInfoContext value={{ userId, name, email, loginAction, registerAction, refreshAction, logOut, MSLoginAction }}>
+        <UserInfoContext value={{ userId, name, email, avatar, loginAction, registerAction, refreshAction, logOut, MSLoginAction }}>
             {children}
         </UserInfoContext>
     );

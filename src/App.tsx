@@ -18,7 +18,9 @@ import useTheme from './hooks/useTheme'
 
 const Products = lazy(() => import('./pages/products/Products'))
 const Header = lazy(() => import('./pages/layout/Header'))
+const UserPanelLayout = lazy(() => import('./pages/layout/UserPanelLayout'))
 const Cart = lazy(() => import('./pages/cart/Cart'))
+const UserInfo = lazy(() => import('./pages/user/UserInfo'))
 const Login = lazy(() => import('./pages/auth/Login'))
 const Register = lazy(() => import('./pages/auth/Register'))
 
@@ -36,6 +38,9 @@ function App() {
 
             <Route element={<RequireAuth />}>
               <Route path={ROUTES.HOME} element={<Home />} />
+              <Route path={ROUTES.USER} element={<UserPanelLayout />}>
+                <Route index element={<UserInfo />} />
+              </Route>
             </Route>
 
             <Route
@@ -59,7 +64,6 @@ function App() {
 }
 
 function Home() {
-  const isMobile = useMediaQuery({ query: '(max-width: 768px)' })
   const { theme } = useTheme()
 
   return <ConfigProvider theme={{

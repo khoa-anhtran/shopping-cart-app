@@ -6,8 +6,7 @@ import { useDispatch } from "react-redux";
 import { tokenAdded } from "@/pages/auth/actions";
 import { getApiToken, initAccount, msalClient } from "@/msal";
 import UserInfoContext from "@/contexts/UserInfoContext";
-import { CredentialResponse, useGoogleLogin } from "@react-oauth/google";
-import axios from "axios";
+import { useGoogleLogin } from "@react-oauth/google";
 
 const UserInfoProvider = ({ children }: { children: ReactNode }) => {
     const dispatch = useDispatch()
@@ -67,8 +66,7 @@ const UserInfoProvider = ({ children }: { children: ReactNode }) => {
                 const res = await getUserInfo(accessToken)
 
                 if (res) {
-                    const { userId } = res?.user
-
+                    const { userId } = res.user
                     setUserId(userId);
                     setEmail(username)
                     dispatch(tokenAdded(accessToken))

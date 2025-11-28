@@ -56,11 +56,11 @@ const CommentInput = ({ id, depth, parentId, setScrolToBottom }: CommentInputPro
         setPreviews([])
         setFiles([])
         setText("")
-    }, [])
+    }, [previews])
 
     const onSendComment = useCallback((comment: Comment, files: File[]) => {
         dispatch(commentPosted(id, comment, files))
-    }, [id])
+    }, [id, dispatch])
 
     return <form ref={formRef} className="h-[15%] flex flex-col border-t border-gray-200 py-1 relative" onSubmit={async (e) => {
         e.preventDefault()

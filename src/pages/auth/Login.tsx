@@ -1,7 +1,5 @@
 import { ROUTES } from "@/constants/routes"
 import useUserInfo from "@/hooks/useUserInfo"
-import { CredentialResponse, GoogleLogin, useGoogleLogin } from "@react-oauth/google"
-import axios from "axios"
 import { useCallback, useState } from "react"
 import { Link } from "react-router-dom"
 

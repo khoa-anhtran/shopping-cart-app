@@ -1,5 +1,4 @@
 import { useState } from "react";
-import Loading from "../pages/layout/Loading";
 import LoadingSpinner from "./LoadingSpinner";
 
 type ImageWithPreviewProps = {

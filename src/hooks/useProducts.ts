@@ -1,6 +1,6 @@
 import { STATUS } from "@/constants/api";
 import { fetchProductsRequested } from "@/pages/products/actions";
-import { selectProductsStatus, selectProductsError, selectProducts, selectfilteredProducts } from "@/pages/products/selectors";
+import { selectProductsStatus, selectProductsError, selectfilteredProducts } from "@/pages/products/selectors";
 import { useEffect, useRef } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";

@@ -1,5 +1,3 @@
-import { Product } from "@/types/product";
-import { CartItem as CartItemType } from "@/types/cart"
 import CartItem from "./CartItem";
 import { notification } from "antd";
 import { useEffect } from "react";

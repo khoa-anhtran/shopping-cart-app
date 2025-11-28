@@ -13,7 +13,6 @@ import { useAppStart } from './hooks/useAppStart'
 import CartProvider from './providers/CartProvider'
 import ProductDetailsModal from './pages/products/components/ProductDetailsModal'
 import { App as AntdApp, ConfigProvider } from 'antd'
-import { useMediaQuery } from 'react-responsive'
 import useTheme from './hooks/useTheme'
 
 const Products = lazy(() => import('./pages/products/Products'))

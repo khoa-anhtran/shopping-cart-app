@@ -3,12 +3,10 @@ import CommentInput from "@/pages/comments/components/CommentInput"
 import CommentRow from "@/pages/comments/components/CommentRow"
 import { selectComments, selectCommentIds } from "@/pages/comments/selectors"
 import { selectProductIdOpen } from "@/pages/layout/ui/uiSelectors"
-import { useRef, useMemo, useCallback, useState, useOptimistic, useEffect } from "react"
+import { useRef, useMemo, useCallback, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useMediaQuery } from "react-responsive"
 import { selectProducts } from "../selectors"
-import ProductDetailsFooter from "./ProductDetailsFooter"
-import { Comment } from "@/types/comment"
 import useUserInfo from "@/hooks/useUserInfo"
 import { itemAdded } from "@/pages/cart/actions"
 
@@ -48,7 +46,7 @@ const ProductDetailsContainer = () => {
             setScrolToBottom(false)
         else
             setScrolToBottom(true)
-    }, [comments])
+    }, [])
 
     return <div
         className="bg-white dark:bg-gray-800 rounded-lg shadow-lg mx-4 w-screen h-[90vh] md:w-[90vw] md:h-[70vh] 

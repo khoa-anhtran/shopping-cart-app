@@ -1,7 +1,7 @@
-import { Comment, CommentPostPayload } from "@/types/comment"
+import { Comment } from "@/types/comment"
 import { useSelector } from "react-redux"
 import { selectComments } from "../selectors"
-import { CSSProperties, useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Collapse, CollapseProps, Skeleton } from "antd";
 import { timeAgo } from "@/utils/helpers";
 import useTheme from "@/hooks/useTheme";
@@ -51,7 +51,7 @@ const CommentRow = React.memo(({ comment, className, depth, productId, setScrolT
             },]
 
         return items
-    }, [comment, comments])
+    }, [comment, comments, depth, productId, setScrolToBottom, theme])
 
     useEffect(() => {
         setInputOpen(false)

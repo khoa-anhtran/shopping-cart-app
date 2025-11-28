@@ -2,11 +2,9 @@ import useCart from "@/hooks/useCart"
 import CartActions from "./CartActions"
 import CartHeader from "./CartHeader"
 import { useSelector } from "react-redux"
-import { selectProducts } from "@/pages/products/selectors"
 import CartList from "./CartList"
 import { selectCart, selectCartStatus } from "../selectors"
 import { STATUS } from "@/constants/api"
-import { roundTo } from "@/utils/helpers"
 import CartFooter from "./CartFooter"
 
 const CartContainer = () => {

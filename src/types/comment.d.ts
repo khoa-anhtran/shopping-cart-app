@@ -26,4 +26,9 @@ export type CommentPostPayload = {
     depth: number
 }
 
-export type CommentPayloadAction = PayloadAction<>
+export type CommentPayloadAction = PayloadAction<
+    { comment: Comment, tempId: string } |
+    { comment: Comment } |
+    { message: string } |
+    { comments: Comment[] }
+>

@@ -4,9 +4,8 @@ import ProductGrid from "./components/ProductGrid"
 import { itemAdded } from "../cart/actions"
 import { useProducts } from "@/hooks/useProducts"
 import useUserInfo from "@/hooks/useUserInfo"
-import { fetchProductsRequested, productsFiltered } from "./actions"
+import { productsFiltered } from "./actions"
 import { showPDsModal } from "../layout/ui/uiActions"
-import { fetchComments } from "@/services/commentService"
 import { fetchCommentsRequested } from "../comments/actions"
 import { Segmented } from "antd"
 
@@ -23,12 +22,12 @@ const Products = () => {
 
     const onChangeCategory = useCallback((value: string) => {
         dispatch(productsFiltered(value))
-    }, [])
+    }, [dispatch])
 
     const onOpenPDsModal = useCallback((productId: string) => {
         dispatch(showPDsModal(productId))
         dispatch(fetchCommentsRequested(productId))
-    }, [])
+    }, [dispatch])
 
     if (!isLoading)
         return <section className="dark:bg-black dark:text-white">

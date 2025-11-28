@@ -1,4 +1,4 @@
-import { Comment, CommentPostPayload } from "@/types/comment";
+import { Comment } from "@/types/comment";
 import { COMMENT_POST_FAILED, COMMENT_POST_SUCCEEDED, COMMENT_POSTED, COMMENTS_FETCH_FAILED, COMMENTS_FETCH_REQUESTED, COMMENTS_FETCH_SUCCEEDED } from "./actionTypes";
 
 export const fetchCommentsRequested = (productId: string) => ({

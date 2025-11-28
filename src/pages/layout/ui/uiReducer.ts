@@ -1,7 +1,6 @@
 import { PayloadAction } from "@/types";
 import { SHOW_LOADING, HIDE_LOADING, SHOW_PDS_MODAL, HIDE_PDS_MODAL } from "./uiActionTypes";
 import { LOADING_STYLE } from "@/constants/ui";
-import { hidePDsModal } from "./uiActions";
 
 type UIState = {
     isShowLoading: boolean;

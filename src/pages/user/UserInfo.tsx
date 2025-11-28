@@ -14,8 +14,6 @@ const UserInfo: React.FC = () => {
     const [error, setError] = useState<string | null>(null);
     const [success, setSuccess] = useState<string | null>(null);
 
-    console.log(avatar)
-
     // Sync local state when user changes
     useEffect(() => {
         setName(name ?? "");
@@ -41,12 +39,6 @@ const UserInfo: React.FC = () => {
             setSuccess(null);
 
             try {
-                // You can change this payload shape to match your backend
-                // await updateProfile({
-                //     name,
-                //     avatar: avatarFile ?? undefined,
-                // });
-
                 const payload = { name: localname ?? "" } as { name: string, avatar?: string }
 
                 if (avatarFile) {
@@ -68,11 +60,11 @@ const UserInfo: React.FC = () => {
 
                 await postUpdateUserInfo(userId ?? "", payload)
                 setSuccess("Profile updated successfully.");
-            } catch (err: any) {
-                setError(err?.message ?? "Failed to update profile.");
+            } catch {
+                setError("Failed to update profile.");
             }
         },
-        [name, avatarFile, userId]
+        [avatarFile, userId, localname]
     );
 
     if (!email) {
@@ -184,7 +176,7 @@ const UserInfo: React.FC = () => {
                         // disabled={isUpdating}
                         className="px-4 py-2 text-sm font-medium rounded bg-blue-600 text-white disabled:opacity-60 disabled:cursor-not-allowed hover:bg-blue-700"
                     >
-                        {false ? "Saving..." : "Save changes"}
+                        Save changes
                     </button>
                 </div>
             </form>

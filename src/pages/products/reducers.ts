@@ -1,4 +1,3 @@
-import { PayloadAction } from "@/types"
 import { PRODUCTS_FETCH_FAILED, PRODUCTS_FETCH_REQUESTED, PRODUCTS_FETCH_SUCCEEDED, PRODUCTS_FILTERED } from "./actionTypes"
 import { STATUS } from "@/constants/api"
 import { Product, ProductPayloadAction, ProductState } from "@/types/product"

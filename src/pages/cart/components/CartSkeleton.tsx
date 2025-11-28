@@ -1,4 +1,4 @@
-import { Skeleton, Space } from "antd"
+import { Skeleton } from "antd"
 
 const CartSkeleton = () => {
     return <>

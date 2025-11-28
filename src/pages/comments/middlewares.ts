@@ -1,14 +1,13 @@
-import { all, call, debounce, delay, put, takeLatest } from 'redux-saga/effects'
+import { all, call, delay, put, takeLatest } from 'redux-saga/effects'
 
 import { SagaIterator } from 'redux-saga';
 import { notify } from '@/utils/helpers';
 import { STATUS } from '@/constants/api';
 import { PayloadAction, SignatureResponse } from '@/types';
 import { COMMENT_POST_FAILED, COMMENT_POST_SUCCEEDED, COMMENT_POSTED, COMMENTS_FETCH_FAILED, COMMENTS_FETCH_REQUESTED, COMMENTS_FETCH_SUCCEEDED } from './actionTypes';
-import { Comment, CommentPayloadAction, CommentPostPayload } from '@/types/comment';
+import { Comment, CommentPostPayload } from '@/types/comment';
 import { fetchComments, postComment } from '@/services/commentService';
 import { commentPostFailed, commentPostSucceeded, fetchCommentsFailed, fetchCommentsSucceeded } from './actions';
-import { ProductPayloadAction } from '@/types/product';
 import { postGetImageSignature, postUploadImage } from '@/services/uploadService';
 
 function* fetchCommentsSaga(action: PayloadAction<{ productId: string }>): SagaIterator {

@@ -1,9 +1,8 @@
 import { useSelector } from "react-redux"
-import { lazy, Suspense, useEffect, useRef } from "react"
+import { lazy, Suspense, useRef } from "react"
 import useUserInfo from "@/hooks/useUserInfo"
-import { Skeleton } from 'antd';
 import useCart from "@/hooks/useCart"
-import { selectCartOpen, selectCartStatus } from "./selectors"
+import { selectCartOpen } from "./selectors"
 import CartSkeleton from "./components/CartSkeleton";
 import { useLockModal } from "@/hooks/useLockModal";
 
@@ -21,7 +20,7 @@ const Cart = () => {
         throw new Error("User id is not existed")
 
     // lock scroll & manage focus
-    useLockModal(open,modalRef, onClickCloseCart)
+    useLockModal(open, modalRef, onClickCloseCart)
 
     return <div
         className={`cart-modal ${open ? "is-open" : ""}`}

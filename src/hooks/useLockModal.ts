@@ -1,6 +1,6 @@
 import { RefObject, useEffect, useRef } from "react";
 
-export const useLockModal = (open: boolean, modalRef: RefObject<HTMLDivElement | null>, onClickCloseModal: Function) => {
+export const useLockModal = (open: boolean, modalRef: RefObject<HTMLDivElement | null>, onClickCloseModal: () => void) => {
     const previouslyFocused = useRef<HTMLElement | null>(null);
 
     useEffect(() => {
@@ -29,5 +29,5 @@ export const useLockModal = (open: boolean, modalRef: RefObject<HTMLDivElement |
             document.documentElement.style.overflow = prevOverflow;
             previouslyFocused.current?.focus();
         };
-    }, [open, onClickCloseModal]);
+    }, [open, onClickCloseModal, modalRef]);
 }

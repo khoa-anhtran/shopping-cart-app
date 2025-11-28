@@ -1,5 +1,5 @@
 import { STATUS } from "@/constants/api";
-import { App, notification } from "antd";
+import { notification } from "antd";
 import axios, { AxiosError } from "axios";
 
 export function roundTo(n: number, decimals = 2): number {

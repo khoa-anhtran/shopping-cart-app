@@ -1,4 +1,3 @@
-import { AuthPayload } from "@/pages/auth/reducers";
 import { createContext } from "react";
 
 export type CartCtx = {

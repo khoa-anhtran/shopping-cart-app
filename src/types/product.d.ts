@@ -7,7 +7,8 @@ export type Product = {
 }
 
 export type ProductState = {
-    products: Record<string, Product>,
+    entities: Record<string, Product>,
+    ids: string[],
     filteredProducts: Record<string, Product>,
     // filter: {
     //     category: string

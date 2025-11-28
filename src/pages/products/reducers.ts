@@ -3,7 +3,8 @@ import { STATUS } from "@/constants/api"
 import { Product, ProductPayloadAction, ProductState } from "@/types/product"
 
 const initialState: ProductState = {
-    products: {},
+    entities: {},
+    ids: [],
     filteredProducts: {},
     // filter: {
     //     category: "all"
@@ -26,8 +27,9 @@ const productReducer = (state = initialState, action: ProductPayloadAction): Pro
 
             return {
                 ...state,
-                products: { ...state.products, ...products },
-                filteredProducts: { ...state.products, ...products },
+                entities: products,
+                ids: Object.keys(products),
+                filteredProducts: products,
                 status: STATUS.SUCCESS
             };
         }
@@ -48,13 +50,13 @@ const productReducer = (state = initialState, action: ProductPayloadAction): Pro
             if (category.toLowerCase() === "all")
                 return {
                     ...state,
-                    filteredProducts: state.products
+                    filteredProducts: state.entities
                 }
 
             return {
                 ...state,
                 filteredProducts: Object.fromEntries(
-                    Object.entries(state.products).filter(([, value]) => {
+                    Object.entries(state.entities).filter(([, value]) => {
                         return value.category.toLowerCase() === category.toLowerCase()
                     })
                 )

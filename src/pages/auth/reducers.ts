@@ -1,28 +1,9 @@
 import { PayloadAction } from "@/types";
 import { TOKEN_ADDED, TOKEN_REMOVED } from "./actionTypes";
-
-export type AuthState = {
-    token?: string
-}
-
-export type AuthResponse = {
-    accessToken: string;
-    user: {
-        id: string;
-        email: string;
-        name: string;
-        avatar?: string;
-    }
-}
-
-export type AuthPayload = {
-    email: string;
-    password: string
-}
+import { AuthPayloadAction, AuthState } from "@/types/auth";
 
 const initialState: AuthState = {}
 
-type AuthPayloadAction = PayloadAction<{ token?: string }>
 
 const authReducer = (state = initialState, action: AuthPayloadAction): AuthState => {
     switch (action.type) {

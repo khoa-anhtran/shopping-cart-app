@@ -1,4 +1,4 @@
-import { AuthPayload } from "@/pages/auth/reducers";
+import { AuthPayload, RegisterPayload } from "@/types/auth";
 import { createContext } from "react";
 
 export type UserInfoCtx = {
@@ -7,7 +7,7 @@ export type UserInfoCtx = {
     name: null | string,
     avatar: null | string | undefined,
     loginAction: (payload: AuthPayload) => Promise<void | string>,
-    registerAction: (payload: AuthPayload) => Promise<void | string>,
+    registerAction: (payload: RegisterPayload) => Promise<void | string>,
     refreshAction: () => Promise<void>
     logOut: () => Promise<void>
     MSLoginAction: () => Promise<void | string>

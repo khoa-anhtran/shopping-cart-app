@@ -1,12 +1,12 @@
-import { AuthPayload } from "@/pages/auth/reducers";
-import { getUserInfo, postGoogleLogin, postLogin, postLogout, postRefreshToken } from "@/services/authService";
+import { getUserInfo, postGoogleLogin, postLogin, postLogout, postRefreshToken, postRegister } from "@/services/authService";
 import { useState, ReactNode, useCallback } from "react";
 import { config } from "@/msal/config";
 import { useDispatch } from "react-redux";
-import { tokenAdded } from "@/pages/auth/actions";
+import { tokenAdded, tokenRemoved } from "@/pages/auth/actions";
 import { getApiToken, initAccount, msalClient } from "@/msal";
 import UserInfoContext from "@/contexts/UserInfoContext";
 import { useGoogleLogin } from "@react-oauth/google";
+import { AuthPayload, RegisterPayload } from "@/types/auth";
 
 const UserInfoProvider = ({ children }: { children: ReactNode }) => {
     const dispatch = useDispatch()
@@ -18,9 +18,9 @@ const UserInfoProvider = ({ children }: { children: ReactNode }) => {
 
     const { apiScope, scopes } = config
 
-    const registerAction = useCallback(async (authPayload: AuthPayload) => {
+    const registerAction = useCallback(async (authPayload: RegisterPayload) => {
         try {
-            const data = await postLogin(authPayload)
+            const data = await postRegister(authPayload)
 
             if (data) {
                 const { email, id, name, avatar } = data.user
@@ -114,7 +114,9 @@ const UserInfoProvider = ({ children }: { children: ReactNode }) => {
         setName(null)
         setEmail(null);
         setAvatar(null)
-    }, []);
+
+        dispatch(tokenRemoved())
+    }, [dispatch]);
 
     const refreshAction = useCallback(async () => {
         try {

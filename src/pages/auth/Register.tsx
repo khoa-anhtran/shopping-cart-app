@@ -4,9 +4,10 @@ import { useCallback, useState } from "react"
 import { Link } from "react-router-dom"
 
 export default function Register() {
-    const { registerAction, MSLoginAction } = useUserInfo()
+    const { registerAction, MSLoginAction, googleLoginAction } = useUserInfo()
 
     const [email, setEmail] = useState("")
+    const [name, setName] = useState("")
     const [password, setPassword] = useState("")
     const [error, setError] = useState<string | null>(null)
     const [submitting, setSubmitting] = useState(false);
@@ -16,14 +17,14 @@ export default function Register() {
         setError(null);
         setSubmitting(true);
         try {
-            const err = await registerAction({ email, password });
+            const err = await registerAction({ email, password, name });
             if (err) setError(err);
         } catch (e) {
             setError(e instanceof Error ? e.message : "Unexpected error");
         } finally {
             setSubmitting(false);
         }
-    }, [email, password, registerAction]);
+    }, [email, password, name, registerAction]);
 
     const onMsLogin = useCallback(async (e: React.MouseEvent) => {
         e.preventDefault();
@@ -46,6 +47,14 @@ export default function Register() {
                 <h1 className="text-2xl font-bold mb-4">Register Form</h1>
 
                 <form onSubmit={onRegister} className="space-y-2">
+                    <div className="flex flex-col gap-2">
+                        <label htmlFor="name" className="text-gray-500 text-base">Name</label>
+                        <input type="name" id="name" className="px-2 py-1 rounded-xl border"
+                            value={name}
+                            onChange={(e) => setName(e.target.value)}
+                        />
+                    </div>
+
                     <div className="flex flex-col gap-2">
                         <label htmlFor="email" className="text-gray-500 text-base">Email</label>
                         <input type="email" id="email" className="px-2 py-1 rounded-xl border"
@@ -81,7 +90,7 @@ export default function Register() {
                 <div className="text-center my-3"><b>OR</b></div>
 
                 <div className="flex flex-col items-center gap-4">
-                    <button className="flex px-4 py-2 bg-white rounded-xl gap-4 w-full md:w-[70%] items-center hover:opacity-60 cursor-pointer">
+                    <button onClick={googleLoginAction} className="flex px-4 py-2 bg-white rounded-xl gap-4 w-full md:w-[70%] items-center hover:opacity-60 cursor-pointer">
                         <span className="w-8 h-8">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
                                 <path d="M564 325.8C564 467.3 467.1 568 324 568C186.8 568 76 457.2 76 320C76 182.8 186.8 72 324 72C390.8 72 447 96.5 490.3 136.9L422.8 201.8C334.5 116.6 170.3 180.6 170.3 320C170.3 406.5 239.4 476.6 324 476.6C422.2 476.6 459 406.2 464.8 369.7L324 369.7L324 284.4L560.1 284.4C562.4 297.1 564 309.3 564 325.8z" />

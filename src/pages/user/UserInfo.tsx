@@ -57,7 +57,7 @@ const UserInfo: React.FC = () => {
 
                     payload.avatar = urlObject.url
                 }
-
+                
                 await postUpdateUserInfo(userId ?? "", payload)
                 setSuccess("Profile updated successfully.");
             } catch {

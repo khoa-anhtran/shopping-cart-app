@@ -6,6 +6,8 @@ import { useDispatch } from "react-redux";
 import { tokenAdded } from "@/pages/auth/actions";
 import { getApiToken, initAccount, msalClient } from "@/msal";
 import UserInfoContext from "@/contexts/UserInfoContext";
+import { CredentialResponse, useGoogleLogin } from "@react-oauth/google";
+import axios from "axios";
 
 const UserInfoProvider = ({ children }: { children: ReactNode }) => {
     const dispatch = useDispatch()
@@ -81,6 +83,75 @@ const UserInfoProvider = ({ children }: { children: ReactNode }) => {
         }
     }, [dispatch, apiScope, scopes])
 
+    const googleLoginAction = useGoogleLogin({
+        onSuccess: async ({ code }) => {
+
+            const auth = await axios.post('http://localhost:4000/auth/google', {
+                code
+            });
+
+            const { accessToken, user } = auth.data as {
+                accessToken: string,
+                user: { email: string, userId: string, name: string, avatar: string }
+            }
+
+            const { avatar, email, name, userId } = user
+
+            setUserId(userId);
+            setName(name)
+            setEmail(email)
+            setAvatar(avatar)
+            dispatch(tokenAdded(accessToken))
+
+            // const res = await axios.get(
+            //     'https://www.googleapis.com/oauth2/v3/userinfo',
+            //     { headers: { Authorization: `Bearer ${access_token}` } },
+            // );
+
+            // if (res.data) {
+            //     const auth = await axios.post('http://localhost:4000/auth/google', {
+            //         userInfo: res.data,
+            //     });
+
+            //     const { accessToken, user } = auth.data as {
+            //         accessToken: string,
+            //         user: { email: string, userId: string, name: string, avatar: string }
+            //     }
+
+            //     const { avatar, email, name, userId } = user
+
+            //     setUserId(userId);
+            //     setName(name)
+            //     setEmail(email)
+            //     setAvatar(avatar)
+            //     dispatch(tokenAdded(accessToken))
+            // }
+        },
+        onError: (e) => {
+            console.log(e);
+        },
+        flow: "auth-code"
+    });
+
+    // const googleLoginAction = useCallback(async (idToken: string) => {
+    //     const auth = await axios.post('http://localhost:4000/auth/google', {
+    //         idToken,
+    //     });
+
+    //     const { accessToken, user } = auth.data as {
+    //         accessToken: string,
+    //         user: { email: string, userId: string, name: string, avatar: string }
+    //     }
+
+    //     const { avatar, email, name, userId } = user
+
+    //     setUserId(userId);
+    //     setName(name)
+    //     setEmail(email)
+    //     setAvatar(avatar)
+    //     dispatch(tokenAdded(accessToken))
+    // }, [])
+
     const logOut = useCallback(async () => {
         const account = msalClient.getActiveAccount();
 
@@ -94,6 +165,7 @@ const UserInfoProvider = ({ children }: { children: ReactNode }) => {
         setUserId(null);
         setName(null)
         setEmail(null);
+        setAvatar(null)
     }, []);
 
     const refreshAction = useCallback(async () => {
@@ -124,8 +196,6 @@ const UserInfoProvider = ({ children }: { children: ReactNode }) => {
                     setName(name)
                     dispatch(tokenAdded(accessToken))
                 }
-
-
             }
             else {
                 const error = err instanceof Error ? err.message : String(err);
@@ -135,7 +205,7 @@ const UserInfoProvider = ({ children }: { children: ReactNode }) => {
     }, [dispatch, apiScope])
 
     return (
-        <UserInfoContext value={{ userId, name, email, avatar, loginAction, registerAction, refreshAction, logOut, MSLoginAction }}>
+        <UserInfoContext value={{ userId, name, email, avatar, loginAction, registerAction, refreshAction, logOut, MSLoginAction, googleLoginAction }}>
             {children}
         </UserInfoContext>
     );

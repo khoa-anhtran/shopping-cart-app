@@ -1,10 +1,12 @@
 import { ROUTES } from "@/constants/routes"
 import useUserInfo from "@/hooks/useUserInfo"
+import { CredentialResponse, GoogleLogin, useGoogleLogin } from "@react-oauth/google"
+import axios from "axios"
 import { useCallback, useState } from "react"
 import { Link } from "react-router-dom"
 
 export default function Login() {
-    const { loginAction, MSLoginAction } = useUserInfo()
+    const { loginAction, MSLoginAction, googleLoginAction } = useUserInfo()
 
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
@@ -80,7 +82,7 @@ export default function Login() {
                 <div className="text-center my-3"><b>OR</b></div>
 
                 <div className="flex flex-col items-center gap-4">
-                    <button className="flex px-4 py-2 bg-white rounded-xl gap-4 w-full md:w-[70%] items-center hover:opacity-60 cursor-pointer">
+                    <button onClick={googleLoginAction} className="flex px-4 py-2 bg-white rounded-xl gap-4 w-full md:w-[70%] items-center hover:opacity-60 cursor-pointer">
                         <span className="w-8 h-8">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
                                 <path d="M564 325.8C564 467.3 467.1 568 324 568C186.8 568 76 457.2 76 320C76 182.8 186.8 72 324 72C390.8 72 447 96.5 490.3 136.9L422.8 201.8C334.5 116.6 170.3 180.6 170.3 320C170.3 406.5 239.4 476.6 324 476.6C422.2 476.6 459 406.2 464.8 369.7L324 369.7L324 284.4L560.1 284.4C562.4 297.1 564 309.3 564 325.8z" />
@@ -97,6 +99,20 @@ export default function Login() {
                         </span>
                         <span>Continue with Microsoft</span>
                     </button>
+
+                    {/* <div className="px-4 py-2 w-full md:w-[70%]">
+                        <GoogleLogin
+                            locale="en_US"
+                            onSuccess={({ credential }) => {
+                                console.log(credential)
+                                if (credential) googleLoginAction(credential)
+                            }}
+                            onError={() => {
+                                console.log("Google login failed");
+                            }}
+                        />
+                    </div> */}
+
                 </div>
             </div>
         </div >

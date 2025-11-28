@@ -8,7 +8,7 @@ import axios, { AxiosError } from "axios";
 import { postRefreshToken } from "./authService";
 
 const api = axios.create({
-    baseURL: "http://localhost:4000",
+    baseURL: import.meta.env.VITE_API_BASE_URL,
     timeout: 10_000,
     withCredentials: true,
 });

@@ -1,10 +1,10 @@
-import { AuthPayload, AuthResponse } from "@/pages/auth/reducers"
 import api from "./api"
 import { isAxiosError } from "axios"
 import { notify } from "@/utils/helpers";
 import { STATUS } from "@/constants/api";
 import store from "@/store/store";
 import { tokenAdded, tokenRemoved } from "@/pages/auth/actions";
+import { AuthPayload, AuthResponse } from "@/types/auth";
 
 export const postRefreshToken = async () => {
     try {

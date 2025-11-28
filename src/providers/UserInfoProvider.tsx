@@ -1,5 +1,5 @@
 import { AuthPayload } from "@/pages/auth/reducers";
-import { getUserInfo, postLogin, postLogout, postRefreshToken } from "@/services/authService";
+import { getUserInfo, postGoogleLogin, postLogin, postLogout, postRefreshToken } from "@/services/authService";
 import { useState, ReactNode, useCallback } from "react";
 import { config } from "@/msal/config";
 import { useDispatch } from "react-redux";
@@ -86,71 +86,21 @@ const UserInfoProvider = ({ children }: { children: ReactNode }) => {
     const googleLoginAction = useGoogleLogin({
         onSuccess: async ({ code }) => {
 
-            const auth = await axios.post('http://localhost:4000/auth/google', {
-                code
-            });
+            const { accessToken, user } = await postGoogleLogin(code)
 
-            const { accessToken, user } = auth.data as {
-                accessToken: string,
-                user: { email: string, userId: string, name: string, avatar: string }
-            }
+            const { avatar, email, name, id } = user
 
-            const { avatar, email, name, userId } = user
-
-            setUserId(userId);
+            setUserId(id);
             setName(name)
             setEmail(email)
             setAvatar(avatar)
             dispatch(tokenAdded(accessToken))
-
-            // const res = await axios.get(
-            //     'https://www.googleapis.com/oauth2/v3/userinfo',
-            //     { headers: { Authorization: `Bearer ${access_token}` } },
-            // );
-
-            // if (res.data) {
-            //     const auth = await axios.post('http://localhost:4000/auth/google', {
-            //         userInfo: res.data,
-            //     });
-
-            //     const { accessToken, user } = auth.data as {
-            //         accessToken: string,
-            //         user: { email: string, userId: string, name: string, avatar: string }
-            //     }
-
-            //     const { avatar, email, name, userId } = user
-
-            //     setUserId(userId);
-            //     setName(name)
-            //     setEmail(email)
-            //     setAvatar(avatar)
-            //     dispatch(tokenAdded(accessToken))
-            // }
         },
         onError: (e) => {
             console.log(e);
         },
         flow: "auth-code"
     });
-
-    // const googleLoginAction = useCallback(async (idToken: string) => {
-    //     const auth = await axios.post('http://localhost:4000/auth/google', {
-    //         idToken,
-    //     });
-
-    //     const { accessToken, user } = auth.data as {
-    //         accessToken: string,
-    //         user: { email: string, userId: string, name: string, avatar: string }
-    //     }
-
-    //     const { avatar, email, name, userId } = user
-
-    //     setUserId(userId);
-    //     setName(name)
-    //     setEmail(email)
-    //     setAvatar(avatar)
-    //     dispatch(tokenAdded(accessToken))
-    // }, [])
 
     const logOut = useCallback(async () => {
         const account = msalClient.getActiveAccount();

@@ -43,6 +43,14 @@ export const postLogin = async (authPayload: AuthPayload) => {
     }
 }
 
+export const postGoogleLogin = async (code: string): Promise<AuthResponse> => {
+    const res = await api.post('/auth/google', {
+        code
+    });
+
+    return res.data
+}
+
 export const postRegister = async (authPayload: AuthPayload) => {
     try {
         const res = await api.post<AuthResponse>("/auth/register", authPayload);

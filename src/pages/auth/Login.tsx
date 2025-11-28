@@ -100,19 +100,6 @@ export default function Login() {
                         <span>Continue with Microsoft</span>
                     </button>
 
-                    {/* <div className="px-4 py-2 w-full md:w-[70%]">
-                        <GoogleLogin
-                            locale="en_US"
-                            onSuccess={({ credential }) => {
-                                console.log(credential)
-                                if (credential) googleLoginAction(credential)
-                            }}
-                            onError={() => {
-                                console.log("Google login failed");
-                            }}
-                        />
-                    </div> */}
-
                 </div>
             </div>
         </div >

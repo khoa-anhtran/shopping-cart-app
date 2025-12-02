@@ -23,9 +23,11 @@ const MainLayout = () => {
         }
     }}>
         <AntdApp>
-            <Header></Header>
             <ErrorBoundary FallbackComponent={ErrorFallback}>
-                <Outlet />
+                <div className="min-h-screen">
+                    <Header></Header>
+                    <Outlet />
+                </div>
             </ErrorBoundary>
         </AntdApp>
     </ConfigProvider >

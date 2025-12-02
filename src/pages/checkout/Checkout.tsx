@@ -88,7 +88,7 @@ const Checkout = () => {
                 {/* Content */}
                 <div className="mt-6">
                     {current === 0 && (
-                        <ShippingAddress />
+                        <ShippingAddress goNext={goNext} goPrev={goPrev} current={current} />
                     )}
 
                     {current === 1 && (
@@ -105,7 +105,7 @@ const Checkout = () => {
                 </div>
 
                 {/* Footer buttons */}
-                {!isCompleted && (
+                {![0, 3].includes(current) && (
                     <div className="mt-8 flex justify-between">
                         <Button
                             type="link"

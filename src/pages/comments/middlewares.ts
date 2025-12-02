@@ -76,7 +76,6 @@ function* uploadImageSaga(sigRes: SignatureResponse, file: File): SagaIterator {
 
 function* commentsSaga() {
     yield takeLatest(COMMENTS_FETCH_REQUESTED, fetchCommentsSaga)
-    yield takeLatest(COMMENTS_FETCH_SUCCEEDED, () => notify({ message: "Fetch comments successfully", status: STATUS.SUCCESS }))
     yield takeLatest(COMMENTS_FETCH_FAILED,
         (action: PayloadAction<{ message: string }>) => notify({ message: action.payload?.message, status: STATUS.FAIL, duration: 3 })
     )

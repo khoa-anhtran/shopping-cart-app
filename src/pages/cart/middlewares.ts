@@ -37,13 +37,9 @@ function* putCartSaga(action: PayloadAction<{ userId: number }>): SagaIterator {
 function* cartSaga() {
     yield takeLatest(CART_FETCH_REQUESTED, fetchCartSaga)
     yield debounce(600, [QUANTITY_INCREASED, QUANTITY_DECREASED, ITEM_ADDED, ITEMS_REMOVED, CHECKED_OUT], putCartSaga)
-
-    yield takeEvery(CART_FETCH_SUCCEEDED, () => {
-        notify({ status: STATUS.SUCCESS, message: "Fetch cart successfully" })
-    })
-    yield takeEvery(CART_SYNC_SUCCEEDED, () => {
-        notify({ status: STATUS.SUCCESS, message: "Sync cart successfully" })
-    })
+    // yield takeEvery(CART_SYNC_SUCCEEDED, () => {
+    //     notify({ status: STATUS.SUCCESS, message: "Sync cart successfully" })
+    // })
     yield takeEvery(ITEM_ADDED, () => { notify({ status: STATUS.SUCCESS, message: 'Add item successfully' }) })
     yield takeEvery(ITEMS_REMOVED, () => { notify({ status: STATUS.SUCCESS, message: 'Remove successfully' }) })
     yield takeEvery(CHECKED_OUT, () => { notify({ status: STATUS.SUCCESS, message: 'Check out successfully' }) })

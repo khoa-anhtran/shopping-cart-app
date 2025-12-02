@@ -22,7 +22,6 @@ function* fetchProductsSaga(): SagaIterator {
 
 function* productsSaga() {
     yield takeLatest(PRODUCTS_FETCH_REQUESTED, fetchProductsSaga)
-    yield takeLatest(PRODUCTS_FETCH_SUCCEEDED, () => notify({ message: "Fetch products successfully", status: STATUS.SUCCESS }))
     yield takeLatest(PRODUCTS_FETCH_FAILED,
         (action: PayloadAction<{ message: string }>) => notify({ message: action.payload?.message, status: STATUS.FAIL, duration: 3 })
     )

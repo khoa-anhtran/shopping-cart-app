@@ -12,7 +12,6 @@ export const postRefreshToken = async () => {
             { headers: { "x-retried": "1" } });
 
         if (res.status === 201) {
-            notify({ status: STATUS.SUCCESS, message: "Refresh successfully" })
             store.dispatch(tokenAdded(res.data.accessToken))
             return res.data;
         }
@@ -30,7 +29,6 @@ export const postLogin = async (authPayload: AuthPayload) => {
         const res = await api.post<AuthResponse>("/auth/login", authPayload);
 
         if (res?.status === 201) {
-            notify({ status: STATUS.SUCCESS, message: "Login successfully" })
             store.dispatch(tokenAdded(res.data.accessToken))
             return res.data;
         }
@@ -56,7 +54,6 @@ export const postRegister = async (authPayload: AuthPayload) => {
         const res = await api.post<AuthResponse>("/auth/register", authPayload);
 
         if (res.status === 201) {
-            notify({ status: STATUS.SUCCESS, message: "Register successfully" })
             store.dispatch(tokenAdded(res.data.accessToken))
             return res.data;
         }
@@ -73,7 +70,6 @@ export const postLogout = async () => {
         const res = await api.post<AuthResponse>("/auth/logout");
 
         if (res.status === 204) {
-            notify({ status: STATUS.SUCCESS, message: "Logout successfully" })
             store.dispatch(tokenRemoved())
             return true;
         }

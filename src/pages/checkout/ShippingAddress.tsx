@@ -2,11 +2,6 @@ import { Button, Checkbox, Input, Select } from "antd";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller, useForm } from "react-hook-form";
-import { useSelector } from "react-redux";
-import { selectProvinces } from "../selectors";
-import { useEffect } from "react";
-import { useDispatch } from "react-redux";
-import { fetchProvincesRequested } from "../actions";
 
 const schema = z.object({
     firstName: z.string("First name should be string").min(1, "First name should not empty").regex(/^[\p{L}\s]+$/u, "Only letters and spaces are allowed"),
@@ -42,15 +37,6 @@ const ShippingAddress = ({ current, goNext, goPrev }: ShippingAdressProps) => {
     const onSubmit = (data: FormValues) => {
         console.log(data);
     };
-
-    const dispatch = useDispatch()
-
-    const provinces = useSelector(selectProvinces)
-
-    useEffect(() => {
-        if (provinces.length === 0)
-            dispatch(fetchProvincesRequested())
-    }, [])
 
     return (
         <form className="space-y-5" onSubmit={handleSubmit(onSubmit)}>
@@ -126,8 +112,11 @@ const ShippingAddress = ({ current, goNext, goPrev }: ShippingAdressProps) => {
                                 value={field.value || undefined}
                                 onChange={(value) => field.onChange(value)}
                                 placeholder="Select a province"
-                                options={provinces.map(province => ({ value: province.name, label: province.name }))}
-
+                                options={[
+                                    { value: "1", label: "Jack" },
+                                    { value: "2", label: "Lucy" },
+                                    { value: "3", label: "Tom" },
+                                ]}
                             />
                         )}
                     />
@@ -150,7 +139,11 @@ const ShippingAddress = ({ current, goNext, goPrev }: ShippingAdressProps) => {
                                 value={field.value || undefined}
                                 onChange={(value) => field.onChange(value)}
                                 placeholder="Select a commune"
-                                options={provinces.map(province => ({ value: province.name, label: province.name }))}
+                                options={[
+                                    { value: "1", label: "Jack" },
+                                    { value: "2", label: "Lucy" },
+                                    { value: "3", label: "Tom" },
+                                ]}
                             />
                         )}
                     />

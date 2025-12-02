@@ -1,5 +1,6 @@
 import authReducer from "@/pages/auth/reducers";
 import cartReducer from "@/pages/cart/reducers";
+import PaymentReducer from "@/pages/checkout/reducers";
 import commentReducer from "@/pages/comments/reducers";
 import uiReducer from "@/pages/layout/ui/uiReducer";
 import productReducer from "@/pages/products/reducers";
@@ -10,7 +11,8 @@ const rootReducer = combineReducers({
     comments: commentReducer,
     cart: cartReducer,
     auth: authReducer,
-    ui: uiReducer
+    ui: uiReducer,
+    payment: PaymentReducer
 });
 
 export default rootReducer;

@@ -1,0 +1,9 @@
+import { RootState } from "@/store/store";
+
+export const selectCommentsStatus = (state: RootState) => state.comments.status;
+
+export const selectCommentsError = (state: RootState) => state.comments.error;
+
+export const selectProvinces = (state: RootState) => state.payment.provinces;
+
+

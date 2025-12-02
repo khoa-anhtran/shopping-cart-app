@@ -1,5 +1,6 @@
 import { ImageWithPreview } from "@/components/ImageWithPreview";
 import { Product } from "@/types/product";
+import { formatVnd } from "@/utils/helpers";
 
 type ProductCardProps = {
     product: Product,
@@ -20,7 +21,7 @@ export default function ProductCard({ product, onAddToCart, onOpenPDsModal }: Pr
         <div className="px-4 py-2 space-y-4">
             <h3 className="font-semibold md:text-xl">{product.title}</h3>
             <div className="md:text-xl font-bold">
-                {product.price}<span> $</span>
+                {formatVnd(product.price)}
             </div>
         </div>
 

@@ -1,5 +1,5 @@
 import useCart from "@/hooks/useCart"
-import { roundTo } from "@/utils/helpers"
+import { formatVnd, roundTo } from "@/utils/helpers"
 
 type CartFooterProps = {
     hasSelectedItem: boolean
@@ -18,9 +18,8 @@ const CartFooter = ({ hasSelectedItem }: CartFooterProps) => {
                 role="status"
                 aria-live="polite"
                 aria-label="total values">
-                {roundTo(totalValues, 2).toLocaleString()}
+                {formatVnd(totalValues)}
             </span>
-            <span className="font-bold"> $</span>
         </div>
         <button
             className="bg-gray-300 px-2 py-1 rounded-md cursor-pointer hover:bg-gray-200

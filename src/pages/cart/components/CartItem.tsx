@@ -1,5 +1,6 @@
 import { ImageWithPreview } from "@/components/ImageWithPreview";
 import { Product } from "@/types/product";
+import { formatVnd } from "@/utils/helpers";
 import React from "react";
 
 type CartItemProps = {
@@ -22,19 +23,11 @@ const CartItem = ({ product, onDecrease, onIncrease, onRemoveCartItem, quantity,
 
         <ImageWithPreview src={product?.thumbnail} alt={product.title} className="md:w-24 md:h-24 w-18 h-18" />
 
-        {/* <div className="md:w-24 md:h-24 w-18 h-18">
-            <img
-                src={product?.thumbnail} alt={product.title}
-                className="max-w-[90%] max-h-[90%] object-contain"
-            />
-
-        </div> */}
-
         <div className="flex flex-1 md:items-center gap-4 flex-col md:flex-row">
             <div className="flex-1 space-y-2">
                 <h3 className="font-semibold">{product.title}</h3>
                 <div className="font-extrabold">
-                    {product?.price}<span> $</span>
+                    {formatVnd(product?.price)}
                 </div>
             </div>
 

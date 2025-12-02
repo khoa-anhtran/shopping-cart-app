@@ -7,9 +7,11 @@ import useUserInfo from "@/hooks/useUserInfo";
 import { selectCart, selectCartStatus } from "@/pages/cart/selectors";
 import { selectProducts } from "@/pages/products/selectors";
 import { STATUS } from "@/constants/api";
+import { useNavigate } from "react-router-dom";
 
 const CartProvider = ({ children }: { children: ReactNode }) => {
     const dispatch = useDispatch()
+    const navigate = useNavigate()
 
     const { userId } = useUserInfo()
 
@@ -86,7 +88,11 @@ const CartProvider = ({ children }: { children: ReactNode }) => {
 
     const onCheckout = useCallback(async () => {
         Modal.confirm({
-            title: "Confirm Checkout", content: 'This cannot be undone.', onOk: () => dispatch(checkedOut(selectedItems, userId))
+            title: "Confirm Checkout",
+            content: 'This cannot be undone.',
+            onOk: () => {
+                navigate("/checkout")
+            }
         })
     }, [dispatch, selectedItems, userId])
 

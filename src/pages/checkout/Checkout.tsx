@@ -1,15 +1,24 @@
-import React, { useState } from "react";
-import { Steps, Tabs, Input, Checkbox, Button } from "antd";
+import { useState } from "react";
+import { Steps, Button } from "antd";
 import ShippingAddress from "./components/ShippingAddress";
 import PaymentDetails from "./components/PaymentDetails";
 import OrderReview from "./components/OrderReview";
 import CheckoutComplete from "./components/CheckoutComplete";
+import { useSelector } from "react-redux";
+import useCart from "@/hooks/useCart";
+import { formatVnd } from "@/utils/helpers";
+import { selectProducts } from "../products/selectors";
+import { selectCart } from "../cart/selectors";
 
 const { Step } = Steps;
-const { TabPane } = Tabs;
 
 const Checkout = () => {
     const [current, setCurrent] = useState(0);
+
+    const products = useSelector(selectProducts)
+    const items = useSelector(selectCart)
+
+    const { totalValues, selectedItems } = useCart()
 
     const goNext = () => setCurrent((c) => Math.min(c + 1, 3));
     const goPrev = () => setCurrent((c) => Math.max(c - 1, 0));
@@ -27,47 +36,19 @@ const Checkout = () => {
 
                 <div className="flex flex-col justify-between items-baseline mb-6">
                     <span className="text-sm text-slate-400">Total</span>
-                    <span className="text-2xl font-semibold">$144.97</span>
+                    <span className="text-2xl font-semibold">{formatVnd(totalValues)}</span>
                 </div>
 
                 <dl className="space-y-4 px-4">
-                    <div className="flex justify-between">
+                    {selectedItems.map(itemId => (<div className="flex justify-between">
                         <div>
-                            <dt className="font-medium">Professional plan</dt>
+                            <dt className="font-medium">{products[itemId].title} <span>x{items.find(item => item.itemId === itemId)?.quantity}</span></dt>
                             <dd className="text-slate-400 text-xs">
-                                Monthly subscription
+                                {products[itemId].title}
                             </dd>
                         </div>
-                        <span>$15.00</span>
-                    </div>
-
-                    <div className="flex justify-between">
-                        <div>
-                            <dt className="font-medium">Dedicated support</dt>
-                            <dd className="text-slate-400 text-xs">
-                                Included in the Professional plan
-                            </dd>
-                        </div>
-                        <span>Free</span>
-                    </div>
-
-                    <div className="flex justify-between">
-                        <div>
-                            <dt className="font-medium">Hardware</dt>
-                            <dd className="text-slate-400 text-xs">
-                                Devices needed for development
-                            </dd>
-                        </div>
-                        <span>$69.99</span>
-                    </div>
-
-                    <div className="flex justify-between">
-                        <div>
-                            <dt className="font-medium">Landing page template</dt>
-                            <dd className="text-slate-400 text-xs">License</dd>
-                        </div>
-                        <span>$49.99</span>
-                    </div>
+                        <span>{formatVnd(products[itemId].price)}</span>
+                    </div>))}
                 </dl>
             </aside>
 

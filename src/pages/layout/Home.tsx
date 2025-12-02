@@ -10,9 +10,7 @@ const Home = () => {
     return <>
         <Products />
         <ProductDetailsModal />
-        <CartProvider>
-            <Cart />
-        </CartProvider>
+        <Cart />
     </>
 }
 

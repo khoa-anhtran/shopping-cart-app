@@ -4,6 +4,7 @@ import { App as AntdApp, ConfigProvider } from 'antd'
 import { ErrorBoundary } from "react-error-boundary"
 import ErrorFallback from "./ErrorFallback"
 import { lazy } from "react"
+import CartProvider from "@/providers/CartProvider"
 const Header = lazy(() => import('../layout/Header'))
 
 
@@ -25,8 +26,10 @@ const MainLayout = () => {
         <AntdApp>
             <ErrorBoundary FallbackComponent={ErrorFallback}>
                 <div className="min-h-screen">
-                    <Header></Header>
-                    <Outlet />
+                    <CartProvider>
+                        <Header></Header>
+                        <Outlet />
+                    </CartProvider>
                 </div>
             </ErrorBoundary>
         </AntdApp>

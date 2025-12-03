@@ -18,5 +18,6 @@ export const ORDER_PLACE_FAILED = 'payment/orderPlaceFailed'
 
 export const ORDER_PLACE_SUCCEEDED = 'payment/orderPlaceSucceeded'
 
+export const NEXT_STEP = 'payment/nextStep'
 
-
+export const PREV_STEP = 'payment/prevStep'

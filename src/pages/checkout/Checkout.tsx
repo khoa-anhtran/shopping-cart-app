@@ -9,34 +9,34 @@ import useCart from "@/hooks/useCart";
 import { formatVnd } from "@/utils/helpers";
 import { selectProducts } from "../products/selectors";
 import { selectCart } from "../cart/selectors";
-import { selectPaymentInfo, selectShippingAddress } from "./selectors";
+import { selectCurrentStep, selectPaymentInfo, selectShippingAddress } from "./selectors";
 import { useDispatch } from "react-redux";
-import { placeOrder } from "./actions";
+import { nextStep, placeOrder, prevStep } from "./actions";
 
 const { Step } = Steps;
 
 const Checkout = () => {
-    const [current, setCurrent] = useState(0);
-
     const dispatch = useDispatch()
 
     const products = useSelector(selectProducts)
     const items = useSelector(selectCart)
-
     const shippingAddress = useSelector(selectShippingAddress)
     const paymentInfo = useSelector(selectPaymentInfo)
+    const currentStep = useSelector(selectCurrentStep)
 
     const { totalValues, selectedItems } = useCart()
-
-    const goNext = () => setCurrent((c) => Math.min(c + 1, 3));
-    const goPrev = () => setCurrent((c) => Math.max(c - 1, 0));
-
-    const isReview = current === 2;
-    const isCompleted = current === 3;
 
     const onPlaceOrder = useCallback(() => {
         dispatch(placeOrder({ items, paymentInfo, shippingAddress, total: totalValues, isSaved: shippingAddress.isSaved }))
     }, [items, paymentInfo, shippingAddress, totalValues, dispatch])
+
+    const goPrev = useCallback(() => {
+        dispatch(prevStep())
+    }, [dispatch])
+
+    const goNext = useCallback(() => {
+        dispatch(nextStep())
+    }, [dispatch])
 
     return (
         <div className="h-[95vh] flex py-4 px-4 bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-50 transition-colors">
@@ -68,7 +68,7 @@ const Checkout = () => {
             <section className="dark:bg-slate-900 px-4 py-6 lg:px-8 lg:py-8 flex-1">
                 {/* Steps header */}
                 <Steps
-                    current={current}
+                    current={currentStep}
                     size="small"
                     className="mb-6 [&_.ant-steps-item-title]:text-xs lg:[&_.ant-steps-item-title]:text-sm"
                 >
@@ -80,42 +80,42 @@ const Checkout = () => {
 
                 {/* Content */}
                 <div className="mt-6">
-                    {current === 0 && (
-                        <ShippingAddress goNext={goNext} goPrev={goPrev} current={current} />
+                    {currentStep === 0 && (
+                        <ShippingAddress goPrev={goPrev} goNext={goNext} />
                     )}
 
-                    {current === 1 && (
+                    {currentStep === 1 && (
                         <PaymentDetails />
                     )}
 
-                    {isReview && (
+                    {currentStep === 2 && (
                         <OrderReview />
                     )}
 
-                    {isCompleted && (
+                    {currentStep === 3 && (
                         <CheckoutComplete />
                     )}
                 </div>
 
                 {/* Footer buttons */}
-                {![0, 3].includes(current) && (
+                {![0, 3].includes(currentStep) && (
                     <div className="mt-8 flex justify-between">
                         <Button
                             type="link"
                             className="text-slate-300 px-0"
-                            disabled={current === 0}
+                            disabled={currentStep === 0}
                             onClick={goPrev}
                         >
                             Previous
                         </Button>
 
                         <Button type="primary" onClick={async () => {
-                            if (current === 2)
+                            if (currentStep === 2)
                                 onPlaceOrder()
                             else
                                 goNext()
                         }}>
-                            {isReview ? "Place order" : "Next"}
+                            {currentStep === 2 ? "Place order" : "Next"}
                         </Button>
                     </div>
                 )}

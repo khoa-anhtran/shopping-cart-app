@@ -3,7 +3,7 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller, useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
-import { selectCommunes, selectProvinces, selectShippingAddress } from "../selectors";
+import { selectCommunes, selectCurrentStep, selectProvinces, selectShippingAddress } from "../selectors";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { fetchCommunesRequested, fetchProvincesRequested, shippingAddressSubmited } from "../actions";
@@ -22,11 +22,11 @@ export const shippingAddressSchema = z.object({
 type ShippingAdressProps = {
     goPrev: () => void,
     goNext: () => void,
-    current: number
 }
 
-const ShippingAddress = ({ current, goNext, goPrev }: ShippingAdressProps) => {
+const ShippingAddress = ({ goNext, goPrev }: ShippingAdressProps) => {
     const shippingAddress = useSelector(selectShippingAddress)
+    const current = useSelector(selectCurrentStep)
 
     const {
         register,

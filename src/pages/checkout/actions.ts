@@ -1,4 +1,4 @@
-import { COMMUNES_FETCH_FAILED, COMMUNES_FETCH_REQUESTED, COMMUNES_FETCH_SUCCEEDED, ORDER_PLACE_FAILED, ORDER_PLACE_SUCCEEDED, ORDER_PLACED, PROVINCES_FETCH_FAILED, PROVINCES_FETCH_REQUESTED, PROVINCES_FETCH_SUCCEEDED, SHIPPING_ADDRESS_SUBMITED } from "./actionTypes";
+import { COMMUNES_FETCH_FAILED, COMMUNES_FETCH_REQUESTED, COMMUNES_FETCH_SUCCEEDED, NEXT_STEP, ORDER_PLACE_FAILED, ORDER_PLACE_SUCCEEDED, ORDER_PLACED, PREV_STEP, PROVINCES_FETCH_FAILED, PROVINCES_FETCH_REQUESTED, PROVINCES_FETCH_SUCCEEDED, SHIPPING_ADDRESS_SUBMITED } from "./actionTypes";
 import { Commune, PlaceOrderPayload, Province, ShippingAddressType } from "@/types/checkout";
 
 export const fetchProvincesRequested = () => ({
@@ -63,4 +63,12 @@ export const placeOrderFailed = (message: string) => ({
     payload: {
         message
     }
-}) 
+})
+
+export const nextStep = () => ({
+    type: NEXT_STEP
+})
+
+export const prevStep = () => ({
+    type: PREV_STEP
+})

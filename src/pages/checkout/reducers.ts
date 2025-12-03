@@ -12,7 +12,7 @@ const initialState: CheckoutState = {
         addressLine: "",
         isSaved: false
     },
-    paymentStatus: {
+    paymentInfo: {
         isPaid: false,
         type: PAYMENT_TYPE.CASH
     },

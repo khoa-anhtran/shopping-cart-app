@@ -23,7 +23,7 @@ export type CheckoutState = {
     provinces: Province[],
     communes: Commune[],
     shippingAddress: ShippingAddressType,
-    paymentStatus: {
+    paymentInfo: {
         type: string,
         isPaid: boolean
     }

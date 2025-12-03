@@ -10,6 +10,6 @@ export const selectCommunes = (state: RootState) => state.payment.communes;
 
 export const selectShippingAddress = (state: RootState) => state.payment.shippingAddress;
 
-export const selectPaymentStatus = (state: RootState) => state.payment.paymentStatus;
+export const selectPaymentInfo = (state: RootState) => state.payment.paymentInfo;
 
 

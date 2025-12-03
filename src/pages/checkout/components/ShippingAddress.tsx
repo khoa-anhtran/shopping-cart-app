@@ -3,12 +3,13 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller, useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
-import { selectCommunes, selectProvinces } from "../selectors";
+import { selectCommunes, selectProvinces, selectShippingAddress } from "../selectors";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { fetchCommunesRequested, fetchProvincesRequested } from "../actions";
+import { fetchCommunesRequested, fetchProvincesRequested, shippingAddressSubmited } from "../actions";
+import type { ShippingAddressType } from "@/types/checkout";
 
-const schema = z.object({
+export const shippingAddressSchema = z.object({
     firstName: z.string("First name should be string").min(1, "First name should not empty").regex(/^[\p{L}\s]+$/u, "Only letters and spaces are allowed"),
     lastName: z.string("Last name should be string").min(1, "Last name should not empty").regex(/^[\p{L}\s]+$/u, "Only letters and spaces are allowed"),
     addressLine: z.string("Address line should be string").min(1, "Address line should not empty"),
@@ -18,8 +19,6 @@ const schema = z.object({
     isSaved: z.boolean(),
 });
 
-type FormValues = z.infer<typeof schema>;
-
 type ShippingAdressProps = {
     goPrev: () => void,
     goNext: () => void,
@@ -27,6 +26,8 @@ type ShippingAdressProps = {
 }
 
 const ShippingAddress = ({ current, goNext, goPrev }: ShippingAdressProps) => {
+    const shippingAddress = useSelector(selectShippingAddress)
+
     const {
         register,
         handleSubmit,
@@ -34,15 +35,15 @@ const ShippingAddress = ({ current, goNext, goPrev }: ShippingAdressProps) => {
         watch,
         setValue,
         formState: { errors },
-    } = useForm<FormValues>({
-        resolver: zodResolver(schema),
-        defaultValues: {
-            isSaved: false,
-        },
+    } = useForm<ShippingAddressType>({
+        resolver: zodResolver(shippingAddressSchema),
+        defaultValues: shippingAddress
     });
 
-    const onSubmit = (data: FormValues) => {
+    const onSubmit = (data: ShippingAddressType) => {
         console.log(data);
+        dispatch(shippingAddressSubmited(data))
+        goNext()
     };
 
     const dispatch = useDispatch()

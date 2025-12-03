@@ -8,5 +8,7 @@ export const selectProvinces = (state: RootState) => state.payment.provinces;
 
 export const selectCommunes = (state: RootState) => state.payment.communes;
 
+export const selectShippingAddress = (state: RootState) => state.payment.shippingAddress;
+
 
 

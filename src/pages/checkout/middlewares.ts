@@ -9,7 +9,7 @@ import { fetchComments, postComment } from '@/services/commentService';
 import { postGetImageSignature, postUploadImage } from '@/services/uploadService';
 import { COMMUNES_FETCH_FAILED, COMMUNES_FETCH_REQUESTED, PROVINCES_FETCH_FAILED, PROVINCES_FETCH_REQUESTED } from './actionTypes';
 import { fetchCommunes, fetchProvinces } from '@/services/provinceService';
-import { Commune, Province } from '@/types/payment';
+import { Commune, Province } from '@/types/checkout';
 import { fetchCommunesFailed, fetchCommunesSucceeded, fetchProvincesFailed, fetchProvincesSucceeded } from './actions';
 
 function* fetchProvincesSaga(): SagaIterator {

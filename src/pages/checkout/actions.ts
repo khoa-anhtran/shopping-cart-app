@@ -1,6 +1,5 @@
-import { COMMENTS_FETCH_SUCCEEDED } from "../comments/actionTypes";
-import { COMMUNES_FETCH_FAILED, COMMUNES_FETCH_REQUESTED, COMMUNES_FETCH_SUCCEEDED, PROVINCES_FETCH_FAILED, PROVINCES_FETCH_REQUESTED, PROVINCES_FETCH_SUCCEEDED } from "./actionTypes";
-import { Commune, Province } from "@/types/payment";
+import { COMMUNES_FETCH_FAILED, COMMUNES_FETCH_REQUESTED, COMMUNES_FETCH_SUCCEEDED, PROVINCES_FETCH_FAILED, PROVINCES_FETCH_REQUESTED, PROVINCES_FETCH_SUCCEEDED, SHIPPING_ADDRESS_SUBMITED } from "./actionTypes";
+import { Commune, Province, ShippingAddressType } from "@/types/checkout";
 
 export const fetchProvincesRequested = () => ({
     type: PROVINCES_FETCH_REQUESTED,
@@ -40,3 +39,10 @@ export const fetchCommunesFailed = (message: string) => ({
         message
     }
 });
+
+export const shippingAddressSubmited = (shippingAddress: ShippingAddressType) => ({
+    type: SHIPPING_ADDRESS_SUBMITED,
+    payload: {
+        shippingAddress
+    }
+})

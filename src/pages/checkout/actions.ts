@@ -1,5 +1,5 @@
-import { COMMUNES_FETCH_FAILED, COMMUNES_FETCH_REQUESTED, COMMUNES_FETCH_SUCCEEDED, PROVINCES_FETCH_FAILED, PROVINCES_FETCH_REQUESTED, PROVINCES_FETCH_SUCCEEDED, SHIPPING_ADDRESS_SUBMITED } from "./actionTypes";
-import { Commune, Province, ShippingAddressType } from "@/types/checkout";
+import { COMMUNES_FETCH_FAILED, COMMUNES_FETCH_REQUESTED, COMMUNES_FETCH_SUCCEEDED, ORDER_PLACE_FAILED, ORDER_PLACE_SUCCEEDED, ORDER_PLACED, PROVINCES_FETCH_FAILED, PROVINCES_FETCH_REQUESTED, PROVINCES_FETCH_SUCCEEDED, SHIPPING_ADDRESS_SUBMITED } from "./actionTypes";
+import { Commune, PlaceOrderPayload, Province, ShippingAddressType } from "@/types/checkout";
 
 export const fetchProvincesRequested = () => ({
     type: PROVINCES_FETCH_REQUESTED,
@@ -46,3 +46,21 @@ export const shippingAddressSubmited = (shippingAddress: ShippingAddressType) =>
         shippingAddress
     }
 })
+
+export const placeOrder = (data: PlaceOrderPayload) => ({
+    type: ORDER_PLACED,
+    payload: {
+        data
+    }
+})
+
+export const placeOrderSucceeded = () => ({
+    type: ORDER_PLACE_SUCCEEDED,
+})
+
+export const placeOrderFailed = (message: string) => ({
+    type: ORDER_PLACE_FAILED,
+    payload: {
+        message
+    }
+}) 

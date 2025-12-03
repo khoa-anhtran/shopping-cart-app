@@ -23,12 +23,22 @@ export type CheckoutState = {
     provinces: Province[],
     communes: Commune[],
     shippingAddress: ShippingAddressType,
-    paymentInfo: {
-        type: string,
-        isPaid: boolean
-    }
+    paymentInfo: PaymentInfo,
     status: string,
     error: string | null
+}
+
+export type PaymentInfo = {
+    method: string,
+    isPaid: boolean
+}
+
+export type PlaceOrderPayload = {
+    shippingAddress: ShippingAddressType,
+    paymentInfo: PaymentInfo,
+    items: CartItem,
+    isSaved: boolean,
+    total: number
 }
 
 export type CheckoutPayloadAction = PayloadAction<>

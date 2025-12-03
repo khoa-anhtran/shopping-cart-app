@@ -7,10 +7,12 @@ import { PayloadAction, SignatureResponse } from '@/types';
 import { Comment, CommentPostPayload } from '@/types/comment';
 import { fetchComments, postComment } from '@/services/commentService';
 import { postGetImageSignature, postUploadImage } from '@/services/uploadService';
-import { COMMUNES_FETCH_FAILED, COMMUNES_FETCH_REQUESTED, PROVINCES_FETCH_FAILED, PROVINCES_FETCH_REQUESTED } from './actionTypes';
+import { COMMUNES_FETCH_FAILED, COMMUNES_FETCH_REQUESTED, ORDER_PLACE_FAILED, ORDER_PLACED, PROVINCES_FETCH_FAILED, PROVINCES_FETCH_REQUESTED } from './actionTypes';
 import { fetchCommunes, fetchProvinces } from '@/services/provinceService';
-import { Commune, Province } from '@/types/checkout';
-import { fetchCommunesFailed, fetchCommunesSucceeded, fetchProvincesFailed, fetchProvincesSucceeded } from './actions';
+import { Commune, PlaceOrderPayload, Province } from '@/types/checkout';
+import { fetchCommunesFailed, fetchCommunesSucceeded, fetchProvincesFailed, fetchProvincesSucceeded, placeOrderFailed, placeOrderSucceeded } from './actions';
+import { postOrder } from '@/services/orderService';
+import { Order } from '@/types/order';
 
 function* fetchProvincesSaga(): SagaIterator {
     try {
@@ -37,11 +39,28 @@ function* fetchCommunesSaga(action: PayloadAction<{ provinceCode: string }>): Sa
     }
 }
 
+function* postOrderSaga(action: PayloadAction<{ data: PlaceOrderPayload }>) {
+    try {
+        if (!action.payload)
+            throw new Error("missing payload")
+
+        const { data } = action.payload
+
+        const order: Order = yield call(postOrder, data);
+
+        yield put(placeOrderSucceeded());
+    } catch (e) {
+        const message = e instanceof Error ? e.message : String(e);
+        yield put(placeOrderFailed(`Place order failed: ${message}`));
+    }
+}
+
 function* paymentSaga() {
     yield takeLatest(PROVINCES_FETCH_REQUESTED, fetchProvincesSaga)
     yield takeLatest(COMMUNES_FETCH_REQUESTED, fetchCommunesSaga)
+    yield takeLatest(ORDER_PLACED, postOrderSaga)
 
-    yield takeLatest([PROVINCES_FETCH_FAILED, COMMUNES_FETCH_FAILED],
+    yield takeLatest([PROVINCES_FETCH_FAILED, COMMUNES_FETCH_FAILED, ORDER_PLACE_FAILED],
         (action: PayloadAction<{ message: string }>) => notify({ message: action.payload?.message, status: STATUS.FAIL, duration: 3 })
     )
 }

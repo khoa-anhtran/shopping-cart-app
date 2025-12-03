@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { Steps, Button } from "antd";
 import ShippingAddress from "./components/ShippingAddress";
 import PaymentDetails from "./components/PaymentDetails";
@@ -9,14 +9,22 @@ import useCart from "@/hooks/useCart";
 import { formatVnd } from "@/utils/helpers";
 import { selectProducts } from "../products/selectors";
 import { selectCart } from "../cart/selectors";
+import { selectPaymentInfo, selectShippingAddress } from "./selectors";
+import { useDispatch } from "react-redux";
+import { placeOrder } from "./actions";
 
 const { Step } = Steps;
 
 const Checkout = () => {
     const [current, setCurrent] = useState(0);
 
+    const dispatch = useDispatch()
+
     const products = useSelector(selectProducts)
     const items = useSelector(selectCart)
+
+    const shippingAddress = useSelector(selectShippingAddress)
+    const paymentInfo = useSelector(selectPaymentInfo)
 
     const { totalValues, selectedItems } = useCart()
 
@@ -25,6 +33,10 @@ const Checkout = () => {
 
     const isReview = current === 2;
     const isCompleted = current === 3;
+
+    const onPlaceOrder = useCallback(() => {
+        dispatch(placeOrder({ items, paymentInfo, shippingAddress, total: totalValues, isSaved: shippingAddress.isSaved }))
+    }, [items, paymentInfo, shippingAddress, totalValues, dispatch])
 
     return (
         <div className="h-[95vh] flex py-4 px-4 bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-50 transition-colors">
@@ -97,7 +109,12 @@ const Checkout = () => {
                             Previous
                         </Button>
 
-                        <Button type="primary" onClick={goNext}>
+                        <Button type="primary" onClick={async () => {
+                            if (current === 2)
+                                onPlaceOrder()
+                            else
+                                goNext()
+                        }}>
                             {isReview ? "Place order" : "Next"}
                         </Button>
                     </div>

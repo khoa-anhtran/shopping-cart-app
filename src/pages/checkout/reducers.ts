@@ -1,5 +1,5 @@
 import { STATUS } from "@/constants/api"
-import { COMMUNES_FETCH_FAILED, COMMUNES_FETCH_REQUESTED, COMMUNES_FETCH_SUCCEEDED, PROVINCES_FETCH_FAILED, PROVINCES_FETCH_REQUESTED, PROVINCES_FETCH_SUCCEEDED, SHIPPING_ADDRESS_SUBMITED } from "./actionTypes";
+import { COMMUNES_FETCH_FAILED, COMMUNES_FETCH_REQUESTED, COMMUNES_FETCH_SUCCEEDED, ORDER_PLACE_FAILED, ORDER_PLACE_SUCCEEDED, ORDER_PLACED, PROVINCES_FETCH_FAILED, PROVINCES_FETCH_REQUESTED, PROVINCES_FETCH_SUCCEEDED, SHIPPING_ADDRESS_SUBMITED } from "./actionTypes";
 import { Commune, CheckoutPayloadAction, CheckoutState, Province, ShippingAddressType } from "@/types/checkout";
 import { PAYMENT_TYPE } from "@/constants/payment";
 
@@ -14,7 +14,7 @@ const initialState: CheckoutState = {
     },
     paymentInfo: {
         isPaid: false,
-        type: PAYMENT_TYPE.CASH
+        method: PAYMENT_TYPE.CASH
     },
     status: STATUS.IDLE,
     error: null
@@ -52,6 +52,7 @@ const PaymentReducer = (state = initialState, action: CheckoutPayloadAction): Ch
         }
 
         case COMMUNES_FETCH_FAILED:
+        case ORDER_PLACE_FAILED:
         case PROVINCES_FETCH_FAILED: {
             const { message } = action.payload as { message: string };
 
@@ -69,6 +70,20 @@ const PaymentReducer = (state = initialState, action: CheckoutPayloadAction): Ch
                 ...state,
                 shippingAddress,
             };
+        }
+
+        case ORDER_PLACED: {
+            return {
+                ...state,
+                status: STATUS.LOADING
+            }
+        }
+
+        case ORDER_PLACE_SUCCEEDED: {
+            return {
+                ...state,
+                status: STATUS.SUCCESS
+            }
         }
 
         default:

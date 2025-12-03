@@ -46,7 +46,7 @@ const OrderReview = () => {
 
         <div className="border-t border-slate-800 pt-4 space-y-2 text-sm">
             <h4 className="font-semibold text-sm">Payment details</h4>
-            <p>Payment type: {paymentInfo.type}</p>
+            <p>Payment type: {paymentInfo.method}</p>
             <p>Payment status: {paymentInfo.isPaid ? "PAID" : "NOT PAID YET"} </p>
         </div>
     </div>

@@ -12,5 +12,11 @@ export const COMMUNES_FETCH_FAILED = 'payment/fetchCommunesFailed';
 
 export const SHIPPING_ADDRESS_SUBMITED = 'payment/shippingAddressSubmited'
 
+export const ORDER_PLACED = 'payment/orderPlaced'
+
+export const ORDER_PLACE_FAILED = 'payment/orderPlaceFailed'
+
+export const ORDER_PLACE_SUCCEEDED = 'payment/orderPlaceSucceeded'
+
 
 

@@ -1,6 +1,6 @@
 import { STATUS } from "@/constants/api"
-import { PROVINCES_FETCH_FAILED, PROVINCES_FETCH_REQUESTED, PROVINCES_FETCH_SUCCEEDED } from "./actionTypes";
-import { PaymentPayloadAction, PaymentState, Province } from "@/types/payment";
+import { COMMUNES_FETCH_FAILED, COMMUNES_FETCH_REQUESTED, COMMUNES_FETCH_SUCCEEDED, PROVINCES_FETCH_FAILED, PROVINCES_FETCH_REQUESTED, PROVINCES_FETCH_SUCCEEDED } from "./actionTypes";
+import { Commune, PaymentPayloadAction, PaymentState, Province } from "@/types/payment";
 
 const initialState: PaymentState = {
     communes: [],
@@ -12,6 +12,8 @@ const initialState: PaymentState = {
 
 const PaymentReducer = (state = initialState, action: PaymentPayloadAction): PaymentState => {
     switch (action.type) {
+
+        case COMMUNES_FETCH_REQUESTED:
         case PROVINCES_FETCH_REQUESTED: {
             return {
                 ...state,
@@ -29,6 +31,17 @@ const PaymentReducer = (state = initialState, action: PaymentPayloadAction): Pay
             };
         }
 
+        case COMMUNES_FETCH_SUCCEEDED: {
+            const { communes } = action.payload as { communes: Commune[] };
+
+            return {
+                ...state,
+                communes,
+                status: STATUS.SUCCESS
+            };
+        }
+
+        case COMMUNES_FETCH_FAILED:
         case PROVINCES_FETCH_FAILED: {
             const { message } = action.payload as { message: string };
 

@@ -6,4 +6,7 @@ export const selectCommentsError = (state: RootState) => state.comments.error;
 
 export const selectProvinces = (state: RootState) => state.payment.provinces;
 
+export const selectCommunes = (state: RootState) => state.payment.communes;
+
+
 

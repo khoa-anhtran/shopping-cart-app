@@ -3,10 +3,10 @@ import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller, useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
-import { selectProvinces } from "../selectors";
+import { selectCommunes, selectProvinces } from "../selectors";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { fetchProvincesRequested } from "../actions";
+import { fetchCommunesRequested, fetchProvincesRequested } from "../actions";
 
 const schema = z.object({
     firstName: z.string("First name should be string").min(1, "First name should not empty").regex(/^[\p{L}\s]+$/u, "Only letters and spaces are allowed"),
@@ -31,6 +31,8 @@ const ShippingAddress = ({ current, goNext, goPrev }: ShippingAdressProps) => {
         register,
         handleSubmit,
         control,
+        watch,
+        setValue,
         formState: { errors },
     } = useForm<FormValues>({
         resolver: zodResolver(schema),
@@ -46,11 +48,20 @@ const ShippingAddress = ({ current, goNext, goPrev }: ShippingAdressProps) => {
     const dispatch = useDispatch()
 
     const provinces = useSelector(selectProvinces)
+    const communes = useSelector(selectCommunes)
 
     useEffect(() => {
         if (provinces.length === 0)
             dispatch(fetchProvincesRequested())
     }, [])
+
+    useEffect(() => {
+        if (watch("province") && provinces.length !== 0) {
+            dispatch(fetchCommunesRequested(provinces.find(province => province.name === watch("province"))?.code ?? ""))
+            setValue("commune", "")
+        }
+
+    }, [watch("province")])
 
     return (
         <form className="space-y-5" onSubmit={handleSubmit(onSubmit)}>
@@ -150,7 +161,8 @@ const ShippingAddress = ({ current, goNext, goPrev }: ShippingAdressProps) => {
                                 value={field.value || undefined}
                                 onChange={(value) => field.onChange(value)}
                                 placeholder="Select a commune"
-                                options={provinces.map(province => ({ value: province.name, label: province.name }))}
+                                disabled={watch("province") === undefined}
+                                options={communes.map(commune => ({ value: commune.name, label: commune.name }))}
                             />
                         )}
                     />

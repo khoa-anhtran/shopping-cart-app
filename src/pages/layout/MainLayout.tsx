@@ -5,8 +5,8 @@ import { ErrorBoundary } from "react-error-boundary"
 import ErrorFallback from "./ErrorFallback"
 import { lazy } from "react"
 import CartProvider from "@/providers/CartProvider"
-const Header = lazy(() => import('../layout/Header'))
 
+const Header = lazy(() => import('../layout/Header'))
 
 const MainLayout = () => {
     const { theme } = useTheme()

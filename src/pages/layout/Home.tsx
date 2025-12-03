@@ -1,4 +1,3 @@
-import CartProvider from "@/providers/CartProvider"
 import ProductDetailsModal from "../products/components/ProductDetailsModal"
 import { lazy } from "react"
 

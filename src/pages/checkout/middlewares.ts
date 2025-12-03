@@ -7,10 +7,10 @@ import { PayloadAction, SignatureResponse } from '@/types';
 import { Comment, CommentPostPayload } from '@/types/comment';
 import { fetchComments, postComment } from '@/services/commentService';
 import { postGetImageSignature, postUploadImage } from '@/services/uploadService';
-import { PROVINCES_FETCH_FAILED, PROVINCES_FETCH_REQUESTED } from './actionTypes';
-import { fetchProvinces } from '@/services/provinceService';
-import { Province } from '@/types/payment';
-import { fetchProvincesFailed, fetchProvincesSucceeded } from './actions';
+import { COMMUNES_FETCH_FAILED, COMMUNES_FETCH_REQUESTED, PROVINCES_FETCH_FAILED, PROVINCES_FETCH_REQUESTED } from './actionTypes';
+import { fetchCommunes, fetchProvinces } from '@/services/provinceService';
+import { Commune, Province } from '@/types/payment';
+import { fetchCommunesFailed, fetchCommunesSucceeded, fetchProvincesFailed, fetchProvincesSucceeded } from './actions';
 
 function* fetchProvincesSaga(): SagaIterator {
     try {
@@ -22,9 +22,26 @@ function* fetchProvincesSaga(): SagaIterator {
     }
 }
 
+function* fetchCommunesSaga(action: PayloadAction<{ provinceCode: string }>): SagaIterator {
+    try {
+        if (!action.payload)
+            throw new Error("missing payload")
+
+        const { provinceCode } = action.payload
+
+        const communes: Commune[] = yield call(fetchCommunes, provinceCode);
+        yield put(fetchCommunesSucceeded(communes));
+    } catch (e) {
+        const message = e instanceof Error ? e.message : String(e);
+        yield put(fetchCommunesFailed(`Fetch communes failed: ${message}`));
+    }
+}
+
 function* paymentSaga() {
     yield takeLatest(PROVINCES_FETCH_REQUESTED, fetchProvincesSaga)
-    yield takeLatest(PROVINCES_FETCH_FAILED,
+    yield takeLatest(COMMUNES_FETCH_REQUESTED, fetchCommunesSaga)
+
+    yield takeLatest([PROVINCES_FETCH_FAILED, COMMUNES_FETCH_FAILED],
         (action: PayloadAction<{ message: string }>) => notify({ message: action.payload?.message, status: STATUS.FAIL, duration: 3 })
     )
 }

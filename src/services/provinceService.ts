@@ -1,13 +1,13 @@
 import { Commune, Province } from "@/types/payment"
-import axios from "axios"
+import api from "./api"
 
 export const fetchProvinces = async (): Promise<Province[]> => {
-    const res = await axios.get("https://production.cas.so/address-kit/latest/provinces", { headers: { "Access-Control-Allow-Origin": "*" } })
+    const res = await api.get("/api/address/provinces")
 
-    return res.data.provinces
+    return res.data
 }
 
 export const fetchCommunes = async (provinceCode: string): Promise<Commune[]> => {
-    const res = await axios.get(`https://production.cas.so/address-kit/latest/provinces/${provinceCode}/communes`)
-    return res.data.communes
+    const res = await api.get(`/api/address/provinces/${provinceCode}`)
+    return res.data
 }

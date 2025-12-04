@@ -1,6 +1,6 @@
 import { ImageWithPreview } from "@/components/ImageWithPreview"
 import { formatVnd } from "@/utils/helpers"
-import { Button } from "antd"
+import { Button, Progress, Rate } from "antd"
 import { useSelector } from "react-redux"
 import { selectProducts } from "../products/selectors"
 import { useNavigate, useParams } from "react-router-dom"
@@ -12,6 +12,7 @@ import CommentRow from "../comments/components/CommentRow"
 import ProductCard from "../products/components/ProductCard"
 import { useDispatch } from "react-redux"
 import { fetchCommentsRequested } from "../comments/actions"
+import { LikeFilled, LikeOutlined, StarOutlined } from "@ant-design/icons"
 
 const ProductDetails = () => {
     const { id } = useParams<{ id: string }>();
@@ -60,7 +61,7 @@ const ProductDetails = () => {
     const product = products[id]
 
     return <main className="py-4 px-8 flex gap-4">
-        <section className="w-[70%] space-y-4 px-4 py-8 bg-white rounded-md shadow">
+        <section className="w-[70%] space-y-8 px-4 py-8 bg-white rounded-md shadow">
             <div className="row-center">
                 <ImageWithPreview
                     className="h-60 w-1/2"
@@ -68,7 +69,7 @@ const ProductDetails = () => {
                 />
             </div>
 
-            <div className="w-full">
+            <div className="w-full px-4">
                 <h3 className="font-bold text-xl">
                     Relevant Products
                 </h3>
@@ -86,17 +87,53 @@ const ProductDetails = () => {
                 </div>
             </div>
 
-            <div className="space-y-4">
+            <div className="space-y-4 px-4">
                 <h3 className="font-bold text-xl">
-                    Rating and Reviews
+                    Rating
                 </h3>
 
-                <div>
-                    Rating board
+                <div className="flex gap-4 items-center">
+                    <span className="font-bold text-amber-300 text-2xl">4.9</span>
+                    <Rate disabled allowHalf defaultValue={4.9} />
                 </div>
+
+                <div>
+                    {[5, 4, 3, 2, 1].map(star => <div className="flex items-center gap-2">
+                        <span>{star}</span>
+                        <StarOutlined />
+                        <Progress size={"small"} percent={Math.floor(Math.random() * 100)} strokeColor={"gray"} />
+                    </div>)}
+                </div>
+
+                <div className="space-y-4">
+                    <div className="space-y-2 border border-gray-200 px-3 py-2 rounded-md">
+                        <div className="font-bold">Khoa</div>
+                        <Rate disabled allowHalf defaultValue={5} />
+                        <div>This food is very good</div>
+                        <div className="flex items-center gap-2">
+                            <LikeOutlined />
+                            Useful {true && "(1)"}
+                        </div>
+                    </div>
+
+                    <div className="space-y-2 border border-gray-200 px-3 py-2 rounded-md">
+                        <div className="font-bold">Khoa</div>
+                        <Rate disabled allowHalf defaultValue={5} />
+                        <div>This food is very good</div>
+                        <div className="flex items-center gap-2">
+                            <LikeOutlined />
+                            Useful {true && "(1)"}
+                        </div>
+                    </div>
+                </div>
+
+                <div className="row-center">
+                    <Button>Write a review for this product</Button>
+                </div>
+
             </div>
 
-            <div className="space-y-4">
+            <div className="space-y-4 px-4">
                 <h3 className="font-bold text-xl">
                     Comments
                 </h3>

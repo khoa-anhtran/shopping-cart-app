@@ -5,13 +5,13 @@ import { useSelector } from "react-redux"
 import { selectProducts } from "../products/selectors"
 import { useNavigate, useParams } from "react-router-dom"
 import { useProducts } from "@/hooks/useProducts"
-import { selectCommentIds, selectComments } from "../comments/selectors"
+import { selectCommentIds, selectCommentPageInfo, selectComments } from "../comments/selectors"
 import { useCallback, useRef, useState } from "react"
 import { useMediaQuery } from "react-responsive"
 import CommentRow from "../comments/components/CommentRow"
 import ProductCard from "../products/components/ProductCard"
 import { useDispatch } from "react-redux"
-import { fetchCommentsRequested } from "../comments/actions"
+import { fetchCommentsRequested, fetchMoreCommentsRequested } from "../comments/actions"
 import { LikeFilled, LikeOutlined, StarOutlined } from "@ant-design/icons"
 
 const ProductDetails = () => {
@@ -21,6 +21,7 @@ const ProductDetails = () => {
 
     const comments = useSelector(selectComments)
     const commentIds = useSelector(selectCommentIds)
+    const commentPageInfo = useSelector(selectCommentPageInfo)
 
     const navigate = useNavigate()
     const dispatch = useDispatch()
@@ -57,6 +58,12 @@ const ProductDetails = () => {
         navigate(`/products/${productId}`)
         dispatch(fetchCommentsRequested(productId))
     }, [navigate])
+
+    const onFetchMoreComments = useCallback(() => {
+        const after = commentPageInfo ? commentPageInfo.endCursor : ""
+        dispatch(fetchMoreCommentsRequested(id, after))
+
+    }, [commentPageInfo, id])
 
     const product = products[id]
 
@@ -159,6 +166,10 @@ const ProductDetails = () => {
                         </button>
                     </div>}
                 </div>
+
+                {commentPageInfo?.hasNextPage && <div className="row-center">
+                    <Button onClick={onFetchMoreComments}>Show more comments</Button>
+                </div>}
             </div>
         </section>
 

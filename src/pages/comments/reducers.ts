@@ -1,4 +1,4 @@
-import { COMMENT_POST_FAILED, COMMENT_POST_SUCCEEDED, COMMENT_POSTED, COMMENTS_FETCH_FAILED, COMMENTS_FETCH_REQUESTED, COMMENTS_FETCH_SUCCEEDED } from "./actionTypes"
+import { COMMENT_POST_FAILED, COMMENT_POST_SUCCEEDED, COMMENT_POSTED, COMMENTS_FETCH_FAILED, COMMENTS_FETCH_MORE_FAILED, COMMENTS_FETCH_MORE_REQUESTED, COMMENTS_FETCH_MORE_SUCCEEDED, COMMENTS_FETCH_REQUESTED, COMMENTS_FETCH_SUCCEEDED } from "./actionTypes"
 import { STATUS } from "@/constants/api"
 import { PageInfo } from "@/types"
 import { Comment, CommentPayloadAction, CommentState } from "@/types/comment"
@@ -13,6 +13,7 @@ const initialState: CommentState = {
 
 const commentReducer = (state = initialState, action: CommentPayloadAction): CommentState => {
     switch (action.type) {
+        case COMMENTS_FETCH_MORE_REQUESTED:
         case COMMENTS_FETCH_REQUESTED: {
             return {
                 ...state,
@@ -34,6 +35,25 @@ const commentReducer = (state = initialState, action: CommentPayloadAction): Com
             };
         }
 
+        case COMMENTS_FETCH_MORE_SUCCEEDED: {
+            const { comments, pageInfo } = action.payload as { comments: Comment[], pageInfo: PageInfo };
+
+            const extraEntities = Object.fromEntries(comments.map((comment: Comment) => [comment.id, comment]))
+
+            return {
+                ...state,
+                entities: { ...state.entities, ...extraEntities },
+                pageInfo: {
+                    startCursor: state.pageInfo!.startCursor,
+                    hasNextPage: pageInfo.hasNextPage,
+                    endCursor: pageInfo.endCursor
+                },
+                ids: [...state.ids, ...comments.map(comment => comment.id)],
+                status: STATUS.SUCCESS
+            };
+        }
+
+        case COMMENTS_FETCH_MORE_FAILED:
         case COMMENTS_FETCH_FAILED: {
             const { message } = action.payload as { message: string };
 

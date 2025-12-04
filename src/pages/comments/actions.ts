@@ -1,5 +1,5 @@
 import { Comment } from "@/types/comment";
-import { COMMENT_POST_FAILED, COMMENT_POST_SUCCEEDED, COMMENT_POSTED, COMMENTS_FETCH_FAILED, COMMENTS_FETCH_REQUESTED, COMMENTS_FETCH_SUCCEEDED } from "./actionTypes";
+import { COMMENT_POST_FAILED, COMMENT_POST_SUCCEEDED, COMMENT_POSTED, COMMENTS_FETCH_FAILED, COMMENTS_FETCH_MORE_FAILED, COMMENTS_FETCH_MORE_REQUESTED, COMMENTS_FETCH_MORE_SUCCEEDED, COMMENTS_FETCH_REQUESTED, COMMENTS_FETCH_SUCCEEDED } from "./actionTypes";
 import { PageInfo } from "@/types";
 
 export const fetchCommentsRequested = (productId: string) => ({
@@ -19,6 +19,29 @@ export const fetchCommentsSucceeded = (comments: Comment[], pageInfo: PageInfo) 
 
 export const fetchCommentsFailed = (message: string) => ({
     type: COMMENTS_FETCH_FAILED,
+    payload: {
+        message
+    }
+});
+
+export const fetchMoreCommentsRequested = (productId: string, after: string) => ({
+    type: COMMENTS_FETCH_MORE_REQUESTED,
+    payload: {
+        productId,
+        after
+    }
+});
+
+export const fetchMoreCommentsSucceeded = (comments: Comment[], pageInfo: PageInfo) => ({
+    type: COMMENTS_FETCH_MORE_SUCCEEDED,
+    payload: {
+        comments,
+        pageInfo
+    }
+});
+
+export const fetchMoreCommentsFailed = (message: string) => ({
+    type: COMMENTS_FETCH_MORE_FAILED,
     payload: {
         message
     }

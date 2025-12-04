@@ -4,20 +4,27 @@ import { SagaIterator } from 'redux-saga';
 import { notify } from '@/utils/helpers';
 import { STATUS } from '@/constants/api';
 import { IModelConnection, PayloadAction, SignatureResponse } from '@/types';
-import { COMMENT_POST_FAILED, COMMENT_POST_SUCCEEDED, COMMENT_POSTED, COMMENTS_FETCH_FAILED, COMMENTS_FETCH_REQUESTED, COMMENTS_FETCH_SUCCEEDED } from './actionTypes';
+import { COMMENT_POST_FAILED, COMMENT_POST_SUCCEEDED, COMMENT_POSTED, COMMENTS_FETCH_FAILED, COMMENTS_FETCH_MORE_REQUESTED, COMMENTS_FETCH_REQUESTED, COMMENTS_FETCH_SUCCEEDED } from './actionTypes';
 import { Comment, CommentPostPayload } from '@/types/comment';
 import { fetchComments, postComment } from '@/services/commentService';
-import { commentPostFailed, commentPostSucceeded, fetchCommentsFailed, fetchCommentsSucceeded } from './actions';
+import { commentPostFailed, commentPostSucceeded, fetchCommentsFailed, fetchCommentsSucceeded, fetchMoreCommentsSucceeded } from './actions';
 import { postGetImageSignature, postUploadImage } from '@/services/uploadService';
 
-function* fetchCommentsSaga(action: PayloadAction<{ productId: string }>): SagaIterator {
+function* fetchCommentsSaga(action: PayloadAction<{ productId: string, after?: string }>): SagaIterator {
     try {
-        const commentConnection: IModelConnection<Comment> = yield call(fetchComments, action.payload?.productId ?? "");
+        if (!action.payload)
+            throw new Error("Missing payload")
+
+        const { productId, after } = action.payload
+        const commentConnection: IModelConnection<Comment> = yield call(fetchComments, productId, after);
 
         const comments = commentConnection.edges.map(edge => edge.node)
         const pageInfo = commentConnection.pageInfo
 
-        yield put(fetchCommentsSucceeded(comments, pageInfo));
+        if (after)
+            yield put(fetchMoreCommentsSucceeded(comments, pageInfo));
+        else
+            yield put(fetchCommentsSucceeded(comments, pageInfo));
     } catch (e) {
         const message = e instanceof Error ? e.message : String(e);
         yield put(fetchCommentsFailed(`Fetch comments failed: ${message}`));
@@ -77,7 +84,7 @@ function* uploadImageSaga(sigRes: SignatureResponse, file: File): SagaIterator {
 }
 
 function* commentsSaga() {
-    yield takeLatest(COMMENTS_FETCH_REQUESTED, fetchCommentsSaga)
+    yield takeLatest([COMMENTS_FETCH_REQUESTED, COMMENTS_FETCH_MORE_REQUESTED], fetchCommentsSaga)
     yield takeLatest(COMMENTS_FETCH_FAILED,
         (action: PayloadAction<{ message: string }>) => notify({ message: action.payload?.message, status: STATUS.FAIL, duration: 3 })
     )

@@ -8,3 +8,6 @@ export const selectComments = (state: RootState) => state.comments.entities;
 
 export const selectCommentIds = (state: RootState) => state.comments.ids;
 
+export const selectCommentPageInfo = (state: RootState) => state.comments.pageInfo;
+
+

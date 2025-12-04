@@ -17,8 +17,8 @@ export type IModelConnection<M> = {
 }
 
 export type PageInfo = {
-  startCursor: string | null;
-  endCursor: string | null;
+  startCursor: string;
+  endCursor: string;
   hasNextPage: Boolean;
 };
 

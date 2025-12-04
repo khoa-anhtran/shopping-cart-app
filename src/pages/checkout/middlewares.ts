@@ -45,7 +45,7 @@ function* fetchShippingAddressSaga(): SagaIterator {
     try {
 
         const shippingAddress: Omit<ShippingAddressType, "isSaved"> = yield call(fetchShippingAddress);
-        yield put(shippingAddressSubmited(shippingAddress));
+        yield put(shippingAddressSubmited({ ...shippingAddress, isSaved: false }));
     } catch (e) {
         const message = e instanceof Error ? e.message : String(e);
         yield put(fetchCommunesFailed(`Fetch communes failed: ${message}`));

@@ -2,6 +2,7 @@ import { CART_FETCH_FAILED, CART_FETCH_REQUESTED, CART_FETCH_SUCCEEDED, CART_SYN
 import { TOKEN_REMOVED } from "../auth/actionTypes";
 import { STATUS } from "@/constants/api";
 import { CartItem, CartPayloadAction, CartState } from "@/types/cart";
+import { ORDER_PLACE_SUCCEEDED } from "../checkout/actionTypes";
 
 const initialState: CartState = {
     items: [],
@@ -191,6 +192,20 @@ const cartReducer = (state = initialState, action: CartPayloadAction): CartState
 
         case TOKEN_REMOVED: {
             return initialState;
+        }
+
+        case ORDER_PLACE_SUCCEEDED: {
+            const { itemIds } = action.payload as { itemIds: string[] }
+
+            const isCheckedOutAll = itemIds.length === state.items.length
+
+            return {
+                ...state,
+                syncStatus: STATUS.IDLE,
+                isSelectAll: isCheckedOutAll ? false : state.isSelectAll,
+                items: state.items.filter(item => !itemIds.includes(item.itemId)),
+                isOpen: false
+            };
         }
 
         default:

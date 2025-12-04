@@ -9,7 +9,7 @@ import useCart from "@/hooks/useCart";
 import { formatVnd } from "@/utils/helpers";
 import { selectProducts } from "../products/selectors";
 import { selectCart } from "../cart/selectors";
-import { selectCurrentStep, selectPaymentInfo, selectShippingAddress } from "./selectors";
+import { selectCurrentStep, selectPaymentInfo, selectPaymentStatus, selectShippingAddress } from "./selectors";
 import { useDispatch } from "react-redux";
 import { nextStep, placeOrder, prevStep } from "./actions";
 
@@ -21,14 +21,14 @@ const Checkout = () => {
     const products = useSelector(selectProducts)
     const items = useSelector(selectCart)
     const shippingAddress = useSelector(selectShippingAddress)
-    const paymentInfo = useSelector(selectPaymentInfo)
+    const paymentStatus = useSelector(selectPaymentStatus)
     const currentStep = useSelector(selectCurrentStep)
 
     const { totalValues, selectedItems } = useCart()
 
     const onPlaceOrder = useCallback(() => {
-        dispatch(placeOrder({ items, paymentInfo, shippingAddress, total: totalValues, isSaved: shippingAddress.isSaved }))
-    }, [items, paymentInfo, shippingAddress, totalValues, dispatch])
+        dispatch(placeOrder({ items, paymentStatus, shippingAddress, total: totalValues, isSaved: shippingAddress.isSaved }))
+    }, [items, paymentStatus, shippingAddress, totalValues, dispatch])
 
     const goPrev = useCallback(() => {
         dispatch(prevStep())

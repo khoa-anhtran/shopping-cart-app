@@ -13,6 +13,7 @@ import { Commune, PlaceOrderPayload, Province } from '@/types/checkout';
 import { fetchCommunesFailed, fetchCommunesSucceeded, fetchProvincesFailed, fetchProvincesSucceeded, placeOrderFailed, placeOrderSucceeded } from './actions';
 import { postOrder } from '@/services/orderService';
 import { Order } from '@/types/order';
+import { CartItem } from '@/types/cart';
 
 function* fetchProvincesSaga(): SagaIterator {
     try {
@@ -48,7 +49,9 @@ function* postOrderSaga(action: PayloadAction<{ data: PlaceOrderPayload }>) {
 
         const order: Order = yield call(postOrder, data);
 
-        yield put(placeOrderSucceeded());
+        const itemIds = data.items.map((item: CartItem) => item.itemId)
+
+        yield put(placeOrderSucceeded(itemIds));
     } catch (e) {
         const message = e instanceof Error ? e.message : String(e);
         yield put(placeOrderFailed(`Place order failed: ${message}`));

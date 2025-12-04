@@ -1,4 +1,5 @@
 import { Button } from "antd"
+import { Link } from "react-router-dom"
 
 const CheckoutComplete = () => {
     return <div className="flex flex-col items-center text-center py-12 space-y-4">
@@ -13,7 +14,9 @@ const CheckoutComplete = () => {
             We have emailed your order confirmation and will update you once it is shipped.
         </p>
         <Button type="primary" className="mt-2">
-            Go to my orders
+            <Link to={"/"} >
+                Go to home page
+            </Link>
         </Button>
     </div>
 }

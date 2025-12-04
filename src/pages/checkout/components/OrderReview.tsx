@@ -1,12 +1,12 @@
 import useCart from "@/hooks/useCart"
 import { formatVnd } from "@/utils/helpers"
 import { useSelector } from "react-redux"
-import { selectPaymentInfo, selectShippingAddress } from "../selectors"
+import { selectPaymentStatus, selectShippingAddress } from "../selectors"
 
 const OrderReview = () => {
     const { totalQty, totalValues } = useCart()
     const shippingAddress = useSelector(selectShippingAddress)
-    const paymentInfo = useSelector(selectPaymentInfo)
+    const paymentStatus = useSelector(selectPaymentStatus)
 
     return <div className="space-y-5">
         <h3 className="text-base lg:text-lg font-semibold">
@@ -46,8 +46,8 @@ const OrderReview = () => {
 
         <div className="border-t border-slate-800 pt-4 space-y-2 text-sm">
             <h4 className="font-semibold text-sm">Payment details</h4>
-            <p>Payment type: {paymentInfo.method}</p>
-            <p>Payment status: {paymentInfo.isPaid ? "PAID" : "NOT PAID YET"} </p>
+            <p>Payment type: {paymentStatus.method}</p>
+            <p>Payment status: {paymentStatus.isPaid ? "PAID" : "NOT PAID YET"} </p>
         </div>
     </div>
 }

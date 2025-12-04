@@ -1,6 +1,6 @@
 import { STATUS } from "@/constants/api"
-import { COMMUNES_FETCH_FAILED, COMMUNES_FETCH_REQUESTED, COMMUNES_FETCH_SUCCEEDED, NEXT_STEP, ORDER_PLACE_FAILED, ORDER_PLACE_SUCCEEDED, ORDER_PLACED, PREV_STEP, PROVINCES_FETCH_FAILED, PROVINCES_FETCH_REQUESTED, PROVINCES_FETCH_SUCCEEDED, SHIPPING_ADDRESS_SUBMITED } from "./actionTypes";
-import { Commune, CheckoutPayloadAction, CheckoutState, Province, ShippingAddressType } from "@/types/checkout";
+import { COMMUNES_FETCH_FAILED, COMMUNES_FETCH_REQUESTED, COMMUNES_FETCH_SUCCEEDED, NEXT_STEP, ORDER_PLACE_FAILED, ORDER_PLACE_SUCCEEDED, ORDER_PLACED, PAYMENT_STATUS_UPDATED, PREV_STEP, PROVINCES_FETCH_FAILED, PROVINCES_FETCH_REQUESTED, PROVINCES_FETCH_SUCCEEDED, SHIPPING_ADDRESS_SUBMITED } from "./actionTypes";
+import { Commune, CheckoutPayloadAction, CheckoutState, Province, ShippingAddressType, PaymentStatus } from "@/types/checkout";
 import { PAYMENT_TYPE } from "@/constants/payment";
 
 const initialState: CheckoutState = {
@@ -13,7 +13,7 @@ const initialState: CheckoutState = {
         isSaved: false
     },
     currentStep: 0,
-    paymentInfo: {
+    paymentStatus: {
         isPaid: false,
         method: PAYMENT_TYPE.CASH
     },
@@ -99,6 +99,15 @@ const PaymentReducer = (state = initialState, action: CheckoutPayloadAction): Ch
             return {
                 ...state,
                 currentStep: Math.max(state.currentStep - 1, 0)
+            }
+        }
+
+        case PAYMENT_STATUS_UPDATED: {
+            const { status } = action.payload as { status: PaymentStatus };
+
+            return {
+                ...state,
+                paymentStatus: status
             }
         }
 

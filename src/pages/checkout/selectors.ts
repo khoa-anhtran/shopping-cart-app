@@ -12,6 +12,6 @@ export const selectShippingAddress = (state: RootState) => state.payment.shippin
 
 export const selectPaymentInfo = (state: RootState) => state.payment.paymentInfo;
 
+export const selectPaymentStatus = (state: RootState) => state.payment.paymentStatus;
+
 export const selectCurrentStep = (state: RootState) => state.payment.currentStep
-
-

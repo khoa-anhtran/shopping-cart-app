@@ -14,8 +14,13 @@ import { ORDER_PLACE_SUCCEEDED } from '../checkout/actionTypes';
 
 function* fetchCartSaga(): SagaIterator {
     try {
-        const items: CartItem[] = yield call(fetchCart)
-        yield put(fetchCartSucceeded(items));
+        const cart: { userId: string, items: Omit<CartItem, "isSelected">[] } = yield call(fetchCart)
+
+        const itemsMap = Object.fromEntries(
+            cart.items.map(item => [item.itemId, { ...item, isSelected: false } as CartItem] as const)
+        );
+        
+        yield put(fetchCartSucceeded(itemsMap));
     } catch (e) {
         const message = e instanceof Error ? e.message : String(e);
         yield put(fetchCartFailed(`Fetch cart failed: ${message}`));

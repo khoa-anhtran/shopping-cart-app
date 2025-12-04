@@ -5,7 +5,7 @@ export const fetchCartRequested = () => ({
     type: CART_FETCH_REQUESTED,
 });
 
-export const fetchCartSucceeded = (items: CartItem[]) => ({
+export const fetchCartSucceeded = (items: Record<string, CartItem>) => ({
     type: CART_FETCH_SUCCEEDED,
     payload: {
         items

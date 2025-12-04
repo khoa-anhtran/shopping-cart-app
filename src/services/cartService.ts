@@ -1,15 +1,10 @@
 import { CartItem } from "@/types/cart"
 import api from "./api"
 
-export const fetchCart = async () => {
+export const fetchCart = async (): Promise<{ userId: string, items: Omit<CartItem, "isSelected">[] }> => {
     const res = await api.get(`/api/carts`)
 
-    const data = res.data as { [id: string]: Omit<CartItem, "itemId"> }
-
-    return Object.keys(data).map(key => ({
-        itemId: key,
-        ...data[key]
-    }))
+    return res.data
 }
 
 export const putCartItems = async (items: CartItem[]) => {

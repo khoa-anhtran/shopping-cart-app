@@ -5,7 +5,8 @@ import { CartItem, CartPayloadAction, CartState } from "@/types/cart";
 import { ORDER_PLACE_SUCCEEDED } from "../checkout/actionTypes";
 
 const initialState: CartState = {
-    items: [],
+    ids: [],
+    entities: {},
     status: STATUS.IDLE,
     error: null,
     isSelectAll: false,
@@ -24,13 +25,12 @@ const cartReducer = (state = initialState, action: CartPayloadAction): CartState
         }
 
         case CART_FETCH_SUCCEEDED: {
-            const { items } = action.payload as { items: Omit<CartItem, 'isSelected'>[] };
-
-            const myItems = items.map(item => ({ ...item, isSelected: false }));
+            const { items } = action.payload as { items: Record<string, CartItem> };
 
             return {
                 ...state,
-                items: myItems,
+                entities: items,
+                ids: Object.keys(items),
                 error: null,
                 status: STATUS.SUCCESS
             };
@@ -75,36 +75,48 @@ const cartReducer = (state = initialState, action: CartPayloadAction): CartState
 
             const newItem = { itemId, quantity: 1, addedAt: new Date().toISOString(), isSelected: false }
 
-            if (state.items.find(item => item.itemId === itemId))
+            const existedItem = state.entities[itemId]
+
+            if (existedItem)
                 return {
                     ...state,
                     syncStatus: STATUS.LOADING,
-                    items: state.items.map(item => {
-                        if (item.itemId === itemId)
-                            return { ...item, quantity: item.quantity + 1 }
-
-                        return item
-                    })
+                    entities: {
+                        ...state.entities, [itemId]: {
+                            ...existedItem,
+                            quantity: existedItem.quantity + 1
+                        }
+                    }
                 };
 
             return {
                 ...state,
                 syncStatus: STATUS.LOADING,
-                items: [...state.items, newItem]
+                entities: { ...state.entities, [itemId]: newItem },
+                ids: [...state.ids, itemId]
             };
         }
 
         case ITEMS_REMOVED: {
             const { itemIds } = action.payload as { itemIds: string[] };
 
-            const items = state.items.filter(item => !itemIds.includes(item.itemId)) as CartItem[]
+            const newEntities = { ...state.entities };
+
+            itemIds.forEach(id => {
+                delete newEntities[id];
+            });
+
+            const newIds = state.ids.filter(id => !itemIds.includes(id))
+
+            const items = Object.values(newEntities)
 
             const isSelectAll = items.length !== 0 && !items.find(item => !item.isSelected)
 
             return {
                 ...state,
                 syncStatus: STATUS.LOADING,
-                items,
+                entities: newEntities,
+                ids: newIds,
                 isSelectAll
             };
         }
@@ -115,54 +127,58 @@ const cartReducer = (state = initialState, action: CartPayloadAction): CartState
             return {
                 ...state,
                 syncStatus: STATUS.LOADING,
-                items: state.items.map(item =>
-                    item.itemId === itemId
-                        ? { ...item, quantity: item.quantity + 1 }
-                        : item
-                )
+                entities: {
+                    ...state.entities,
+                    [itemId]: { ...state.entities[itemId], quantity: state.entities[itemId].quantity + 1 }
+                }
             };
         }
 
         case QUANTITY_DECREASED: {
             const { itemId } = action.payload as { itemId: string };
-            const item = state.items.find(item => item.itemId == itemId)
+            const item = state.entities[itemId]
 
-            if (item?.quantity === 1)
+            if (item.quantity === 1)
                 return {
                     ...state,
                     syncStatus: STATUS.LOADING,
-                    items: state.items.filter(myItem => myItem.itemId !== item.itemId)
+                    ids: state.ids.filter(id => id !== itemId),
+                    entities: Object.fromEntries(
+                        Object.entries(state.entities).filter(([id]) => id !== itemId)
+                    ),
+
                 };
 
             return {
                 ...state,
                 syncStatus: STATUS.LOADING,
-                items: state.items.map(item =>
-                    item.itemId === itemId
-                        ? { ...item, quantity: item.quantity - 1 }
-                        : item
-                )
+                entities: {
+                    ...state.entities,
+                    [itemId]: {
+                        ...state.entities[itemId],
+                        quantity: state.entities[itemId].quantity - 1
+                    }
+                }
             };
         }
 
         case ITEM_SELECTED_TOGGLED: {
             const { itemId } = action.payload as { itemId: string }
 
-            const newItems = state.items.map(item => {
-                if (item.itemId === itemId)
-                    return {
-                        ...item, isSelected: !item.isSelected
-                    }
+            const newEntities = {
+                ...state.entities,
+                [itemId]: {
+                    ...state.entities[itemId],
+                    isSelected: !state.entities[itemId].isSelected
+                }
+            }
 
-                return item
-            }) as CartItem[]
-
-            const isSelectAll = !newItems.find(item => !item.isSelected)
+            const isSelectAll = !Object.values(newEntities).find(item => !item.isSelected)
 
             return {
                 ...state,
                 isSelectAll,
-                items: newItems
+                entities: newEntities
             }
         }
 
@@ -170,9 +186,9 @@ const cartReducer = (state = initialState, action: CartPayloadAction): CartState
             return {
                 ...state,
                 isSelectAll: !state.isSelectAll,
-                items: state.items.map(item => ({
-                    ...item, isSelected: !state.isSelectAll
-                }))
+                entities: Object.fromEntries(
+                    Object.entries(state.entities).map((entity) => ({ ...entity, isSelected: !state.isSelectAll }))
+                )
             }
         }
 
@@ -183,13 +199,16 @@ const cartReducer = (state = initialState, action: CartPayloadAction): CartState
         case ORDER_PLACE_SUCCEEDED: {
             const { itemIds } = action.payload as { itemIds: string[] }
 
-            const isCheckedOutAll = itemIds.length === state.items.length
+            const isCheckedOutAll = itemIds.length === state.ids.length
 
             return {
                 ...state,
                 syncStatus: STATUS.IDLE,
                 isSelectAll: isCheckedOutAll ? false : state.isSelectAll,
-                items: state.items.filter(item => !itemIds.includes(item.itemId)),
+                entities: Object.fromEntries(
+                    Object.entries(state.entities).filter(([id]) => !itemIds.includes(id))
+                ),
+                ids: state.ids.filter(id => !itemIds.includes(id)),
                 isOpen: false
             };
         }

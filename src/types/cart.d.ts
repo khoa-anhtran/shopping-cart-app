@@ -6,7 +6,8 @@ export type CartItem = {
 }
 
 export type CartState = {
-    items: CartItem[],
+    entities: Record<string, CartItem>,
+    ids: string[],
     status: string,
     syncStatus: string,
     error: string | null,

@@ -8,39 +8,32 @@ import { productsFiltered } from "./actions"
 import { showPDsModal } from "../layout/ui/uiActions"
 import { fetchCommentsRequested } from "../comments/actions"
 import { Segmented } from "antd"
+import { useNavigate } from "react-router-dom"
 
 const data = ['All', 'Beauty & Makeup', 'Fragrances', 'Furniture', 'Groceries', 'Pet Supplies']
 
 const Products = () => {
     const dispatch = useDispatch()
     const { products, isLoading } = useProducts()
-    const { userId } = useUserInfo()
+    const navigate = useNavigate()
 
     const onAddToCart = useCallback((productId: string) => {
-        dispatch(itemAdded(productId, userId!))
-    }, [dispatch, userId])
+        dispatch(itemAdded(productId))
+    }, [dispatch])
 
     const onChangeCategory = useCallback((value: string) => {
         dispatch(productsFiltered(value))
     }, [dispatch])
 
     const onOpenPDsModal = useCallback((productId: string) => {
-        dispatch(showPDsModal(productId))
+        navigate(`/products/${productId}`)
+        // dispatch(showPDsModal(productId))
         dispatch(fetchCommentsRequested(productId))
+
     }, [dispatch])
 
     if (!isLoading)
         return <section className="dark:bg-black dark:text-white">
-            <div className="w-full row-center py-8">
-                <Segmented
-                    className="shadow-2xl max-w-[80vw] overflow-x-scroll md:overflow-hidden"
-                    size="large"
-                    options={data}
-                    onChange={onChangeCategory}
-                    shape="round"
-                />
-            </div>
-
             <ProductGrid products={products} onAddToCart={onAddToCart} onOpenPDsModal={onOpenPDsModal} />
         </section>
 

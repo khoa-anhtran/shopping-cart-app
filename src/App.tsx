@@ -14,6 +14,7 @@ const Home = lazy(() => import('./pages/layout/Home'))
 const Login = lazy(() => import('./pages/auth/Login'))
 const Register = lazy(() => import('./pages/auth/Register'))
 const Checkout = lazy(() => import('./pages/checkout/Checkout'))
+const ProductDetails = lazy(() => import('./pages/product-details/ProductDetails'))
 const StartAppBoot = lazy(() => import('./pages/layout/StartAppBoot'))
 
 const MainLayout = lazy(() => import('./pages/layout/MainLayout'))
@@ -34,6 +35,7 @@ function App() {
               <Route element={<MainLayout />}>
                 <Route path={ROUTES.HOME} element={<Home />} />
                 <Route path={ROUTES.CHECKOUT} element={<Checkout />} />
+                <Route path={`${ROUTES.PRODUCTS}/:id`} element={<ProductDetails />} />
               </Route>
             </Route>
 

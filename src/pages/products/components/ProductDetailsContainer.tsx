@@ -34,7 +34,7 @@ const ProductDetailsContainer = () => {
     }, [])
 
     const onAddToCart = useCallback(() => {
-        dispatch(itemAdded(id, userId!))
+        dispatch(itemAdded(id))
     }, [dispatch, userId, id])
 
     const onDisplayScrollToBottom = useCallback(() => {
@@ -91,7 +91,7 @@ const ProductDetailsContainer = () => {
 
                 <div className="md:w-[60%] border-l border-gray-200 dark:border-gray-700 px-4 flex flex-col gap-4">
 
-                    <div className="font-extrabold text-xl">{product.title}</div>
+                    <div className="font-extrabold text-xl">{product.title}</div>3
                     <div className="font-bold">Comments</div>
 
                     <div className="flex flex-col md:overflow-y-scroll gap-4 md:h-[80%] relative" ref={commentListRef} onScroll={onDisplayScrollToBottom}>

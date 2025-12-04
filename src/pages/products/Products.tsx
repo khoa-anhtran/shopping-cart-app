@@ -10,8 +10,6 @@ import { fetchCommentsRequested } from "../comments/actions"
 import { Segmented } from "antd"
 import { useNavigate } from "react-router-dom"
 
-const data = ['All', 'Beauty & Makeup', 'Fragrances', 'Furniture', 'Groceries', 'Pet Supplies']
-
 const Products = () => {
     const dispatch = useDispatch()
     const { products, isLoading } = useProducts()

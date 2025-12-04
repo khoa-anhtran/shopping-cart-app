@@ -7,6 +7,7 @@ import { lazy } from "react"
 import CartProvider from "@/providers/CartProvider"
 import { HomeOutlined, UserOutlined } from '@ant-design/icons';
 import ProductNavigator from "../products/components/ProductNavigator"
+import CategorySider from "./CategorySider"
 
 const Header = lazy(() => import('../layout/Header'))
 
@@ -27,13 +28,18 @@ const MainLayout = () => {
     }}>
         <AntdApp>
             <ErrorBoundary FallbackComponent={ErrorFallback}>
-                <div className="min-h-screen">
-                    <CartProvider>
+                <CartProvider>
+                    <div className="min-h-screen">
                         <Header></Header>
-                        <ProductNavigator></ProductNavigator>
-                        <Outlet />
-                    </CartProvider>
-                </div>
+                        <main className="flex">
+                            <CategorySider />
+                            <div className="w-[80%]">
+                                <ProductNavigator></ProductNavigator>
+                                <Outlet />
+                            </div>
+                        </main>
+                    </div>
+                </CartProvider>
             </ErrorBoundary>
         </AntdApp>
     </ConfigProvider >

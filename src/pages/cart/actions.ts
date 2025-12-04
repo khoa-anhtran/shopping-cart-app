@@ -1,9 +1,8 @@
 import { CartItem } from "@/types/cart";
 import { CART_FETCH_FAILED, CART_FETCH_REQUESTED, CART_FETCH_SUCCEEDED, CART_TOGGLE, ITEM_ADDED, ITEMS_REMOVED, ITEM_SELECTED_TOGGLED, QUANTITY_DECREASED, QUANTITY_INCREASED, SELECT_ALL_TOGGLED, CART_SYNC_SUCCEEDED, CART_SYNC_FAILED } from "./actionTypes";
 
-export const fetchCartRequested = (userId: string) => ({
+export const fetchCartRequested = () => ({
     type: CART_FETCH_REQUESTED,
-    payload: { userId }
 });
 
 export const fetchCartSucceeded = (items: CartItem[]) => ({
@@ -31,19 +30,17 @@ export const cartSyncFailed = (message: string) => ({
     }
 });
 
-export const itemAdded = (itemId: string, userId: string) => ({
+export const itemAdded = (itemId: string) => ({
     type: ITEM_ADDED,
     payload: {
         itemId,
-        userId
     }
 });
 
-export const itemsRemoved = (itemIds: string[], userId: string) => ({
+export const itemsRemoved = (itemIds: string[]) => ({
     type: ITEMS_REMOVED,
     payload: {
         itemIds,
-        userId
     }
 });
 
@@ -51,19 +48,17 @@ export const cartToggled = () => ({
     type: CART_TOGGLE,
 });
 
-export const quantityIncreased = (itemId: string, userId: string) => ({
+export const quantityIncreased = (itemId: string) => ({
     type: QUANTITY_INCREASED,
     payload: {
         itemId,
-        userId
     }
 });
 
-export const quantityDecreased = (itemId: string, userId: string) => ({
+export const quantityDecreased = (itemId: string) => ({
     type: QUANTITY_DECREASED,
     payload: {
         itemId,
-        userId
     }
 });
 

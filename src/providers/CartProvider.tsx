@@ -52,14 +52,14 @@ const CartProvider = ({ children }: { children: ReactNode }) => {
     useEffect(() => {
         if (status === STATUS.IDLE && !isFetchingCart.current) {
             isFetchingCart.current = true
-            dispatch(fetchCartRequested(userId))
+            dispatch(fetchCartRequested())
         }
 
-    }, [status, userId, dispatch])
+    }, [status, dispatch])
 
     const onIncrease = useCallback((itemId: string) => {
-        dispatch(quantityIncreased(itemId, userId))
-    }, [dispatch, userId]) //
+        dispatch(quantityIncreased(itemId))
+    }, [dispatch]) 
 
     const onDecrease = useCallback(async (itemId: string, currentQty: number) => {
         if (currentQty === 1) {
@@ -67,13 +67,13 @@ const CartProvider = ({ children }: { children: ReactNode }) => {
                 title: "Confirm Remove Item",
                 content: 'This cannot be undone.',
                 onOk: () => {
-                    dispatch(quantityDecreased(itemId, userId))
+                    dispatch(quantityDecreased(itemId))
                 }
             })
         } else
-            dispatch(quantityDecreased(itemId, userId))
+            dispatch(quantityDecreased(itemId))
 
-    }, [dispatch, userId])
+    }, [dispatch])
 
     const onSelectItem = useCallback((itemId: string) => {
         dispatch(itemSelectedToggled(itemId))
@@ -102,13 +102,13 @@ const CartProvider = ({ children }: { children: ReactNode }) => {
         Modal.confirm({
             title: "Confirm Remove Item",
             content: 'This cannot be undone.',
-            onOk: () => dispatch(itemsRemoved(itemIds, userId))
+            onOk: () => dispatch(itemsRemoved(itemIds))
         })
-    }, [dispatch, userId])
+    }, [dispatch])
 
     const onRefresh = useCallback(() => {
-        dispatch(fetchCartRequested(userId))
-    }, [dispatch, userId])
+        dispatch(fetchCartRequested())
+    }, [dispatch])
 
     return (
         <CartContext value={{ selectedItems, totalQty, totalValues, onCheckout, onClickCloseCart, onDecrease, onIncrease, onRefresh, onRemoveCartItems, onSelectAllItems, onSelectItem }}>

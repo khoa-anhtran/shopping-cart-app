@@ -12,10 +12,9 @@ import { CartItem } from '@/types/cart';
 import { ORDER_PLACE_SUCCEEDED } from '../checkout/actionTypes';
 
 
-function* fetchCartSaga(action: PayloadAction<{ userId: number }>): SagaIterator {
+function* fetchCartSaga(): SagaIterator {
     try {
-        const { userId } = action.payload!
-        const items: CartItem[] = yield call(fetchCart, userId)
+        const items: CartItem[] = yield call(fetchCart)
         yield put(fetchCartSucceeded(items));
     } catch (e) {
         const message = e instanceof Error ? e.message : String(e);
@@ -23,11 +22,10 @@ function* fetchCartSaga(action: PayloadAction<{ userId: number }>): SagaIterator
     }
 }
 
-function* putCartSaga(action: PayloadAction<{ userId: number }>): SagaIterator {
+function* putCartSaga(): SagaIterator {
     try {
-        const { userId } = action.payload!
         const items: CartItem[] = yield select(selectCart);
-        yield call(putCartItems, { userId, items })
+        yield call(putCartItems, items)
         yield put(cartSyncSucceeded());
     } catch (e) {
         const message = e instanceof Error ? e.message : String(e);

@@ -5,18 +5,18 @@ import { formatVnd } from "@/utils/helpers";
 type ProductCardProps = {
     product: Product,
     onAddToCart?: () => void,
-    onOpenPDsModal?: () => void,
+    onClick?: () => void,
     className?: string,
     size?: "lg" | "sm" | "md"
 }
 
-export default function ProductCard({ product, onAddToCart, onOpenPDsModal, className, size = "lg" }: ProductCardProps) {
+export default function ProductCard({ product, onAddToCart, onClick, className, size = "lg" }: ProductCardProps) {
 
     return <article
         className={`${className} rounded-xl shadow flex flex-col overflow-hidden hover:-translate-y-0.5 hover:shadow-xl justify-between dark:bg-gray-900`}
         role="article"
         aria-label={product.title}
-        onClick={onOpenPDsModal}
+        onClick={onClick}
     >
         <ImageWithPreview src={product.thumbnail} alt={product.title} className={`${size === "lg" ? "min-h-60" : size === "md" ? "min-h-40" : "min-h-30"}`} size={size} />
 

@@ -25,16 +25,15 @@ const Products = () => {
         dispatch(productsFiltered(value))
     }, [dispatch])
 
-    const onOpenPDsModal = useCallback((productId: string) => {
+    const onClickProduct = useCallback((productId: string) => {
         navigate(`/products/${productId}`)
-        // dispatch(showPDsModal(productId))
         dispatch(fetchCommentsRequested(productId))
 
     }, [dispatch])
 
     if (!isLoading)
         return <section className="dark:bg-black dark:text-white">
-            <ProductGrid products={products} onAddToCart={onAddToCart} onOpenPDsModal={onOpenPDsModal} />
+            <ProductGrid products={products} onAddToCart={onAddToCart} onClick={onClickProduct} />
         </section>
 
 }

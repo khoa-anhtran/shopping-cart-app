@@ -3,13 +3,15 @@ import { formatVnd } from "@/utils/helpers"
 import { Button } from "antd"
 import { useSelector } from "react-redux"
 import { selectProducts } from "../products/selectors"
-import { useParams } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 import { useProducts } from "@/hooks/useProducts"
 import { selectCommentIds, selectComments } from "../comments/selectors"
 import { useCallback, useRef, useState } from "react"
 import { useMediaQuery } from "react-responsive"
 import CommentRow from "../comments/components/CommentRow"
 import ProductCard from "../products/components/ProductCard"
+import { useDispatch } from "react-redux"
+import { fetchCommentsRequested } from "../comments/actions"
 
 const ProductDetails = () => {
     const { id } = useParams<{ id: string }>();
@@ -18,6 +20,9 @@ const ProductDetails = () => {
 
     const comments = useSelector(selectComments)
     const commentIds = useSelector(selectCommentIds)
+
+    const navigate = useNavigate()
+    const dispatch = useDispatch()
 
     const [canScrollToBottom, setScrolToBottom] = useState(false)
 
@@ -47,6 +52,10 @@ const ProductDetails = () => {
             setScrolToBottom(true)
     }, [])
 
+    const onClickProduct = useCallback((productId: string) => {
+        navigate(`/products/${productId}`)
+        dispatch(fetchCommentsRequested(productId))
+    }, [navigate])
 
     const product = products[id]
 
@@ -65,7 +74,15 @@ const ProductDetails = () => {
                 </h3>
 
                 <div className="flex gap-4 py-2 px-1 overflow-x-scroll">
-                    {Object.values(products).map(product => <ProductCard product={product} className="shrink-0 w-60 shadow-none border border-gray-200" size="sm" />)}
+                    {Object.values(products).map(product =>
+                        <ProductCard
+                            key={product.id}
+                            product={product}
+                            className="shrink-0 w-60 shadow-none border border-gray-200"
+                            size="sm"
+                            onClick={() => onClickProduct(product.id)}
+                        />)
+                    }
                 </div>
             </div>
 

@@ -1,3 +1,5 @@
+import { PageInfo } from "."
+
 export type Product = {
     id: string,
     title: string,
@@ -13,6 +15,7 @@ export type ProductState = {
     // filter: {
     //     category: string
     // },
+    pageInfo?: PageInfo,
     status: string,
     error: string | null
 }

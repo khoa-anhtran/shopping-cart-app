@@ -6,14 +6,19 @@ import { SagaIterator } from 'redux-saga';
 import { fetchProductsFailed, fetchProductsSucceeded } from './actions';
 import { notify } from '@/utils/helpers';
 import { STATUS } from '@/constants/api';
-import { PayloadAction } from '@/types';
+import { IModelConnection, PayloadAction } from '@/types';
 import { Product } from '@/types/product';
 
 
 function* fetchProductsSaga(): SagaIterator {
     try {
-        const products: Product[] = yield call(fetchProducts);
-        yield put(fetchProductsSucceeded(products));
+        const productsConnection: IModelConnection<Product> = yield call(fetchProducts);
+
+        const products = productsConnection.edges.map(edge => edge.node)
+
+        const pageInfo = productsConnection.pageInfo
+
+        yield put(fetchProductsSucceeded(products, pageInfo));
     } catch (e) {
         const message = e instanceof Error ? e.message : String(e);
         yield put(fetchProductsFailed(`Fetch products failed: ${message}`));

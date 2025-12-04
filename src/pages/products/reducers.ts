@@ -1,5 +1,6 @@
 import { PRODUCTS_FETCH_FAILED, PRODUCTS_FETCH_REQUESTED, PRODUCTS_FETCH_SUCCEEDED, PRODUCTS_FILTERED } from "./actionTypes"
 import { STATUS } from "@/constants/api"
+import { PageInfo } from "@/types"
 import { Product, ProductPayloadAction, ProductState } from "@/types/product"
 
 const initialState: ProductState = {
@@ -23,13 +24,18 @@ const productReducer = (state = initialState, action: ProductPayloadAction): Pro
         }
 
         case PRODUCTS_FETCH_SUCCEEDED: {
-            const { products } = action.payload as { products: Record<number, Product> };
+            const { products, pageInfo } = action.payload as { products: Product[], pageInfo: PageInfo };
+
+            const entities = Object.fromEntries(products.map(product => [product.id, product]))
+
+            const ids = products.map(product => product.id)
 
             return {
                 ...state,
-                entities: products,
-                ids: Object.keys(products),
-                filteredProducts: products,
+                pageInfo,
+                entities,
+                ids,
+                filteredProducts: entities,
                 status: STATUS.SUCCESS
             };
         }

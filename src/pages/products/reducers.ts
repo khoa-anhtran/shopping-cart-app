@@ -1,4 +1,4 @@
-import { PRODUCTS_FETCH_FAILED, PRODUCTS_FETCH_REQUESTED, PRODUCTS_FETCH_SUCCEEDED, PRODUCTS_FILTERED } from "./actionTypes"
+import { PRODUCTS_FETCH_FAILED, PRODUCTS_FETCH_MORE_FAILED, PRODUCTS_FETCH_MORE_REQUESTED, PRODUCTS_FETCH_MORE_SUCCEEDED, PRODUCTS_FETCH_REQUESTED, PRODUCTS_FETCH_SUCCEEDED, PRODUCTS_FILTERED } from "./actionTypes"
 import { STATUS } from "@/constants/api"
 import { PageInfo } from "@/types"
 import { Product, ProductPayloadAction, ProductState } from "@/types/product"
@@ -16,6 +16,7 @@ const initialState: ProductState = {
 
 const productReducer = (state = initialState, action: ProductPayloadAction): ProductState => {
     switch (action.type) {
+        case PRODUCTS_FETCH_MORE_REQUESTED:
         case PRODUCTS_FETCH_REQUESTED: {
             return {
                 ...state,
@@ -40,6 +41,27 @@ const productReducer = (state = initialState, action: ProductPayloadAction): Pro
             };
         }
 
+        case PRODUCTS_FETCH_MORE_SUCCEEDED: {
+            const { products, pageInfo } = action.payload as { products: Product[], pageInfo: PageInfo };
+
+            const extraEntities = Object.fromEntries(products.map(product => [product.id, product]))
+
+            const extraIds = products.map(product => product.id)
+
+            return {
+                ...state,
+                pageInfo: {
+                    ...pageInfo,
+                    startCursor: state.pageInfo?.startCursor ?? pageInfo.startCursor,
+                },
+                entities: { ...state.entities, ...extraEntities },
+                ids: [...state.ids, ...extraIds],
+                filteredProducts: { ...state.entities, ...extraEntities },
+                status: STATUS.SUCCESS
+            };
+        }
+
+        case PRODUCTS_FETCH_MORE_FAILED:
         case PRODUCTS_FETCH_FAILED: {
             const { message } = action.payload as { message: string };
 

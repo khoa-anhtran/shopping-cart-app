@@ -44,9 +44,8 @@ const commentReducer = (state = initialState, action: CommentPayloadAction): Com
                 ...state,
                 entities: { ...state.entities, ...extraEntities },
                 pageInfo: {
-                    startCursor: state.pageInfo!.startCursor,
-                    hasNextPage: pageInfo.hasNextPage,
-                    endCursor: pageInfo.endCursor
+                    ...pageInfo,
+                    startCursor: state.pageInfo?.startCursor ?? pageInfo.startCursor,
                 },
                 ids: [...state.ids, ...comments.map(comment => comment.id)],
                 status: STATUS.SUCCESS

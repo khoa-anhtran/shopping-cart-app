@@ -23,7 +23,7 @@ export type CheckoutState = {
     provinces: Province[],
     communes: Commune[],
     shippingAddress: ShippingAddressType,
-    currentStep: number,
+    currentStep: string,
     paymentInfo?: PaymentInfo,
     paymentStatus: PaymentStatus,
     status: string,

@@ -12,6 +12,7 @@ import { selectCart } from "../cart/selectors";
 import { selectCurrentStep, selectPaymentInfo, selectPaymentStatus, selectShippingAddress } from "./selectors";
 import { useDispatch } from "react-redux";
 import { nextStep, placeOrder, prevStep } from "./actions";
+import { PAYMENT_STEP, PAYMENT_STEP_MAP } from "@/constants/payment";
 
 const { Step } = Steps;
 
@@ -37,6 +38,26 @@ const Checkout = () => {
     const goNext = useCallback(() => {
         dispatch(nextStep())
     }, [dispatch])
+
+    const mainSection = useCallback(() => {
+        switch (currentStep) {
+            case PAYMENT_STEP.FILL_SHIPPING_ADDRESS:
+                return <ShippingAddress goPrev={goPrev} goNext={goNext} />
+
+            case PAYMENT_STEP.CHOOSE_PAYMENT:
+                return <PaymentDetails />
+
+            case PAYMENT_STEP.REVIEW_ORDER:
+                return <OrderReview />
+
+            case PAYMENT_STEP.FINISH_ORDER:
+                return <CheckoutComplete />
+
+            default:
+                return <></>
+
+        }
+    }, [currentStep])
 
     return (
         <div className="h-[95vh] flex py-4 px-4 bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-50 transition-colors">
@@ -68,7 +89,7 @@ const Checkout = () => {
             <section className="dark:bg-slate-900 px-4 py-6 lg:px-8 lg:py-8 flex-1">
                 {/* Steps header */}
                 <Steps
-                    current={currentStep}
+                    current={PAYMENT_STEP_MAP(currentStep)}
                     size="small"
                     className="mb-6 [&_.ant-steps-item-title]:text-xs lg:[&_.ant-steps-item-title]:text-sm"
                 >
@@ -80,42 +101,28 @@ const Checkout = () => {
 
                 {/* Content */}
                 <div className="mt-6">
-                    {currentStep === 0 && (
-                        <ShippingAddress goPrev={goPrev} goNext={goNext} />
-                    )}
-
-                    {currentStep === 1 && (
-                        <PaymentDetails />
-                    )}
-
-                    {currentStep === 2 && (
-                        <OrderReview />
-                    )}
-
-                    {currentStep === 3 && (
-                        <CheckoutComplete />
-                    )}
+                    {mainSection()}
                 </div>
 
                 {/* Footer buttons */}
-                {![0, 3].includes(currentStep) && (
+                {(currentStep !== PAYMENT_STEP.FILL_SHIPPING_ADDRESS && currentStep !== PAYMENT_STEP.FINISH_ORDER) && (
                     <div className="mt-8 flex justify-between">
                         <Button
                             type="link"
                             className="text-slate-300 px-0"
-                            disabled={currentStep === 0}
+                            disabled={currentStep === PAYMENT_STEP.FILL_SHIPPING_ADDRESS}
                             onClick={goPrev}
                         >
                             Previous
                         </Button>
 
                         <Button type="primary" onClick={async () => {
-                            if (currentStep === 2)
+                            if (currentStep === PAYMENT_STEP.REVIEW_ORDER)
                                 onPlaceOrder()
                             else
                                 goNext()
                         }}>
-                            {currentStep === 2 ? "Place order" : "Next"}
+                            {currentStep === PAYMENT_STEP.REVIEW_ORDER ? "Place order" : "Next"}
                         </Button>
                     </div>
                 )}

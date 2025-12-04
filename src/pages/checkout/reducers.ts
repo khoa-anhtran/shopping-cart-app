@@ -1,7 +1,7 @@
 import { STATUS } from "@/constants/api"
 import { COMMUNES_FETCH_FAILED, COMMUNES_FETCH_REQUESTED, COMMUNES_FETCH_SUCCEEDED, NEXT_STEP, ORDER_PLACE_FAILED, ORDER_PLACE_SUCCEEDED, ORDER_PLACED, PAYMENT_STATUS_UPDATED, PREV_STEP, PROVINCES_FETCH_FAILED, PROVINCES_FETCH_REQUESTED, PROVINCES_FETCH_SUCCEEDED, SHIPPING_ADDRESS_SUBMITED } from "./actionTypes";
 import { Commune, CheckoutPayloadAction, CheckoutState, Province, ShippingAddressType, PaymentStatus } from "@/types/checkout";
-import { PAYMENT_TYPE } from "@/constants/payment";
+import { PAYMENT_STEP, PAYMENT_TYPE } from "@/constants/payment";
 
 const initialState: CheckoutState = {
     communes: [],
@@ -12,7 +12,7 @@ const initialState: CheckoutState = {
         addressLine: "",
         isSaved: false
     },
-    currentStep: 0,
+    currentStep: PAYMENT_STEP.FILL_SHIPPING_ADDRESS,
     paymentStatus: {
         isPaid: false,
         method: PAYMENT_TYPE.CASH
@@ -83,22 +83,32 @@ const PaymentReducer = (state = initialState, action: CheckoutPayloadAction): Ch
         case ORDER_PLACE_SUCCEEDED: {
             return {
                 ...state,
-                currentStep: Math.min(state.currentStep + 1, 3),
+                currentStep: PAYMENT_STEP.FINISH_ORDER,
                 status: STATUS.SUCCESS
             }
         }
 
         case NEXT_STEP: {
+            const nextStep =
+                state.currentStep === PAYMENT_STEP.FILL_SHIPPING_ADDRESS
+                    ? PAYMENT_STEP.CHOOSE_PAYMENT
+                    : PAYMENT_STEP.REVIEW_ORDER
+
             return {
                 ...state,
-                currentStep: Math.min(state.currentStep + 1, 3)
+                currentStep: nextStep
             }
         }
 
         case PREV_STEP: {
+            const prevStep =
+                state.currentStep === PAYMENT_STEP.REVIEW_ORDER
+                    ? PAYMENT_STEP.CHOOSE_PAYMENT
+                    : PAYMENT_STEP.FILL_SHIPPING_ADDRESS
+
             return {
                 ...state,
-                currentStep: Math.max(state.currentStep - 1, 0)
+                currentStep: prevStep
             }
         }
 

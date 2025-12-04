@@ -1,4 +1,4 @@
-import { all, call, delay, put, takeLatest } from 'redux-saga/effects'
+import { all, call, delay, put, take, takeLatest } from 'redux-saga/effects'
 
 import { SagaIterator } from 'redux-saga';
 import { notify } from '@/utils/helpers';
@@ -7,13 +7,14 @@ import { PayloadAction, SignatureResponse } from '@/types';
 import { Comment, CommentPostPayload } from '@/types/comment';
 import { fetchComments, postComment } from '@/services/commentService';
 import { postGetImageSignature, postUploadImage } from '@/services/uploadService';
-import { COMMUNES_FETCH_FAILED, COMMUNES_FETCH_REQUESTED, ORDER_PLACE_FAILED, ORDER_PLACED, PROVINCES_FETCH_FAILED, PROVINCES_FETCH_REQUESTED } from './actionTypes';
+import { CHECKED_OUT, COMMUNES_FETCH_FAILED, COMMUNES_FETCH_REQUESTED, ORDER_PLACE_FAILED, ORDER_PLACED, PROVINCES_FETCH_FAILED, PROVINCES_FETCH_REQUESTED } from './actionTypes';
 import { fetchCommunes, fetchProvinces } from '@/services/provinceService';
-import { Commune, PlaceOrderPayload, Province } from '@/types/checkout';
-import { fetchCommunesFailed, fetchCommunesSucceeded, fetchProvincesFailed, fetchProvincesSucceeded, placeOrderFailed, placeOrderSucceeded } from './actions';
+import { Commune, PlaceOrderPayload, Province, ShippingAddressType } from '@/types/checkout';
+import { fetchCommunesFailed, fetchCommunesSucceeded, fetchProvincesFailed, fetchProvincesSucceeded, placeOrderFailed, placeOrderSucceeded, shippingAddressSubmited } from './actions';
 import { postOrder } from '@/services/orderService';
 import { Order } from '@/types/order';
 import { CartItem } from '@/types/cart';
+import { fetchShippingAddress } from '@/services/paymentService';
 
 function* fetchProvincesSaga(): SagaIterator {
     try {
@@ -34,6 +35,17 @@ function* fetchCommunesSaga(action: PayloadAction<{ provinceCode: string }>): Sa
 
         const communes: Commune[] = yield call(fetchCommunes, provinceCode);
         yield put(fetchCommunesSucceeded(communes));
+    } catch (e) {
+        const message = e instanceof Error ? e.message : String(e);
+        yield put(fetchCommunesFailed(`Fetch communes failed: ${message}`));
+    }
+}
+
+function* fetchShippingAddressSaga(): SagaIterator {
+    try {
+
+        const shippingAddress: Omit<ShippingAddressType, "isSaved"> = yield call(fetchShippingAddress);
+        yield put(shippingAddressSubmited(shippingAddress));
     } catch (e) {
         const message = e instanceof Error ? e.message : String(e);
         yield put(fetchCommunesFailed(`Fetch communes failed: ${message}`));
@@ -62,6 +74,7 @@ function* paymentSaga() {
     yield takeLatest(PROVINCES_FETCH_REQUESTED, fetchProvincesSaga)
     yield takeLatest(COMMUNES_FETCH_REQUESTED, fetchCommunesSaga)
     yield takeLatest(ORDER_PLACED, postOrderSaga)
+    yield takeLatest(CHECKED_OUT, fetchShippingAddressSaga)
 
     yield takeLatest([PROVINCES_FETCH_FAILED, COMMUNES_FETCH_FAILED, ORDER_PLACE_FAILED],
         (action: PayloadAction<{ message: string }>) => notify({ message: action.payload?.message, status: STATUS.FAIL, duration: 3 })

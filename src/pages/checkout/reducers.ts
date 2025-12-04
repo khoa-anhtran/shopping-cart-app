@@ -65,11 +65,11 @@ const PaymentReducer = (state = initialState, action: CheckoutPayloadAction): Ch
         }
 
         case SHIPPING_ADDRESS_SUBMITED: {
-            const { shippingAddress } = action.payload as { shippingAddress: ShippingAddressType };
+            const { shippingAddress } = action.payload as { shippingAddress?: ShippingAddressType };
 
             return {
                 ...state,
-                shippingAddress,
+                shippingAddress: shippingAddress ?? initialState.shippingAddress,
             };
         }
 

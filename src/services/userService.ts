@@ -1,3 +1,4 @@
+import { ShippingAddressType } from "@/types/checkout"
 import api from "./api"
 
 export const postUpdateUserInfo = async (userId: string, data: { name: string, avatar?: string }) => {

@@ -8,11 +8,11 @@ import { useSelector } from "react-redux";
 import useCart from "@/hooks/useCart";
 import { formatVnd } from "@/utils/helpers";
 import { selectProducts } from "../products/selectors";
-import { selectCart } from "../cart/selectors";
 import { selectCurrentStep, selectPaymentInfo, selectPaymentStatus, selectShippingAddress } from "./selectors";
 import { useDispatch } from "react-redux";
 import { nextStep, placeOrder, prevStep } from "./actions";
 import { PAYMENT_STEP, PAYMENT_STEP_MAP } from "@/constants/payment";
+import { selectCartEntities } from "../cart/selectors";
 
 const { Step } = Steps;
 
@@ -20,7 +20,7 @@ const Checkout = () => {
     const dispatch = useDispatch()
 
     const products = useSelector(selectProducts)
-    const items = useSelector(selectCart)
+    const cartItemEntities = useSelector(selectCartEntities)
     const shippingAddress = useSelector(selectShippingAddress)
     const paymentStatus = useSelector(selectPaymentStatus)
     const currentStep = useSelector(selectCurrentStep)
@@ -28,8 +28,10 @@ const Checkout = () => {
     const { totalValues, selectedItems } = useCart()
 
     const onPlaceOrder = useCallback(() => {
+        const items = selectedItems.map(id => cartItemEntities[id])
+
         dispatch(placeOrder({ items, paymentStatus, shippingAddress, total: totalValues, isSaved: shippingAddress.isSaved }))
-    }, [items, paymentStatus, shippingAddress, totalValues, dispatch])
+    }, [selectedItems, cartItemEntities, paymentStatus, shippingAddress, totalValues, dispatch])
 
     const goPrev = useCallback(() => {
         dispatch(prevStep())
@@ -74,7 +76,7 @@ const Checkout = () => {
                 <dl className="space-y-4 px-4">
                     {selectedItems.map(itemId => (<div className="flex justify-between">
                         <div>
-                            <dt className="font-medium">{products[itemId].title} <span>x{items.find(item => item.itemId === itemId)?.quantity}</span></dt>
+                            <dt className="font-medium">{products[itemId].title} <span>x{cartItemEntities[itemId].quantity}</span></dt>
                             <dd className="text-slate-400 text-xs">
                                 {products[itemId].title}
                             </dd>

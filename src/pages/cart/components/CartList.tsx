@@ -3,25 +3,27 @@ import { notification } from "antd";
 import { useEffect } from "react";
 import React from "react";
 import { useSelector } from "react-redux";
-import { selectCart } from "../selectors";
+import { selectCartEntities, selectCartIds } from "../selectors";
 import { selectProducts } from "@/pages/products/selectors";
 import useCart from "@/hooks/useCart";
 
 const CartList = () => {
-    const cartItems = useSelector(selectCart)
+    const cartItemIds = useSelector(selectCartIds)
+    const cartItemEntities = useSelector(selectCartEntities)
     const products = useSelector(selectProducts)
 
     const { onIncrease, onDecrease, onRemoveCartItems, onSelectItem } = useCart()
 
-    const missing = cartItems.filter(i => !products[i.itemId]).map(i => i.itemId);
+    const missing = cartItemIds.filter(id => !products[id]).map(id => id);
 
     useEffect(() => {
         if (missing.length) notification.error({ message: "Some products no longer exist" });
     }, [missing.length]);
 
     return <div className="space-y-4">
-        {cartItems.filter(i => products[i.itemId]).map(item => {
-            const product = products[item.itemId]!;
+        {cartItemIds.filter(id => products[id]).map(id => {
+            const product = products[id]!;
+            const item = cartItemEntities[id]
 
             return (
                 <CartItem

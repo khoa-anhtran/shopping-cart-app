@@ -3,7 +3,7 @@ import { call, debounce, put, select, takeEvery, takeLatest } from 'redux-saga/e
 import { CART_FETCH_FAILED, CART_FETCH_REQUESTED, CART_SYNC_FAILED, ITEM_ADDED, ITEMS_REMOVED, QUANTITY_DECREASED, QUANTITY_INCREASED } from './actionTypes'
 import { SagaIterator } from 'redux-saga';
 import { cartSyncFailed, cartSyncSucceeded, fetchCartFailed, fetchCartSucceeded } from './actions';
-import { selectCart } from './selectors';
+import { selectCartEntities } from './selectors';
 import { fetchCart, putCartItems } from '@/services/cartService';
 import { PayloadAction } from '@/types';
 import { notify } from '@/utils/helpers';
@@ -19,7 +19,7 @@ function* fetchCartSaga(): SagaIterator {
         const itemsMap = Object.fromEntries(
             cart.items.map(item => [item.itemId, { ...item, isSelected: false } as CartItem] as const)
         );
-        
+
         yield put(fetchCartSucceeded(itemsMap));
     } catch (e) {
         const message = e instanceof Error ? e.message : String(e);
@@ -29,8 +29,8 @@ function* fetchCartSaga(): SagaIterator {
 
 function* putCartSaga(): SagaIterator {
     try {
-        const items: CartItem[] = yield select(selectCart);
-        yield call(putCartItems, items)
+        const entities: Record<string, CartItem> = yield select(selectCartEntities);
+        yield call(putCartItems, Object.values(entities))
         yield put(cartSyncSucceeded());
     } catch (e) {
         const message = e instanceof Error ? e.message : String(e);

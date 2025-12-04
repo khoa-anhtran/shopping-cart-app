@@ -1,6 +1,8 @@
+import { CartItem } from "@/types/cart";
 import { createContext } from "react";
 
 export type CartCtx = {
+    cartItems: CartItem[],
     totalValues: number,
     totalQty: number,
     selectedItems: string[],
@@ -15,6 +17,7 @@ export type CartCtx = {
 }
 
 const CartContext = createContext<CartCtx>({
+    cartItems: [],
     selectedItems: [],
     totalQty: 0,
     totalValues: 0,

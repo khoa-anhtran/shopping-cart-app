@@ -1,25 +1,20 @@
-import { useCallback, useMemo, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useCallback, useState } from "react";
+import { useDispatch } from "react-redux";
 import { cartToggled } from "../cart/actions";
-import { selectCart } from "../cart/selectors";
 import useUserInfo from "@/hooks/useUserInfo";
 import useTheme from "@/hooks/useTheme";
 import { Link } from "react-router-dom";
 import { ROUTES } from "@/constants/routes";
+import useCart from "@/hooks/useCart";
 
 const Header = () => {
     const dispatch = useDispatch();
     const { email, logOut } = useUserInfo();
-    const cartItems = useSelector(selectCart);
     const [open, setOpen] = useState(false);
 
     const { theme, toggleTheme } = useTheme()
 
-    const totalQuantity = useMemo(() => {
-        return cartItems.reduce((sum, item) => {
-            return sum + item.quantity;
-        }, 0);
-    }, [cartItems]);
+    const { totalQty } = useCart()
 
     const onClick = useCallback(() => {
         dispatch(cartToggled());
@@ -102,7 +97,7 @@ const Header = () => {
                             aria-live="polite"
                             aria-label="total quantity"
                         >
-                            {totalQuantity}
+                            {totalQty}
                         </span>
                     </div>
 

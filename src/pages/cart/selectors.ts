@@ -8,7 +8,9 @@ export const selectCartSyncStatus = (state: RootState) => state.cart.syncStatus;
 
 export const selectCartSyncError = (state: RootState) => state.cart.syncError;
 
-export const selectCart = (state: RootState) => state.cart.items;
+export const selectCartEntities = (state: RootState) => state.cart.entities;
+
+export const selectCartIds = (state: RootState) => state.cart.ids
 
 export const selectCartOpen = (state: RootState) => state.cart.isOpen;
 

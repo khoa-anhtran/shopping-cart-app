@@ -8,6 +8,7 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { fetchCommunesRequested, fetchProvincesRequested, shippingAddressSubmited } from "../actions";
 import type { ShippingAddressType } from "@/types/checkout";
+import { PAYMENT_STEP } from "@/constants/payment";
 
 export const shippingAddressSchema = z.object({
     firstName: z.string("First name should be string").min(1, "First name should not empty").regex(/^[\p{L}\s]+$/u, "Only letters and spaces are allowed"),
@@ -26,7 +27,6 @@ type ShippingAdressProps = {
 
 const ShippingAddress = ({ goNext, goPrev }: ShippingAdressProps) => {
     const shippingAddress = useSelector(selectShippingAddress)
-    const current = useSelector(selectCurrentStep)
 
     const {
         register,
@@ -41,7 +41,6 @@ const ShippingAddress = ({ goNext, goPrev }: ShippingAdressProps) => {
     });
 
     const onSubmit = (data: ShippingAddressType) => {
-        console.log(data);
         dispatch(shippingAddressSubmited(data))
         goNext()
     };
@@ -196,14 +195,14 @@ const ShippingAddress = ({ goNext, goPrev }: ShippingAdressProps) => {
                 <Button
                     type="link"
                     className="text-slate-300 px-0"
-                    disabled={current === 0}
+                    disabled={true}
                     onClick={goPrev}
                 >
                     Previous
                 </Button>
 
                 <Button type="primary" htmlType="submit">
-                    {current == 2 ? "Place order" : "Next"}
+                    Next
                 </Button>
             </div>
         </form>

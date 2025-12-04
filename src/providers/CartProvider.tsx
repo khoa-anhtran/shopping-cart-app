@@ -4,7 +4,7 @@ import CartContext from "@/contexts/CartContext";
 import { Modal } from "antd";
 import { cartToggled, fetchCartRequested, itemSelectedToggled, itemsRemoved, quantityDecreased, quantityIncreased, selectAllToggled } from "@/pages/cart/actions";
 import useUserInfo from "@/hooks/useUserInfo";
-import { selectCart, selectCartStatus } from "@/pages/cart/selectors";
+import { selectCartEntities, selectCartStatus } from "@/pages/cart/selectors";
 import { selectProducts } from "@/pages/products/selectors";
 import { STATUS } from "@/constants/api";
 import { useNavigate } from "react-router-dom";
@@ -20,7 +20,11 @@ const CartProvider = ({ children }: { children: ReactNode }) => {
         throw new Error("User id is not existed")
 
     const status = useSelector(selectCartStatus)
-    const cartItems = useSelector(selectCart)
+    const cartEntities = useSelector(selectCartEntities)
+    const cartItems = useMemo(() => {
+        return Object.values(cartEntities)
+    }, [cartEntities])
+
     const products = useSelector(selectProducts)
 
     const isFetchingCart = useRef(false)
@@ -59,7 +63,7 @@ const CartProvider = ({ children }: { children: ReactNode }) => {
 
     const onIncrease = useCallback((itemId: string) => {
         dispatch(quantityIncreased(itemId))
-    }, [dispatch]) 
+    }, [dispatch])
 
     const onDecrease = useCallback(async (itemId: string, currentQty: number) => {
         if (currentQty === 1) {
@@ -111,7 +115,7 @@ const CartProvider = ({ children }: { children: ReactNode }) => {
     }, [dispatch])
 
     return (
-        <CartContext value={{ selectedItems, totalQty, totalValues, onCheckout, onClickCloseCart, onDecrease, onIncrease, onRefresh, onRemoveCartItems, onSelectAllItems, onSelectItem }}>
+        <CartContext value={{cartItems, selectedItems, totalQty, totalValues, onCheckout, onClickCloseCart, onDecrease, onIncrease, onRefresh, onRemoveCartItems, onSelectAllItems, onSelectItem }}>
             {children}
         </CartContext>
     );

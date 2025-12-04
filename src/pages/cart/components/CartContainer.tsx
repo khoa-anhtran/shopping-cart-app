@@ -3,13 +3,12 @@ import CartActions from "./CartActions"
 import CartHeader from "./CartHeader"
 import { useSelector } from "react-redux"
 import CartList from "./CartList"
-import { selectCart, selectCartStatus } from "../selectors"
+import { selectCartEntities, selectCartStatus } from "../selectors"
 import { STATUS } from "@/constants/api"
 import CartFooter from "./CartFooter"
 
 const CartContainer = () => {
-    const { selectedItems, onRemoveCartItems, onClickCloseCart, totalQty } = useCart()
-    const cartItems = useSelector(selectCart)
+    const { selectedItems, onRemoveCartItems, onClickCloseCart, totalQty, cartItems } = useCart()
     const status = useSelector(selectCartStatus)
 
     const isLoading = status !== STATUS.SUCCESS

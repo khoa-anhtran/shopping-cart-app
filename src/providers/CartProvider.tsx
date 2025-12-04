@@ -2,12 +2,13 @@ import { ReactNode, useCallback, useMemo, useRef, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import CartContext from "@/contexts/CartContext";
 import { Modal } from "antd";
-import { cartToggled, checkedOut, fetchCartRequested, itemSelectedToggled, itemsRemoved, quantityDecreased, quantityIncreased, selectAllToggled } from "@/pages/cart/actions";
+import { cartToggled, fetchCartRequested, itemSelectedToggled, itemsRemoved, quantityDecreased, quantityIncreased, selectAllToggled } from "@/pages/cart/actions";
 import useUserInfo from "@/hooks/useUserInfo";
 import { selectCart, selectCartStatus } from "@/pages/cart/selectors";
 import { selectProducts } from "@/pages/products/selectors";
 import { STATUS } from "@/constants/api";
 import { useNavigate } from "react-router-dom";
+import { checkedOut } from "@/pages/checkout/actions";
 
 const CartProvider = ({ children }: { children: ReactNode }) => {
     const dispatch = useDispatch()
@@ -92,6 +93,7 @@ const CartProvider = ({ children }: { children: ReactNode }) => {
             content: 'This cannot be undone.',
             onOk: () => {
                 navigate("/checkout")
+                dispatch(checkedOut())
             }
         })
     }, [dispatch, selectedItems, userId])

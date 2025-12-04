@@ -1,5 +1,5 @@
 import { CartItem } from "@/types/cart";
-import { CART_FETCH_FAILED, CART_FETCH_REQUESTED, CART_FETCH_SUCCEEDED, CART_TOGGLE, CHECKED_OUT, ITEM_ADDED, ITEMS_REMOVED, ITEM_SELECTED_TOGGLED, QUANTITY_DECREASED, QUANTITY_INCREASED, SELECT_ALL_TOGGLED, CART_SYNC_SUCCEEDED, CART_SYNC_FAILED } from "./actionTypes";
+import { CART_FETCH_FAILED, CART_FETCH_REQUESTED, CART_FETCH_SUCCEEDED, CART_TOGGLE, ITEM_ADDED, ITEMS_REMOVED, ITEM_SELECTED_TOGGLED, QUANTITY_DECREASED, QUANTITY_INCREASED, SELECT_ALL_TOGGLED, CART_SYNC_SUCCEEDED, CART_SYNC_FAILED } from "./actionTypes";
 
 export const fetchCartRequested = (userId: string) => ({
     type: CART_FETCH_REQUESTED,
@@ -79,15 +79,5 @@ export const itemSelectedToggled = (itemId: string) => (
 export const selectAllToggled = () => (
     {
         type: SELECT_ALL_TOGGLED,
-    }
-)
-
-export const checkedOut = (itemIds: string[], userId: string) => (
-    {
-        type: CHECKED_OUT,
-        payload: {
-            itemIds,
-            userId
-        }
     }
 )

@@ -25,3 +25,5 @@ export const PREV_STEP = 'payment/prevStep'
 export const PAYMENT_INFO_REQUESTED = 'payment/paymentInfoRequested'
 
 export const PAYMENT_STATUS_UPDATED = 'payment/paymenStatusUpdated'
+
+export const CHECKED_OUT = 'payment/checkedOut';

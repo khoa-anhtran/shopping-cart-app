@@ -55,7 +55,6 @@ const Checkout = () => {
 
             default:
                 return <></>
-
         }
     }, [currentStep])
 

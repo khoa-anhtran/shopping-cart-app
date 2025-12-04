@@ -11,8 +11,6 @@ export const QUANTITY_DECREASED = 'cart/quantityDecreased';
 export const ITEM_ADDED = 'cart/itemAdded';
 export const ITEMS_REMOVED = 'cart/itemsRemoved';
 
-export const CHECKED_OUT = 'cart/checkedOut';
-
 export const ITEM_SELECTED_TOGGLED = 'cart/itemSelectedToggled';
 export const SELECT_ALL_TOGGLED = 'cart/selectAllToggled';
 

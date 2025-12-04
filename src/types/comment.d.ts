@@ -1,3 +1,5 @@
+import { PageInfo } from ".";
+
 export type Comment = {
     id: string,
     user: { id: string, name: string, avatar?: string },
@@ -14,6 +16,7 @@ export type Comment = {
 export type CommentState = {
     ids: string[],
     entities: Record<string, Comment>,
+    pageInfo?: PageInfo,
     status: string,
     uploadStatus: string,
     error: string | null

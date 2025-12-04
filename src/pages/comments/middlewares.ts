@@ -3,7 +3,7 @@ import { all, call, delay, put, takeLatest } from 'redux-saga/effects'
 import { SagaIterator } from 'redux-saga';
 import { notify } from '@/utils/helpers';
 import { STATUS } from '@/constants/api';
-import { PayloadAction, SignatureResponse } from '@/types';
+import { IModelConnection, PayloadAction, SignatureResponse } from '@/types';
 import { COMMENT_POST_FAILED, COMMENT_POST_SUCCEEDED, COMMENT_POSTED, COMMENTS_FETCH_FAILED, COMMENTS_FETCH_REQUESTED, COMMENTS_FETCH_SUCCEEDED } from './actionTypes';
 import { Comment, CommentPostPayload } from '@/types/comment';
 import { fetchComments, postComment } from '@/services/commentService';
@@ -12,8 +12,12 @@ import { postGetImageSignature, postUploadImage } from '@/services/uploadService
 
 function* fetchCommentsSaga(action: PayloadAction<{ productId: string }>): SagaIterator {
     try {
-        const comments: Comment[] = yield call(fetchComments, action.payload?.productId ?? "");
-        yield put(fetchCommentsSucceeded(comments));
+        const commentConnection: IModelConnection<Comment> = yield call(fetchComments, action.payload?.productId ?? "");
+
+        const comments = commentConnection.edges.map(edge => edge.node)
+        const pageInfo = commentConnection.pageInfo
+
+        yield put(fetchCommentsSucceeded(comments, pageInfo));
     } catch (e) {
         const message = e instanceof Error ? e.message : String(e);
         yield put(fetchCommentsFailed(`Fetch comments failed: ${message}`));
@@ -24,8 +28,6 @@ function* postCommentSaga(action: PayloadAction<{ productId: string, files: File
     try {
         if (!action.payload)
             throw new Error("Missing payload")
-
-        delay(10000)
 
         const { files, comment, productId } = action.payload
 

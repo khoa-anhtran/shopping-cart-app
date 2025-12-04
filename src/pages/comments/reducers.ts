@@ -1,5 +1,6 @@
 import { COMMENT_POST_FAILED, COMMENT_POST_SUCCEEDED, COMMENT_POSTED, COMMENTS_FETCH_FAILED, COMMENTS_FETCH_REQUESTED, COMMENTS_FETCH_SUCCEEDED } from "./actionTypes"
 import { STATUS } from "@/constants/api"
+import { PageInfo } from "@/types"
 import { Comment, CommentPayloadAction, CommentState } from "@/types/comment"
 
 const initialState: CommentState = {
@@ -20,13 +21,14 @@ const commentReducer = (state = initialState, action: CommentPayloadAction): Com
         }
 
         case COMMENTS_FETCH_SUCCEEDED: {
-            const { comments } = action.payload as { comments: Comment[] };
+            const { comments, pageInfo } = action.payload as { comments: Comment[], pageInfo: PageInfo };
 
             const entities = Object.fromEntries(comments.map((comment: Comment) => [comment.id, comment]))
 
             return {
                 ...state,
                 entities,
+                pageInfo,
                 ids: comments.map(comment => comment.id),
                 status: STATUS.SUCCESS
             };

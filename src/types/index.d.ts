@@ -1,6 +1,6 @@
 export type PayloadAction<T> = {
-    type: string,
-    payload?: T
+  type: string,
+  payload?: T
 }
 
 export type SignatureResponse = {
@@ -9,4 +9,20 @@ export type SignatureResponse = {
   signature: string;
   cloudName: string;
   apiKey: string;
+};
+
+export type IModelConnection<M> = {
+  edges: Edge<M>[];
+  pageInfo: PageInfo;
+}
+
+export type PageInfo = {
+  startCursor: string | null;
+  endCursor: string | null;
+  hasNextPage: Boolean;
+};
+
+export type Edge<M> = {
+  node: M;
+  cursor: string;
 };

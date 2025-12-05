@@ -1,10 +1,12 @@
 import { PageInfo } from ".";
 
+export type Media = { publicId: string; url: string, mediaType: string }
+
 export type Comment = {
     id: string,
     user: { id: string, name: string, avatar?: string },
     text?: string,
-    media?: { publicId: string; url: string, mediaType: string }[],
+    media?: Media[],
     depth: number,
     replies: string[],
     parentId?: string,
@@ -24,7 +26,7 @@ export type CommentState = {
 
 export type CommentPostPayload = {
     text?: string,
-    media?: { publicId: string; url: string, mediaType: string }[],
+    media?: Media[],
     parentId?: string,
     depth: number
 }

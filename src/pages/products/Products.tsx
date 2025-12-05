@@ -5,7 +5,7 @@ import { itemAdded } from "../cart/actions"
 import { useProducts } from "@/hooks/useProducts"
 import { fetchMoreProductsRequested } from "./actions"
 import { fetchCommentsRequested } from "../comments/actions"
-import { useNavigate, useParams } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 import { useSelector } from "react-redux"
 import { selectProductPageInfo } from "./selectors"
 

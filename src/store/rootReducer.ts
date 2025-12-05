@@ -3,6 +3,7 @@ import cartReducer from "@/pages/cart/reducers";
 import PaymentReducer from "@/pages/checkout/reducers";
 import commentReducer from "@/pages/comments/reducers";
 import uiReducer from "@/pages/layout/ui/uiReducer";
+import productDetailsReducer from "@/pages/product-details/reducers";
 import productReducer from "@/pages/products/reducers";
 import { combineReducers } from "redux";
 
@@ -12,7 +13,8 @@ const rootReducer = combineReducers({
     cart: cartReducer,
     auth: authReducer,
     ui: uiReducer,
-    payment: PaymentReducer
+    payment: PaymentReducer,
+    productDetails: productDetailsReducer
 });
 
 export default rootReducer;

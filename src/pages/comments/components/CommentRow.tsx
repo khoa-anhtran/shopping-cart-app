@@ -97,7 +97,7 @@ const CommentRow = React.memo(({ comment, className, depth, productId, setScrolT
                         {comment.media.map(({ url, mediaType }, index) => (
                             <div
                                 key={index}
-                                className="w-16 h-16 rounded-md overflow-hidden border border-gray-200"
+                                className="w-16 h-16 rounded-md overflow-hidden border border-gray-200 hover:opacity-80 cursor-pointer"
                             >
                                 {mediaType.startsWith("image") ? <img
                                     src={url}

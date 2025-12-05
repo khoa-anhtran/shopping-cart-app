@@ -8,6 +8,7 @@ import CartProvider from "@/providers/CartProvider"
 import { HomeOutlined, UserOutlined } from '@ant-design/icons';
 import ProductNavigator from "../products/components/ProductNavigator"
 import CategorySider from "./CategorySider"
+import MediaViewer from "../product-details/component/MediaViewer"
 
 const Header = lazy(() => import('../layout/Header'))
 
@@ -38,6 +39,7 @@ const MainLayout = () => {
                                 <Outlet />
                             </div>
                         </main>
+                        <MediaViewer />
                     </div>
                 </CartProvider>
             </ErrorBoundary>

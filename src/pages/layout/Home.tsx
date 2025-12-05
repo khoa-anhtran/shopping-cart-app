@@ -1,3 +1,4 @@
+import MediaViewer from "../product-details/component/MediaViewer"
 import ProductDetailsModal from "../products/components/ProductDetailsModal"
 import { lazy } from "react"
 

@@ -9,7 +9,7 @@ export const postGetImageSignature = async (productId: string): Promise<Signatur
 }
 
 export const postUploadImage = async (cloudName: string, fd: FormData) => {
-    const uploadUrl = `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`;
+    const uploadUrl = `https://api.cloudinary.com/v1_1/${cloudName}/auto/upload`;
 
     const res = await axios.post(uploadUrl, fd)
 

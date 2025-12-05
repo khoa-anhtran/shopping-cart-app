@@ -49,11 +49,11 @@ function* postCommentSaga(action: PayloadAction<{ productId: string, files: File
         if (files && files.length !== 0) {
             const sigRes: SignatureResponse = yield call(postGetImageSignature, productId)
 
-            const results: { url: string; publicId: string }[] = yield all(
+            const results: { url: string; publicId: string, mediaType: string }[] = yield all(
                 files.map((file) => call(uploadImageSaga, sigRes, file))
             )
 
-            payload.images = results
+            payload.media = results
         }
 
         const newComment: Comment = yield call(postComment, productId, payload);
@@ -76,7 +76,7 @@ function* uploadImageSaga(sigRes: SignatureResponse, file: File): SagaIterator {
 
         const data: { url: string; publicId: string } = yield call(postUploadImage, cloudName, fd)
 
-        return data
+        return { ...data, mediaType: file.type }
     } catch (e) {
         const message = e instanceof Error ? e.message : String(e);
         yield put(commentPostFailed(`Post comments failed: ${message}`));

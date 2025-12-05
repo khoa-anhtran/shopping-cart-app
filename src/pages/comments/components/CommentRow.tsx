@@ -82,10 +82,10 @@ const CommentRow = React.memo(({ comment, className, depth, productId, setScrolT
                 {comment.text}
             </p>
 
-            {comment.images && comment.images.length !== 0 &&
+            {comment.media && comment.media.length !== 0 &&
                 (comment.isPending ?
                     <div className="flex gap-2 mb-2 overflow-x-auto bg-white w-full px-1 py-2">
-                        {comment.images.map((_, index) => (
+                        {comment.media.map((_, index) => (
                             <div
                                 key={index}
                                 className="w-16 h-16 rounded-md overflow-hidden border border-gray-200 row-center"
@@ -94,16 +94,20 @@ const CommentRow = React.memo(({ comment, className, depth, productId, setScrolT
                             </div>
                         ))}
                     </div> : <div className="flex gap-2 mb-2 overflow-x-auto bg-white w-full px-1 py-2">
-                        {comment.images.map(({ url }, index) => (
+                        {comment.media.map(({ url, mediaType }, index) => (
                             <div
                                 key={index}
                                 className="w-16 h-16 rounded-md overflow-hidden border border-gray-200"
                             >
-                                <img
+                                {mediaType.startsWith("image") ? <img
                                     src={url}
                                     alt="preview"
                                     className="w-full h-full object-cover"
-                                />
+                                /> : <video
+                                    src={url}
+                                    className="w-full h-full object-cover"
+                                />}
+
                             </div>
                         ))}
                     </div>)

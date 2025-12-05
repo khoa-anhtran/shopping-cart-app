@@ -3,6 +3,7 @@ import { useCallback, useRef, useState } from "react"
 import { useDispatch } from "react-redux";
 import { commentPosted } from "../actions";
 import useUserInfo from "@/hooks/useUserInfo";
+import { FileImageOutlined, VideoCameraAddOutlined } from "@ant-design/icons";
 
 type CommentInputProps = {
     id: string,
@@ -17,7 +18,7 @@ const CommentInput = ({ id, depth, parentId, setScrolToBottom }: CommentInputPro
     const { userId, name, avatar } = useUserInfo()
 
     const [text, setText] = useState("")
-    const [previews, setPreviews] = useState<string[]>([]);
+    const [previews, setPreviews] = useState<{ url: string, type: string }[]>([]);
     const [files, setFiles] = useState<File[]>([]);
 
     const formRef = useRef<HTMLFormElement>(null)
@@ -27,8 +28,8 @@ const CommentInput = ({ id, depth, parentId, setScrolToBottom }: CommentInputPro
         const list = Array.from(e.target.files ?? []);
         setFiles(list);
 
-        const urls = list.map((file) => URL.createObjectURL(file));
-        setPreviews(urls);
+        const previewObjects = list.map((file) => ({ url: URL.createObjectURL(file), type: file.type }));
+        setPreviews(previewObjects);
     }, [])
 
     const onRemoveFile = useCallback((index: number) => {
@@ -52,7 +53,7 @@ const CommentInput = ({ id, depth, parentId, setScrolToBottom }: CommentInputPro
 
         const dt = new DataTransfer();
         input.files = dt.files
-        previews.forEach((url) => URL.revokeObjectURL(url))
+        previews.forEach((obj) => URL.revokeObjectURL(obj.url))
         setPreviews([])
         setFiles([])
         setText("")
@@ -71,7 +72,7 @@ const CommentInput = ({ id, depth, parentId, setScrolToBottom }: CommentInputPro
                 parentId,
                 id: crypto.randomUUID(),
                 replies: [],
-                images: new Array(files.length).fill(""),
+                media: new Array(files.length).fill(""),
                 user: { id: userId ?? "", name: name ?? "", avatar: avatar ?? undefined },
                 isPending: true,
                 createdAt: new Date()
@@ -83,16 +84,20 @@ const CommentInput = ({ id, depth, parentId, setScrolToBottom }: CommentInputPro
     }}>
         {previews.length > 0 && (
             <div className="flex gap-2 mb-2 overflow-x-auto absolute -top-22 bg-white shadow-xl w-full px-1 py-2">
-                {previews.map((url, index) => (
+                {previews.map(({ type, url }, index) => (
                     <div
                         key={index}
                         className="w-16 h-16 rounded-md overflow-hidden border border-gray-200 relative"
                     >
-                        <img
+                        {type.startsWith("image") ? <img
                             src={url}
                             alt="preview"
                             className="w-full h-full object-cover"
-                        />
+                        /> : <video
+                            src={url}
+                            className="w-full h-full object-cover"
+                        />}
+
                         <button className="absolute top-0 right-0 cursor-pointer hover:bg-gray-100 hover:opacity-70" type="button"
                             onClick={() => onRemoveFile(index)}
                         >
@@ -130,14 +135,12 @@ const CommentInput = ({ id, depth, parentId, setScrolToBottom }: CommentInputPro
         </div>
 
         <div className="flex w-full items-center justify-between h-fit">
-            <div>
-                <label htmlFor="images" className="hover:bg-gray-200 p-1 cursor-pointer block rounded-md">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                        fill="currentColor" viewBox="0 0 24 24" >
-                        <path d="M5 21h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2m0-2v-1.59l3-3 1.29 1.29c.39.39 1.02.39 1.41 0l5.29-5.29 3 3V19h-14ZM19 5v5.59L16.71 8.3a.996.996 0 0 0-1.41 0l-5.29 5.29-1.29-1.29a.996.996 0 0 0-1.41 0l-2.29 2.29V5h14Z"></path><path d="M8.5 7a1.5 1.5 0 1 0 0 3 1.5 1.5 0 1 0 0-3"></path>
-                    </svg>
+            <div className="flex gap-2">
+                <label htmlFor="images" className="hover:bg-gray-200 p-1 border border-gray-200 cursor-pointer block rounded-md">
+                    <FileImageOutlined className="text-xl" />
                 </label>
-                <input ref={fileInputRef} type="file" multiple name="images" id="images" accept="image/*" className="hidden" onChange={onFileChange} />
+
+                <input ref={fileInputRef} type="file" multiple name="images" id="images" accept="image/*,video/*" className="hidden" onChange={onFileChange} />
             </div>
             <button className="px-2 py-1 bg-blue-500 text-gray-200 rounded-md cursor-pointer hover:opacity-70 text-xs" type="submit">SEND</button>
         </div>

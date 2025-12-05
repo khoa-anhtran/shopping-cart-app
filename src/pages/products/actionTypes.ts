@@ -4,6 +4,12 @@ export const PRODUCTS_FETCH_SUCCEEDED = 'products/fetchSucceeded';
 
 export const PRODUCTS_FETCH_FAILED = 'products/fetchFailed';
 
+export const CATEGORIES_FETCH_REQUESTED = 'products/fetchCategoriesRequested';
+
+export const CATEGORIES_FETCH_SUCCEEDED = 'products/fetchCategoriesSucceeded';
+
+export const CATEGORIES_FETCH_FAILED = 'products/fetchCategoriesFailed';
+
 export const PRODUCTS_FETCH_MORE_REQUESTED = 'products/fetchMoreRequested';
 
 export const PRODUCTS_FETCH_MORE_SUCCEEDED = 'products/fetchMoreSucceeded';

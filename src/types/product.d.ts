@@ -8,9 +8,19 @@ export type Product = {
     thumbnail: string
 }
 
+export type ProductCategory = {
+    id: string,
+    name: string,
+    subCategories?: {
+        id: string,
+        name: string
+    }[]
+}
+
 export type ProductState = {
     entities: Record<string, Product>,
     ids: string[],
+    categories: ProductCategory[],
     filteredProducts: Record<string, Product>,
     // filter: {
     //     category: string

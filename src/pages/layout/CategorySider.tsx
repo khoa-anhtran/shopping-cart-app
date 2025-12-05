@@ -1,9 +1,12 @@
 import { Collapse } from "antd"
 
 import type { CollapseProps } from "antd"
-
-const data = ['All', 'Beauty & Makeup', 'Fragrances', 'Furniture', 'Groceries', 'Pet Supplies']
-const text = "test"
+import { useEffect, useMemo } from "react";
+import { useDispatch } from "react-redux";
+import { fetchCategoriesRequested } from "../products/actions";
+import { useSelector } from "react-redux";
+import { selectCategories } from "../products/selectors";
+import { Link } from "react-router-dom";
 
 const styles = {
     header: {
@@ -19,37 +22,29 @@ const styles = {
     }
 };
 
-const test = <div className="space-y-4">
-    <div>Thịt heo</div>
-    <div>Thịt bò</div>
-    <div>Thịt gà, vịt</div>
-    <div>Cá, hải sản</div>
-    <div>Trứng gà, vịt, cút</div>
-</div>
-
-const items: CollapseProps['items'] = [
-    {
-        key: '1',
-        label: 'Thịt, cá, trứng, hải sản',
-        children: test,
-        styles
-    },
-    {
-        key: '2',
-        label: 'Rau, củ, nấm, trái cây',
-        children: test,
-        styles
-    },
-    {
-        key: '3',
-        label: 'Dầu ăn, nước chấm, gia vị',
-        children: test,
-        styles
-    },
-];
-
-
 const CategorySider = () => {
+    const dispatch = useDispatch()
+
+    const categories = useSelector(selectCategories)
+
+    useEffect(() => {
+        if (categories.length === 0)
+            dispatch(fetchCategoriesRequested())
+    }, [])
+
+    const items = useMemo((): CollapseProps['items'] => {
+        return categories.map(category => ({
+            key: category.id,
+            label: category.name,
+            children: <div className="flex flex-col gap-4">
+                {category.subCategories?.map((subCategory =>
+                    <Link to={`/products/${subCategory.id}`} className="capitalize">{subCategory.name}</Link>
+                ))}
+            </div>,
+            styles
+        }))
+    }, [categories])
+
     return <aside className="w-[20%] px-2 py-4 space-y-4 sticky shadow bg-white">
         <h3 className="font-bold text-2xl">Category</h3>
         <Collapse accordion ghost items={items} />

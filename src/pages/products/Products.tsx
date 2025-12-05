@@ -54,7 +54,7 @@ const Products = () => {
     }, [dispatch])
 
     useScrollToBottom(() => {
-        if (pageInfo && !isLoading)
+        if (pageInfo && !isLoading && pageInfo.hasNextPage)
             dispatch(fetchMoreProductsRequested(pageInfo.endCursor))
     });
 

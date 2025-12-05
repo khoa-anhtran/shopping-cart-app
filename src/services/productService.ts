@@ -7,3 +7,9 @@ export const fetchProducts = async (after?: string): Promise<IModelConnection<Pr
     const data = res.data
     return data
 }
+
+export const fetchCategories = async () => {
+    const res = await api.get("/api/products/categories")
+
+    return res.data
+}

@@ -1,13 +1,14 @@
 import { call, put, takeLatest } from 'redux-saga/effects'
 
-import { fetchProducts } from '../../services/productService'
-import { PRODUCTS_FETCH_FAILED, PRODUCTS_FETCH_MORE_REQUESTED, PRODUCTS_FETCH_REQUESTED, PRODUCTS_FETCH_SUCCEEDED } from './actionTypes'
+import { fetchCategories, fetchProducts } from '../../services/productService'
+import { CATEGORIES_FETCH_FAILED, CATEGORIES_FETCH_REQUESTED, PRODUCTS_FETCH_FAILED, PRODUCTS_FETCH_MORE_FAILED, PRODUCTS_FETCH_MORE_REQUESTED, PRODUCTS_FETCH_REQUESTED, PRODUCTS_FETCH_SUCCEEDED } from './actionTypes'
 import { SagaIterator } from 'redux-saga';
-import { fetchMoreProductsSucceeded, fetchProductsFailed, fetchProductsSucceeded } from './actions';
+import { fetchCategoriesFailed, fetchCategoriesSucceeded, fetchMoreProductsSucceeded, fetchProductsFailed, fetchProductsSucceeded } from './actions';
 import { notify } from '@/utils/helpers';
 import { STATUS } from '@/constants/api';
 import { IModelConnection, PayloadAction } from '@/types';
-import { Product } from '@/types/product';
+import { Product, ProductCategory } from '@/types/product';
+import { fetchCartSucceeded } from '../cart/actions';
 
 
 function* fetchProductsSaga(action: PayloadAction<{ after?: string }>): SagaIterator {
@@ -29,9 +30,21 @@ function* fetchProductsSaga(action: PayloadAction<{ after?: string }>): SagaIter
     }
 }
 
+function* fetchCategoriesSaga(): SagaIterator {
+    try {
+        const categories: ProductCategory[] = yield call(fetchCategories);
+
+        yield put(fetchCategoriesSucceeded(categories));
+    } catch (e) {
+        const message = e instanceof Error ? e.message : String(e);
+        yield put(fetchCategoriesFailed(`Fetch categories failed: ${message}`));
+    }
+}
+
 function* productsSaga() {
+    yield takeLatest(CATEGORIES_FETCH_REQUESTED, fetchCategoriesSaga)
     yield takeLatest([PRODUCTS_FETCH_REQUESTED, PRODUCTS_FETCH_MORE_REQUESTED], fetchProductsSaga)
-    yield takeLatest(PRODUCTS_FETCH_FAILED,
+    yield takeLatest([PRODUCTS_FETCH_FAILED, PRODUCTS_FETCH_MORE_FAILED, CATEGORIES_FETCH_FAILED],
         (action: PayloadAction<{ message: string }>) => notify({ message: action.payload?.message, status: STATUS.FAIL, duration: 3 })
     )
 }

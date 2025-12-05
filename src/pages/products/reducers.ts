@@ -1,11 +1,12 @@
-import { PRODUCTS_FETCH_FAILED, PRODUCTS_FETCH_MORE_FAILED, PRODUCTS_FETCH_MORE_REQUESTED, PRODUCTS_FETCH_MORE_SUCCEEDED, PRODUCTS_FETCH_REQUESTED, PRODUCTS_FETCH_SUCCEEDED, PRODUCTS_FILTERED } from "./actionTypes"
+import { CATEGORIES_FETCH_FAILED, CATEGORIES_FETCH_REQUESTED, CATEGORIES_FETCH_SUCCEEDED, PRODUCTS_FETCH_FAILED, PRODUCTS_FETCH_MORE_FAILED, PRODUCTS_FETCH_MORE_REQUESTED, PRODUCTS_FETCH_MORE_SUCCEEDED, PRODUCTS_FETCH_REQUESTED, PRODUCTS_FETCH_SUCCEEDED, PRODUCTS_FILTERED } from "./actionTypes"
 import { STATUS } from "@/constants/api"
 import { PageInfo } from "@/types"
-import { Product, ProductPayloadAction, ProductState } from "@/types/product"
+import { Product, ProductCategory, ProductPayloadAction, ProductState } from "@/types/product"
 
 const initialState: ProductState = {
     entities: {},
     ids: [],
+    categories: [],
     filteredProducts: {},
     // filter: {
     //     category: "all"
@@ -17,6 +18,7 @@ const initialState: ProductState = {
 const productReducer = (state = initialState, action: ProductPayloadAction): ProductState => {
     switch (action.type) {
         case PRODUCTS_FETCH_MORE_REQUESTED:
+        case CATEGORIES_FETCH_REQUESTED:
         case PRODUCTS_FETCH_REQUESTED: {
             return {
                 ...state,
@@ -37,6 +39,16 @@ const productReducer = (state = initialState, action: ProductPayloadAction): Pro
                 entities,
                 ids,
                 filteredProducts: entities,
+                status: STATUS.SUCCESS
+            };
+        }
+
+        case CATEGORIES_FETCH_SUCCEEDED: {
+            const { categories } = action.payload as { categories: ProductCategory[] };
+
+            return {
+                ...state,
+                categories,
                 status: STATUS.SUCCESS
             };
         }
@@ -62,6 +74,7 @@ const productReducer = (state = initialState, action: ProductPayloadAction): Pro
         }
 
         case PRODUCTS_FETCH_MORE_FAILED:
+        case CATEGORIES_FETCH_FAILED:
         case PRODUCTS_FETCH_FAILED: {
             const { message } = action.payload as { message: string };
 

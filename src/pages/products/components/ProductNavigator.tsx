@@ -1,3 +1,4 @@
+import { ROUTES } from "@/constants/routes"
 import { useProducts } from "@/hooks/useProducts"
 import { HomeOutlined, ProductOutlined, UserOutlined } from "@ant-design/icons"
 import { Breadcrumb } from "antd"
@@ -26,10 +27,14 @@ const ProductNavigator = () => {
             title: (
                 <>
                     <ProductOutlined />
-                    <span>{category && category.name}</span>
+                    <span className="ml-4 capitalize">{category && category.name}</span>
                 </>
             ),
-            className: "px-2 py-1"
+            className: `px-2 py-1 ${productId ? "cursor-pointer hover:bg-gray-200" : ""}`,
+            onClick: () => {
+                if (productId)
+                    navigate(`${ROUTES.PRODUCTS}/${categoryId}`)
+            },
         },
         {
             title: product && product.title,

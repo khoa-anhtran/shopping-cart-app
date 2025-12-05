@@ -40,10 +40,9 @@ const Products = () => {
         dispatch(itemAdded(productId))
     }, [dispatch])
 
-    const onClickProduct = useCallback((productId: string) => {
-        navigate(`/products/${productId}`)
+    const onClickProduct = useCallback((categoryId: string, productId: string) => {
+        navigate(`/products/${categoryId}/${productId}`)
         dispatch(fetchCommentsRequested(productId))
-
     }, [dispatch])
 
     useScrollToBottom(() => {

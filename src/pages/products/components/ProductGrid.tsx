@@ -4,7 +4,7 @@ import ProductCard from "./ProductCard";
 type ProductGridProps = {
     products: Record<string, Product>,
     onAddToCart: (productId: string) => void,
-    onClick: (productId: string) => void,
+    onClick: (categoryId: string, productId: string) => void,
 }
 
 export default function ProductGrid({ products, onAddToCart, onClick }: ProductGridProps) {
@@ -15,7 +15,7 @@ export default function ProductGrid({ products, onAddToCart, onClick }: ProductG
                 product={products[productId] as Product}
                 key={productId}
                 onAddToCart={() => onAddToCart(productId)}
-                onClick={() => onClick(productId)}
+                onClick={() => onClick(products[productId].category, productId)}
             />)}
     </div>
 }

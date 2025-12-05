@@ -15,7 +15,7 @@ import { fetchCommentsRequested, fetchMoreCommentsRequested } from "../comments/
 import { LikeFilled, LikeOutlined, StarOutlined } from "@ant-design/icons"
 
 const ProductDetails = () => {
-    const { id } = useParams<{ id: string }>();
+    const { productId } = useParams<{ productId: string }>();
 
     const { products, isLoading } = useProducts()
 
@@ -32,7 +32,7 @@ const ProductDetails = () => {
 
     const commentListRef = useRef<HTMLDivElement>(null)
 
-    if (!id)
+    if (!productId)
         throw new Error("No product id is existed")
 
     if (isLoading)
@@ -61,11 +61,11 @@ const ProductDetails = () => {
 
     const onFetchMoreComments = useCallback(() => {
         const after = commentPageInfo ? commentPageInfo.endCursor : ""
-        dispatch(fetchMoreCommentsRequested(id, after))
+        dispatch(fetchMoreCommentsRequested(productId, after))
 
-    }, [commentPageInfo, id])
+    }, [commentPageInfo, productId])
 
-    const product = products[id]
+    const product = products[productId]
 
     return <main className="py-4 px-8 flex gap-4">
         <section className="w-[70%] space-y-8 px-4 py-8 bg-white rounded-md shadow">
@@ -150,7 +150,7 @@ const ProductDetails = () => {
                         const comment = comments[commentId]
 
                         if (comment && comment.depth === 0)
-                            return <CommentRow key={commentId} comment={comment} depth={0} productId={id} setScrolToBottom={onDisplayScrollToBottom} />
+                            return <CommentRow key={commentId} comment={comment} depth={0} productId={productId} setScrolToBottom={onDisplayScrollToBottom} />
                     })}
 
                     {canScrollToBottom && <div className="sticky bottom-2 row-center">

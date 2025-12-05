@@ -12,11 +12,4 @@ export const selectProductPageInfo = (state: RootState) => state.products.pageIn
 
 export const selectfilteredProducts = (state: RootState) => state.products.filteredProducts;
 
-export const selectProductsByCategory = (state: RootState, categoryId: string) => {
-    const entities = state.products.entities
-    const ids = state.products.ids
-    const filter = ids.filter(id => entities[id].category === categoryId)
-    return Object.fromEntries(filter.map(id => [id, entities[id]]))
-}
-
 export const selectCategories = (state: RootState) => state.products.categories;

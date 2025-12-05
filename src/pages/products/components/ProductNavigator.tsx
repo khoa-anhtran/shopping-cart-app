@@ -6,11 +6,12 @@ import { useNavigate, useParams } from "react-router-dom"
 const ProductNavigator = () => {
     const navigate = useNavigate()
 
-    const { id } = useParams<{ id: string }>();
+    const { productId, categoryId } = useParams<{ productId: string, categoryId: string }>();
 
-    const { products, isLoading } = useProducts()
+    const { products, isLoading, categoriesMap } = useProducts()
 
-    const product = id && products[id]
+    const product = productId && products[productId]
+    const category = categoryId && categoriesMap[categoryId]
 
     if (isLoading)
         return <></>
@@ -25,7 +26,7 @@ const ProductNavigator = () => {
             title: (
                 <>
                     <ProductOutlined />
-                    <span>{product && product.category}</span>
+                    <span>{category && category.name}</span>
                 </>
             ),
             className: "px-2 py-1"
@@ -39,8 +40,7 @@ const ProductNavigator = () => {
 
     return <div className="py-4 px-8">
         <Breadcrumb
-
-            items={product ? navigateItems : [navigateItems[0]]}
+            items={product ? navigateItems : category ? navigateItems.slice(0, 2) : [navigateItems[0]]}
         />
     </div>
 }

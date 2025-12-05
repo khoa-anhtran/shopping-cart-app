@@ -3,12 +3,9 @@ import { useCallback, useEffect } from "react"
 import ProductGrid from "./components/ProductGrid"
 import { itemAdded } from "../cart/actions"
 import { useProducts } from "@/hooks/useProducts"
-import useUserInfo from "@/hooks/useUserInfo"
-import { fetchMoreProductsRequested, productsFiltered } from "./actions"
-import { showPDsModal } from "../layout/ui/uiActions"
+import { fetchMoreProductsRequested } from "./actions"
 import { fetchCommentsRequested } from "../comments/actions"
-import { Segmented } from "antd"
-import { useNavigate } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 import { useSelector } from "react-redux"
 import { selectProductPageInfo } from "./selectors"
 
@@ -41,10 +38,6 @@ const Products = () => {
 
     const onAddToCart = useCallback((productId: string) => {
         dispatch(itemAdded(productId))
-    }, [dispatch])
-
-    const onChangeCategory = useCallback((value: string) => {
-        dispatch(productsFiltered(value))
     }, [dispatch])
 
     const onClickProduct = useCallback((productId: string) => {

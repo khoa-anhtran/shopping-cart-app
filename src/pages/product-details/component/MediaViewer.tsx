@@ -3,15 +3,15 @@
 // Self-contained component (no props). Replace sample URLs with your own data as needed.
 
 import { useLockModal } from "@/hooks/useLockModal";
-import React, { useRef, useState } from "react";
+import React, { useCallback, useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { selectCurrentMedia, selectMediaList, selectMediaViewerOpen } from "../selectors";
-import { mediaViewerClosed } from "../actions";
+import { mediaViewerClosed, mediaViewerNavigated } from "../actions";
 
 export default function MediaViewer() {
-
     const [isFullscreen, setIsFullscreen] = useState(false);
     const videoRef = useRef<HTMLVideoElement | null>(null);
+    const modalRef = useRef<HTMLDivElement | null>(null)
 
     const open = useSelector(selectMediaViewerOpen)
 
@@ -20,36 +20,37 @@ export default function MediaViewer() {
     const mediaList = useSelector(selectMediaList)
     const currentMediaIndex = useSelector(selectCurrentMedia)
 
-    if (!mediaList || !currentMediaIndex)
-        return <></>
+    const onClickClose = useCallback(() => {
+        dispatch(mediaViewerClosed())
+    }, [dispatch])
 
     const current = mediaList[currentMediaIndex];
 
-    const modalRef = useRef(null)
-
-    function goto(i: number) {
+    const goto = useCallback((i: number) => {
         if (i < 0) i = 0;
         if (i >= mediaList!.length) i = mediaList!.length - 1;
-        videoRef.current?.pause();
-    }
+        dispatch(mediaViewerNavigated(i))
+    }, [dispatch])
 
-    function downloadCurrent() {
-        if (!current) return;
-        const a = document.createElement("a");
-        a.href = current.url;
-        a.download = current.publicId;
-        document.body.appendChild(a);
-        a.click();
-        a.remove();
-    }
+    // function downloadCurrent() {
+    //     if (!current) return;
+    //     const a = document.createElement("a");
+    //     a.href = current.url;
+    //     a.download = current.publicId;
+    //     document.body.appendChild(a);
+    //     a.click();
+    //     a.remove();
+    // }
 
-    useLockModal(open, modalRef, () => { })
+    useLockModal(open, modalRef, onClickClose)
+
+    console.log(current)
 
     return (
-        <div className={`h-screen w-screen bg-black/70 absolute z-30 top-0 left-0 space-y-4 px-8 ${!open ? "hidden" : ""}`} ref={modalRef} onClick={() => {
+        <div className={`h-screen w-screen bg-black/70 absolute z-30 top-0 left-0 space-y-4 ${open ? "row-center" : "hidden"}`} ref={modalRef} onClick={() => {
             dispatch(mediaViewerClosed())
         }}>
-            <div onClick={(e) => e.stopPropagation()}>
+            <div className="w-[80%] h-[90%]" onClick={(e) => e.stopPropagation()}>
                 <div className="flex items-center justify-between gap-2 h-[10vh] w-full">
                     <div className="flex gap-4">
                         <button
@@ -67,7 +68,7 @@ export default function MediaViewer() {
                             ▶
                         </button>
                         <button
-                            onClick={downloadCurrent}
+                            // onClick={downloadCurrent}
                             className="px-3 py-1 rounded border bg-white disabled:opacity-50"
                             disabled={!current}
                         >

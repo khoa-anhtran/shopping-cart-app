@@ -7,6 +7,8 @@ import { timeAgo } from "@/utils/helpers";
 import useTheme from "@/hooks/useTheme";
 import CommentInput from "./CommentInput";
 import React from "react";
+import { useDispatch } from "react-redux";
+import { mediaViewerOpened } from "@/pages/product-details/actions";
 
 type CommentRowProps = {
     comment: Comment;
@@ -17,6 +19,7 @@ type CommentRowProps = {
 }
 
 const CommentRow = React.memo(({ comment, className, depth, productId, setScrolToBottom }: CommentRowProps) => {
+    const dispatch = useDispatch()
     const comments = useSelector(selectComments)
     const { theme } = useTheme()
     const [isInputOpen, setInputOpen] = useState(false)
@@ -94,10 +97,13 @@ const CommentRow = React.memo(({ comment, className, depth, productId, setScrolT
                             </div>
                         ))}
                     </div> : <div className="flex gap-2 mb-2 overflow-x-auto bg-white w-full px-1 py-2">
-                        {comment.media.map(({ url, mediaType }, index) => (
+                        {comment.media?.map(({ url, mediaType }, index) => (
                             <div
                                 key={index}
                                 className="w-16 h-16 rounded-md overflow-hidden border border-gray-200 hover:opacity-80 cursor-pointer"
+                                onClick={() => {
+                                    dispatch(mediaViewerOpened(comment.media!, index))
+                                }}
                             >
                                 {mediaType.startsWith("image") ? <img
                                     src={url}

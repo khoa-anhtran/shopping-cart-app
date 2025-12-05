@@ -39,11 +39,11 @@ const MainLayout = () => {
                                 <Outlet />
                             </div>
                         </main>
-                        <MediaViewer />
                     </div>
                 </CartProvider>
             </ErrorBoundary>
         </AntdApp>
+        <MediaViewer />
     </ConfigProvider >
 }
 

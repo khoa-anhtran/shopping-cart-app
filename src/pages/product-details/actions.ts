@@ -1,5 +1,5 @@
 import { Media } from "@/types/comment";
-import { MEDIA_VIEWER_OPENED } from "./actionTypes";
+import { MEDIA_VIEWER_CLOSED, MEDIA_VIEWER_NAVIGATED, MEDIA_VIEWER_OPENED } from "./actionTypes";
 
 export const mediaViewerOpened = (media: Media[], currentMedia: number) => ({
     type: MEDIA_VIEWER_OPENED,
@@ -10,5 +10,12 @@ export const mediaViewerOpened = (media: Media[], currentMedia: number) => ({
 });
 
 export const mediaViewerClosed = () => ({
-    type: MEDIA_VIEWER_OPENED
+    type: MEDIA_VIEWER_CLOSED
 });
+
+export const mediaViewerNavigated = (currentMedia: number) => ({
+    type: MEDIA_VIEWER_NAVIGATED,
+    payload: {
+        currentMedia
+    }
+})

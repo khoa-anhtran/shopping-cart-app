@@ -45,9 +45,11 @@ const CategorySider = () => {
         }))
     }, [categories])
 
-    return <aside className="w-[20%] px-2 py-4 space-y-4 sticky shadow bg-white">
-        <h3 className="font-bold text-2xl">Category</h3>
-        <Collapse accordion ghost items={items} />
+    return <aside className="w-[20%] px-2 py-4 space-y-4 sticky top-10 shadow bg-white h-fit rounded-md min-h-[50vh] flex flex-col">
+        <h3 className="font-bold text-2xl px-2">Category Panel</h3>
+        <div className="row-center flex-1">
+            <Collapse accordion ghost items={items} />
+        </div>
     </aside>
 }
 

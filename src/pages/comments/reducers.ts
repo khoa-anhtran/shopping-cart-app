@@ -77,7 +77,7 @@ const commentReducer = (state = initialState, action: CommentPayloadAction): Com
             return {
                 ...state,
                 entities: { ...newEntities, ...entity },
-                ids: [...state.ids, comment.id],
+                ids: [comment.id, ...state.ids],
                 status: STATUS.LOADING
             };
         }

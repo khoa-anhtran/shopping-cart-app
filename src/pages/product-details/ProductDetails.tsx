@@ -13,6 +13,7 @@ import ProductCard from "../products/components/ProductCard"
 import { useDispatch } from "react-redux"
 import { fetchCommentsRequested, fetchMoreCommentsRequested } from "../comments/actions"
 import { LikeFilled, LikeOutlined, StarOutlined } from "@ant-design/icons"
+import CommentInput from "../comments/components/CommentInput"
 
 const ProductDetails = () => {
     const { productId } = useParams<{ productId: string }>();
@@ -144,6 +145,13 @@ const ProductDetails = () => {
                 <h3 className="font-bold text-xl">
                     Comments
                 </h3>
+
+                <CommentInput
+                    id={productId}
+                    depth={0}
+                    setScrolToBottom={onDisplayScrollToBottom}
+                />
+
                 <div className="flex flex-col gap-4 relative" ref={commentListRef} onScroll={onDisplayScrollToBottom}>
                     {commentIds.map(commentId => {
 
@@ -173,7 +181,7 @@ const ProductDetails = () => {
             </div>
         </section>
 
-        <section className="w-[30%] rounded-md shadow space-y-8 px-4 py-8 bg-white sticky h-fit">
+        <section className="w-[30%] rounded-md shadow space-y-8 px-4 py-8 bg-white sticky top-10 h-fit">
             <div className="font-bold text-2xl">
                 {product.title}
             </div>

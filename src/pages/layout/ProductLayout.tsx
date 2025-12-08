@@ -12,6 +12,7 @@ import MediaViewer from "../product-details/component/MediaViewer"
 import MainLayout from "./MainLayout"
 
 const Header = lazy(() => import('../layout/Header'))
+const Cart = lazy(() => import('../cart/Cart'))
 
 const ProductLayout = () => {
 
@@ -24,6 +25,7 @@ const ProductLayout = () => {
                 <Outlet />
             </div>
         </main>
+        <Cart />
     </MainLayout>
 }
 

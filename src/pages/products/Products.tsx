@@ -8,6 +8,7 @@ import { fetchCommentsRequested } from "../comments/actions"
 import { useNavigate } from "react-router-dom"
 import { useSelector } from "react-redux"
 import { selectProductPageInfo } from "./selectors"
+import { Empty } from "antd"
 
 function useScrollToBottom(onBottom: () => void) {
     useEffect(() => {
@@ -52,7 +53,12 @@ const Products = () => {
 
     if (!isLoading)
         return <section className="dark:bg-black dark:text-white">
-            <ProductGrid products={products} onAddToCart={onAddToCart} onClick={onClickProduct} />
+            {Object.keys(products).length === 0
+                ? <div className="h-[80vh] row-center">
+                    <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
+                </div>
+                : <ProductGrid products={products} onAddToCart={onAddToCart} onClick={onClickProduct} />
+            }
         </section>
 
 }

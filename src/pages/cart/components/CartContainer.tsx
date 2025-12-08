@@ -6,6 +6,7 @@ import CartList from "./CartList"
 import { selectCartEntities, selectCartStatus } from "../selectors"
 import { STATUS } from "@/constants/api"
 import CartFooter from "./CartFooter"
+import { Empty } from "antd"
 
 const CartContainer = () => {
     const { selectedItems, onRemoveCartItems, onClickCloseCart, totalQty, cartItems } = useCart()
@@ -20,7 +21,9 @@ const CartContainer = () => {
     if (!isLoading) {
 
         if (cartItems.length === 0)
-            content = <p className="empty">Cart is empty</p>
+            content = <div className="h-[70vh] row-center">
+                <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
+            </div>
         else
             content = <CartList />
     }

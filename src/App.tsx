@@ -10,7 +10,7 @@ import { ROUTES } from './constants/routes'
 import Loading from './pages/layout/Loading'
 import ErrorFallback from './pages/layout/ErrorFallback'
 
-const Home = lazy(() => import('./pages/layout/Home'))
+const Products = lazy(() => import('./pages/products/Products'))
 const Login = lazy(() => import('./pages/auth/Login'))
 const Register = lazy(() => import('./pages/auth/Register'))
 const Checkout = lazy(() => import('./pages/checkout/Checkout'))
@@ -35,8 +35,8 @@ function App() {
 
             <Route element={<RequireAuth />}>
               <Route element={<ProductLayout />}>
-                <Route path={ROUTES.HOME} element={<Home />} />
-                <Route path={`${ROUTES.PRODUCTS}/:categoryId`} element={<Home />} />
+                <Route path={ROUTES.HOME} element={<Products />} />
+                <Route path={`${ROUTES.PRODUCTS}/:categoryId`} element={<Products />} />
                 <Route path={`${ROUTES.PRODUCTS}/:categoryId/:productId`} element={<ProductDetails />} />
               </Route>
               <Route element={<CheckoutLayout />}>

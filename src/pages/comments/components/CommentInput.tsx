@@ -83,11 +83,11 @@ const CommentInput = ({ id, depth, parentId, setScrolToBottom }: CommentInputPro
         }
     }}>
         {previews.length > 0 && (
-            <div className="flex gap-2 mb-2 overflow-x-auto absolute -top-22 bg-white shadow-xl w-full px-1 py-2">
+            <div className="flex gap-2 mb-2 overflow-x-auto absolute -top-[80%] bg-white shadow-xl w-full px-1 py-2 max-w-full">
                 {previews.map(({ type, url }, index) => (
                     <div
                         key={index}
-                        className="w-16 h-16 rounded-md overflow-hidden border border-gray-200 relative"
+                        className="w-16 h-16 rounded-md border border-gray-200 relative shrink-0"
                     >
                         {type.startsWith("image") ? <img
                             src={url}

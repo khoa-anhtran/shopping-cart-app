@@ -91,7 +91,7 @@ const CommentRow = React.memo(({ comment, className, depth, productId, setScrolT
                         {comment.media.map((_, index) => (
                             <div
                                 key={index}
-                                className="w-16 h-16 rounded-md overflow-hidden border border-gray-200 row-center"
+                                className="w-16 h-16 rounded-md overflow-hidden border border-gray-200 row-center shrink-0"
                             >
                                 <Skeleton.Image active />
                             </div>
@@ -100,7 +100,7 @@ const CommentRow = React.memo(({ comment, className, depth, productId, setScrolT
                         {comment.media?.map(({ url, mediaType }, index) => (
                             <div
                                 key={index}
-                                className="w-16 h-16 rounded-md overflow-hidden border border-gray-200 hover:opacity-80 cursor-pointer"
+                                className="w-16 h-16 rounded-md overflow-hidden border border-gray-200 hover:opacity-80 cursor-pointer shrink-0"
                                 onClick={() => {
                                     dispatch(mediaViewerOpened(comment.media!, index))
                                 }}

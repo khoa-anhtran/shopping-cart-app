@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback } from "react";
 import { Steps, Button } from "antd";
 import ShippingAddress from "./components/ShippingAddress";
 import PaymentDetails from "./components/PaymentDetails";
@@ -7,8 +7,7 @@ import CheckoutComplete from "./components/CheckoutComplete";
 import { useSelector } from "react-redux";
 import useCart from "@/hooks/useCart";
 import { formatVnd } from "@/utils/helpers";
-import { selectProducts } from "../products/selectors";
-import { selectCurrentStep, selectPaymentInfo, selectPaymentStatus, selectShippingAddress } from "./selectors";
+import { selectCurrentStep, selectPaymentStatus, selectShippingAddress } from "./selectors";
 import { useDispatch } from "react-redux";
 import { nextStep, placeOrder, prevStep } from "./actions";
 import { PAYMENT_STEP, PAYMENT_STEP_MAP } from "@/constants/payment";
@@ -19,7 +18,6 @@ const { Step } = Steps;
 const Checkout = () => {
     const dispatch = useDispatch()
 
-    const products = useSelector(selectProducts)
     const cartItemEntities = useSelector(selectCartEntities)
     const shippingAddress = useSelector(selectShippingAddress)
     const paymentStatus = useSelector(selectPaymentStatus)
@@ -74,14 +72,14 @@ const Checkout = () => {
                 </div>
 
                 <div className="space-y-4 px-4">
-                    {selectedItems.map(itemId => (<div className="flex justify-between gap-4">
+                    {selectedItems.map(itemId => (<div key={itemId} className="flex justify-between gap-4">
                         <div>
-                            <dt className="font-medium">{products[itemId].title} <span>x{cartItemEntities[itemId].quantity}</span></dt>
+                            <dt className="font-medium">{cartItemEntities[itemId].title} <span>x{cartItemEntities[itemId].quantity}</span></dt>
                             <dd className="text-slate-400 text-xs">
-                                {products[itemId].title}
+                                {cartItemEntities[itemId].title}
                             </dd>
                         </div>
-                        <span>{formatVnd(products[itemId].price)}</span>
+                        <span>{formatVnd(cartItemEntities[itemId].price)}</span>
                     </div>))}
                 </div>
             </aside>

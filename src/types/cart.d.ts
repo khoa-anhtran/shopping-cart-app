@@ -1,7 +1,11 @@
 export type CartItem = {
-    itemId: string,
     quantity: number,
     addedAt: string,
+    category: string,
+    id: string,
+    price: number,
+    title: string,
+    thumbnail: string
     isSelected: boolean,
 }
 

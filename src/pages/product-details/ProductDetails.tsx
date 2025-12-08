@@ -29,7 +29,6 @@ const ProductDetails = () => {
 
     const [canScrollToBottom, setScrolToBottom] = useState(false)
 
-    const isMobile = useMediaQuery({ query: '(max-width: 768px)' })
 
     const commentListRef = useRef<HTMLDivElement>(null)
 

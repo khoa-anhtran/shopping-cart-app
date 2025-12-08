@@ -17,7 +17,7 @@ function* fetchCartSaga(): SagaIterator {
         const cart: { userId: string, items: Omit<CartItem, "isSelected">[] } = yield call(fetchCart)
 
         const itemsMap = Object.fromEntries(
-            cart.items.map(item => [item.itemId, { ...item, isSelected: false } as CartItem] as const)
+            cart.items.map(item => [item.id, { ...item, isSelected: false } as CartItem] as const)
         );
 
         yield put(fetchCartSucceeded(itemsMap));

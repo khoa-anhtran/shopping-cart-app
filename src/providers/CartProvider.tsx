@@ -5,7 +5,6 @@ import { Modal } from "antd";
 import { cartToggled, fetchCartRequested, itemSelectedToggled, itemsRemoved, quantityDecreased, quantityIncreased, selectAllToggled } from "@/pages/cart/actions";
 import useUserInfo from "@/hooks/useUserInfo";
 import { selectCartEntities, selectCartStatus } from "@/pages/cart/selectors";
-import { selectProducts } from "@/pages/products/selectors";
 import { STATUS } from "@/constants/api";
 import { useNavigate } from "react-router-dom";
 import { checkedOut } from "@/pages/checkout/actions";
@@ -25,23 +24,17 @@ const CartProvider = ({ children }: { children: ReactNode }) => {
         return Object.values(cartEntities)
     }, [cartEntities])
 
-    const products = useSelector(selectProducts)
-
     const isFetchingCart = useRef(false)
 
     const totalValues = useMemo(() => {
-        if (products) {
-            return cartItems.reduce((sum, item) => {
-                if (item.isSelected) {
-                    const product = products[item.itemId]
-                    return sum + item.quantity * product.price
-                }
-                return sum
-            }, 0)
-        }
+        return cartItems.reduce((sum, item) => {
+            if (item.isSelected) {
 
-        return 0;
-    }, [products, cartItems])
+                return sum + item.quantity * item.price
+            }
+            return sum
+        }, 0)
+    }, [cartItems])
 
     const totalQty = useMemo(() => {
         return cartItems.reduce((sum, item) => {
@@ -50,7 +43,7 @@ const CartProvider = ({ children }: { children: ReactNode }) => {
     }, [cartItems])
 
     const selectedItems = useMemo(() => {
-        return cartItems.filter(item => item.isSelected).map(item => item.itemId)
+        return cartItems.filter(item => item.isSelected).map(item => item.id)
     }, [cartItems])
 
     useEffect(() => {
@@ -115,7 +108,7 @@ const CartProvider = ({ children }: { children: ReactNode }) => {
     }, [dispatch])
 
     return (
-        <CartContext value={{cartItems, selectedItems, totalQty, totalValues, onCheckout, onClickCloseCart, onDecrease, onIncrease, onRefresh, onRemoveCartItems, onSelectAllItems, onSelectItem }}>
+        <CartContext value={{ cartItems, selectedItems, totalQty, totalValues, onCheckout, onClickCloseCart, onDecrease, onIncrease, onRefresh, onRemoveCartItems, onSelectAllItems, onSelectItem }}>
             {children}
         </CartContext>
     );

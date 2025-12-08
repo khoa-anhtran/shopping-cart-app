@@ -67,7 +67,7 @@ const CategorySider = () => {
         return <CategorySiderSkeleton />
 
     return <aside
-        className={`fixed z-50 lg:w-[20%] h-full lg:h-fit lg:sticky lg:top-25 shadow rounded-xl min-h-[50vh] 
+        className={`fixed z-50 lg:z-0 lg:w-[20%] h-full lg:h-fit lg:sticky lg:top-25 shadow rounded-xl min-h-[50vh] 
     lg:bg-white w-full bg-black/70 ${siderOpen ? "flex" : "hidden"} lg:flex`}
         ref={modalRef}
         onClick={onCloseSider}

@@ -12,17 +12,24 @@ const initialState: ProductState = {
     //     category: "all"
     // },
     status: STATUS.IDLE,
+    categoriesStatus: STATUS.IDLE,
     error: null
 }
 
 const productReducer = (state = initialState, action: ProductPayloadAction): ProductState => {
     switch (action.type) {
         case PRODUCTS_FETCH_MORE_REQUESTED:
-        case CATEGORIES_FETCH_REQUESTED:
         case PRODUCTS_FETCH_REQUESTED: {
             return {
                 ...state,
                 status: STATUS.LOADING
+            };
+        }
+
+        case CATEGORIES_FETCH_REQUESTED: {
+            return {
+                ...state,
+                categoriesStatus: STATUS.LOADING
             };
         }
 
@@ -49,7 +56,7 @@ const productReducer = (state = initialState, action: ProductPayloadAction): Pro
             return {
                 ...state,
                 categories,
-                status: STATUS.SUCCESS
+                categoriesStatus: STATUS.SUCCESS
             };
         }
 
@@ -74,7 +81,6 @@ const productReducer = (state = initialState, action: ProductPayloadAction): Pro
         }
 
         case PRODUCTS_FETCH_MORE_FAILED:
-        case CATEGORIES_FETCH_FAILED:
         case PRODUCTS_FETCH_FAILED: {
             const { message } = action.payload as { message: string };
 
@@ -82,6 +88,16 @@ const productReducer = (state = initialState, action: ProductPayloadAction): Pro
                 ...state,
                 error: message,
                 status: STATUS.FAIL
+            };
+        }
+
+        case CATEGORIES_FETCH_FAILED: {
+            const { message } = action.payload as { message: string };
+
+            return {
+                ...state,
+                error: message,
+                categoriesStatus: STATUS.FAIL
             };
         }
 

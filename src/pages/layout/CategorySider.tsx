@@ -1,7 +1,7 @@
 import { Collapse } from "antd"
 
 import type { CollapseProps } from "antd"
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useRef } from "react";
 import { useDispatch } from "react-redux";
 import { fetchCategoriesRequested } from "../products/actions";
 import { useSelector } from "react-redux";
@@ -28,9 +28,13 @@ const CategorySider = () => {
 
     const categories = useSelector(selectCategories)
 
+    const isFetching = useRef(false)
+
     useEffect(() => {
-        if (categories.length === 0)
+        if (categories.length === 0 && !isFetching.current)
             dispatch(fetchCategoriesRequested())
+
+        isFetching.current = true
     }, [])
 
     const items = useMemo((): CollapseProps['items'] => {

@@ -6,7 +6,6 @@ import ErrorFallback from "./ErrorFallback"
 import { lazy, Suspense } from "react"
 import CartProvider from "@/providers/CartProvider"
 import { HomeOutlined, UserOutlined } from '@ant-design/icons';
-import ProductNavigator from "../products/components/ProductNavigator"
 import MediaViewer from "../product-details/component/MediaViewer"
 import MainLayout from "./MainLayout"
 import CategorySiderSkeleton from "./CategorySiderSkeleton"
@@ -14,6 +13,7 @@ import CategorySiderSkeleton from "./CategorySiderSkeleton"
 const Header = lazy(() => import('../layout/Header'))
 const CategorySider = lazy(() => import('../layout/CategorySider'))
 const Cart = lazy(() => import('../cart/Cart'))
+const ProductNavigator = lazy(() => import("../products/components/ProductNavigator"))
 
 const ProductLayout = () => {
 
@@ -22,7 +22,7 @@ const ProductLayout = () => {
         <main className="flex">
             <CategorySider />
             <div className="w-[80%]">
-                <ProductNavigator></ProductNavigator>
+                <ProductNavigator />
                 <Outlet />
             </div>
         </main>

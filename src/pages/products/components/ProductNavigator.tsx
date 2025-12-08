@@ -1,6 +1,6 @@
 import { ROUTES } from "@/constants/routes"
 import { useProducts } from "@/hooks/useProducts"
-import { HomeOutlined, ProductOutlined, UserOutlined } from "@ant-design/icons"
+import { HomeOutlined, ProductOutlined } from "@ant-design/icons"
 import { Breadcrumb } from "antd"
 import { useNavigate, useParams } from "react-router-dom"
 
@@ -9,18 +9,28 @@ const ProductNavigator = () => {
 
     const { productId, categoryId } = useParams<{ productId: string, categoryId: string }>();
 
-    const { products, isLoading, categoriesMap } = useProducts()
+    if (!productId && !categoryId)
+        return <div className="py-4 px-8">
+            <Breadcrumb
+                items={[
+                    {
+                        title: <HomeOutlined />,
+                        onClick: () => navigate(ROUTES.HOME),
+                        className: "cursor-pointer hover:bg-gray-200 px-2 py-1"
+                    }
+                ]}
+            />
+        </div>
+
+    const { products, categoriesMap } = useProducts()
 
     const product = productId && products[productId]
     const category = categoryId && categoriesMap[categoryId]
 
-    if (isLoading)
-        return <></>
-
     const navigateItems = [
         {
             title: <HomeOutlined />,
-            onClick: () => navigate("/"),
+            onClick: () => navigate(ROUTES.HOME),
             className: "cursor-pointer hover:bg-gray-200 px-2 py-1"
         },
         {

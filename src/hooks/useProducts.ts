@@ -32,11 +32,12 @@ export function useProducts() {
   }, [categories])
 
   useEffect(() => {
+    console.log(!isFetching.current, status === STATUS.IDLE)
     if (status === STATUS.IDLE && !isFetching.current) {
-      dispatch(fetchProductsRequested());
       isFetching.current = true;
+      dispatch(fetchProductsRequested());
     }
-  }, [status, error, dispatch]);
+  }, [status, dispatch]);
 
   if (error)
     throw new Error(error)

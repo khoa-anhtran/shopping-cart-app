@@ -27,6 +27,7 @@ export type ProductState = {
     // },
     pageInfo?: PageInfo,
     status: string,
+    categoriesStatus: string,
     error: string | null
 }
 

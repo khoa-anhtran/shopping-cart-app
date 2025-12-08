@@ -21,7 +21,7 @@ const ProductLayout = () => {
         <Header></Header>
         <main className="flex">
             <CategorySider />
-            <div className="w-[80%]">
+            <div className="md:w-[80%] w-full">
                 <ProductNavigator />
                 <Outlet />
             </div>

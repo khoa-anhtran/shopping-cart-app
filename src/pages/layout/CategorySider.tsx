@@ -1,13 +1,14 @@
 import { Collapse } from "antd"
 
 import type { CollapseProps } from "antd"
-import { useEffect, useMemo, useRef } from "react";
+import { useCallback, useEffect, useMemo, useRef } from "react";
 import { useDispatch } from "react-redux";
-import { fetchCategoriesRequested } from "../products/actions";
+import { fetchCategoriesRequested, siderToggled } from "../products/actions";
 import { useSelector } from "react-redux";
-import { selectCategories } from "../products/selectors";
+import { selectCategories, selectSiderOpen } from "../products/selectors";
 import { Link } from "react-router-dom";
 import CategorySiderSkeleton from "./CategorySiderSkeleton";
+import { useLockModal } from "@/hooks/useLockModal";
 
 const styles = {
     header: {
@@ -27,8 +28,10 @@ const CategorySider = () => {
     const dispatch = useDispatch()
 
     const categories = useSelector(selectCategories)
+    const siderOpen = useSelector(selectSiderOpen)
 
     const isFetching = useRef(false)
+    const modalRef = useRef(null)
 
     useEffect(() => {
         if (categories.length === 0 && !isFetching.current)
@@ -50,13 +53,24 @@ const CategorySider = () => {
         }))
     }, [categories])
 
+    const onCloseSider = useCallback(() => {
+        if (siderOpen)
+            dispatch(siderToggled())
+    }, [dispatch, siderOpen])
+
+    useLockModal(siderOpen, modalRef, onCloseSider)
+
     if (categories.length === 0)
         return <CategorySiderSkeleton />
 
-    return <aside className="w-[20%] px-2 py-4 space-y-4 sticky top-10 shadow bg-white h-fit rounded-md min-h-[50vh] flex flex-col">
-        <h3 className="font-bold text-2xl px-2">Category Panel</h3>
-        <div className="row-center flex-1">
-            <Collapse accordion ghost items={items} />
+
+    return <aside className="fixed z-50 md:w-[20%] h-full md:h-fit md:sticky top-10 shadow rounded-md min-h-[50vh] md:bg-white w-full flex
+    bg-black/70" ref={modalRef} onClick={onCloseSider} hidden={!siderOpen}>
+        <div className="space-y-4 flex flex-col md:w-full px-2 py-4 bg-white w-[70%]" onClick={(e) => e.stopPropagation()}>
+            <h3 className="font-bold text-2xl px-2">Category Panel</h3>
+            <div className="flex-1">
+                <Collapse accordion ghost items={items} />
+            </div>
         </div>
     </aside>
 }

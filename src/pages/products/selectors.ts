@@ -13,3 +13,5 @@ export const selectProductPageInfo = (state: RootState) => state.products.pageIn
 export const selectCategories = (state: RootState) => state.products.categories;
 
 export const selectCurrentCategory = (state: RootState) => state.products.currentCategoryId;
+
+export const selectSiderOpen = (state: RootState) => state.products.siderOpen;

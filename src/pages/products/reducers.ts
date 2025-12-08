@@ -1,4 +1,4 @@
-import { CATEGORIES_FETCH_FAILED, CATEGORIES_FETCH_REQUESTED, CATEGORIES_FETCH_SUCCEEDED, PRODUCTS_FETCH_FAILED, PRODUCTS_FETCH_MORE_FAILED, PRODUCTS_FETCH_MORE_REQUESTED, PRODUCTS_FETCH_MORE_SUCCEEDED, PRODUCTS_FETCH_REQUESTED, PRODUCTS_FETCH_SUCCEEDED, PRODUCTS_FILTERED } from "./actionTypes"
+import { CATEGORIES_FETCH_FAILED, CATEGORIES_FETCH_REQUESTED, CATEGORIES_FETCH_SUCCEEDED, PRODUCTS_FETCH_FAILED, PRODUCTS_FETCH_MORE_FAILED, PRODUCTS_FETCH_MORE_REQUESTED, PRODUCTS_FETCH_MORE_SUCCEEDED, PRODUCTS_FETCH_REQUESTED, PRODUCTS_FETCH_SUCCEEDED, PRODUCTS_FILTERED, SIDER_TOGGLED } from "./actionTypes"
 import { STATUS } from "@/constants/api"
 import { PageInfo } from "@/types"
 import { Product, ProductCategory, ProductPayloadAction, ProductState } from "@/types/product"
@@ -8,6 +8,7 @@ const initialState: ProductState = {
     ids: [],
     categories: [],
     status: STATUS.IDLE,
+    siderOpen: false,
     categoriesStatus: STATUS.IDLE,
     error: null
 }
@@ -101,6 +102,13 @@ const productReducer = (state = initialState, action: ProductPayloadAction): Pro
             return {
                 ...state,
                 currentCategoryId: categoryId
+            }
+        }
+
+        case SIDER_TOGGLED: {
+            return {
+                ...state,
+                siderOpen: !state.siderOpen
             }
         }
 

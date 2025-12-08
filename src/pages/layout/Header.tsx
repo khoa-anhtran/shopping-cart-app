@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useRef, useState } from "react";
 import { useDispatch } from "react-redux";
 import { cartToggled } from "../cart/actions";
 import useUserInfo from "@/hooks/useUserInfo";
@@ -6,11 +6,17 @@ import useTheme from "@/hooks/useTheme";
 import { Link } from "react-router-dom";
 import { ROUTES } from "@/constants/routes";
 import useCart from "@/hooks/useCart";
+import { Button } from "antd";
+import { MenuOutlined } from "@ant-design/icons";
+import { useSelector } from "react-redux";
+import { selectSiderOpen } from "../products/selectors";
+import { useLockModal } from "@/hooks/useLockModal";
+import { siderToggled } from "../products/actions";
 
 const Header = () => {
     const dispatch = useDispatch();
+
     const { email, logOut } = useUserInfo();
-    const [open, setOpen] = useState(false);
 
     const { theme, toggleTheme } = useTheme()
 
@@ -24,14 +30,18 @@ const Header = () => {
         await logOut();
     }, [logOut]);
 
-    const toggleMenu = useCallback(() => {
-        setOpen((prev) => !prev);
-    }, []);
+    const onOpenSider = useCallback(() => {
+        dispatch(siderToggled())
+    }, [dispatch])
 
     return (
-        <header className="bg-white dark:bg-gray-900 dark:text-white shadow-xl z-10 sticky top-0 h-[5vh] flex md:justify-between md:items-center w-full flex-col md:flex-row">
-            {/* main row */}
+        <header
+            className="bg-white dark:bg-gray-900 dark:text-white shadow-xl z-10 sticky top-0 h-[5vh] flex md:justify-between md:items-center w-full flex-col md:flex-row"
+        >
             <div className="flex items-center justify-between gap-3 px-4 flex-1">
+                <Button type="default" className="md:hidden!" onClick={onOpenSider}>
+                    <MenuOutlined size={40} />
+                </Button>
                 {/* left: title */}
                 <Link to={ROUTES.HOME} className="font-bold">Redux Shopping Cart</Link>
 
@@ -101,8 +111,7 @@ const Header = () => {
                         </span>
                     </div>
 
-                    {/* mobile only: collapse toggle for user info */}
-                    <button
+                    {/* <button
                         className="cursor-pointer underline md:hidden"
                         onClick={toggleMenu}
                         aria-expanded={open}
@@ -115,24 +124,7 @@ const Header = () => {
                             fill="currentColor" viewBox="0 0 24 24" >
                             <path d="M4 6h16v2H4zM4 11h16v2H4zM4 16h16v2H4z"></path>
                         </svg>}
-                    </button>
-                </div>
-            </div>
-
-            {/* collapsed user info (mobile) */}
-            <div
-                className={`border-t bg-white dark:bg-gray-700 md:hidden w-full ${open ? "block" : "hidden"}`}
-            >
-                <div className="flex flex-col gap-2 px-4 py-2">
-                    <h5 className="font-semibold" role="heading" aria-level={2}>
-                        Logged in as {email}
-                    </h5>
-                    <button
-                        className="w-fit cursor-pointer underline"
-                        onClick={onLogout}
-                    >
-                        logout
-                    </button>
+                    </button> */}
                 </div>
             </div>
         </header>

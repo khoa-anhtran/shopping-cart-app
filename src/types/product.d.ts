@@ -23,6 +23,7 @@ export type ProductState = {
     categories: ProductCategory[],
     currentCategoryId?: string,
     pageInfo?: PageInfo,
+    siderOpen: boolean,
     status: string,
     categoriesStatus: string,
     error: string | null

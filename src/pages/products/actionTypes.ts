@@ -17,3 +17,5 @@ export const PRODUCTS_FETCH_MORE_SUCCEEDED = 'products/fetchMoreSucceeded';
 export const PRODUCTS_FETCH_MORE_FAILED = 'products/fetchMoreFailed';
 
 export const PRODUCTS_FILTERED = 'products/filtered'
+
+export const SIDER_TOGGLED = 'products/siderToggled'

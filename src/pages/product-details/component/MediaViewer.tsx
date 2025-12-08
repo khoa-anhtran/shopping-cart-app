@@ -67,7 +67,7 @@ export default function MediaViewer() {
         <div className={`h-screen w-screen bg-black/70 fixed z-30 top-0 left-0 space-y-4 ${open ? "row-center" : "hidden"}`} ref={modalRef}
             onClick={onClickClose}>
             <button
-                className="absolute bg-black/50 left-12 w-12 h-12 rounded-full row-center hover:opacity-70 cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
+                className="absolute bg-black/50 left-[2%] w-12 h-12 rounded-full row-center hover:opacity-70 cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
                 disabled={currentMediaIndex === 0}
                 onClick={(e) => {
                     e.stopPropagation()
@@ -76,9 +76,10 @@ export default function MediaViewer() {
             >
                 <CaretLeftOutlined className="text-2xl text-white!" />
             </button>
+
             <div className="w-[80%] h-[90%] space-y-4">
                 <div
-                    className={`bg-slate-900 rounded-lg flex items-center justify-center h-[90%] overflow-hidden`}
+                    className={`flex items-center justify-center h-[90%] overflow-hidden bg-black/40`}
                     onClick={(e) => e.stopPropagation()}
                 >
                     {!current ? (
@@ -87,7 +88,7 @@ export default function MediaViewer() {
                         <img
                             src={current.url}
                             alt={current.publicId}
-                            className="h-full object-contain"
+                            className="h-full object-contain w-[80%]"
                         />
                     ) : (
                         <video
@@ -100,17 +101,17 @@ export default function MediaViewer() {
                 </div>
 
                 {/* thumbnails */}
-                <div className="overflow-x-auto h-[10%] w-fit">
+                <div className="overflow-x-auto h-[10%] w-fit max-w-full">
                     <div className="flex gap-3 items-start h-full" onClick={(e) => e.stopPropagation()}>
                         {mediaList.map((it, i) => (
                             <div key={it.publicId} className="w-28 h-full flex flex-col items-center gap-1">
                                 <div
                                     onClick={() => goto(i)}
-                                    className={`w-28 h-full rounded-md overflow-hidden border cursor-pointer flex items-center justify-center 
+                                    className={`w-20 md:w-28 h-full rounded-md overflow-hidden border cursor-pointer flex items-center justify-center 
                                         ${i === currentMediaIndex ? "border-blue-600" : "border-gray-50"}`}
                                 >
                                     {it.mediaType.startsWith("image") ? (
-                                        <img src={it.url} alt={it.publicId} className="w-full h-full object-cover" draggable={false} />
+                                        <img src={it.url} alt={it.publicId} className="w-[70%] h-[70%] md:w-full md:h-full object-cover" draggable={false} />
                                     ) : (
                                         <div className="relative w-full h-full bg-black">
                                             <video src={it.url} className="w-full h-full object-cover" muted disablePictureInPicture />
@@ -127,7 +128,7 @@ export default function MediaViewer() {
             </div>
 
             <button
-                className="absolute bg-black/50 right-12 w-12 h-12 rounded-full row-center hover:opacity-70 cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
+                className="absolute bg-black/50 right-[2%] w-12 h-12 rounded-full row-center hover:opacity-70 cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
                 disabled={currentMediaIndex === mediaList.length - 1}
                 onClick={(e) => {
                     e.stopPropagation()

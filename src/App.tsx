@@ -17,7 +17,9 @@ const Checkout = lazy(() => import('./pages/checkout/Checkout'))
 const ProductDetails = lazy(() => import('./pages/product-details/ProductDetails'))
 const StartAppBoot = lazy(() => import('./pages/layout/StartAppBoot'))
 
-const MainLayout = lazy(() => import('./pages/layout/MainLayout'))
+const ProductLayout = lazy(() => import('./pages/layout/ProductLayout'))
+const CheckoutLayout = lazy(() => import('./pages/layout/CheckoutLayout'))
+
 
 function App() {
 
@@ -32,11 +34,13 @@ function App() {
             </Route>
 
             <Route element={<RequireAuth />}>
-              <Route element={<MainLayout />}>
+              <Route element={<ProductLayout />}>
                 <Route path={ROUTES.HOME} element={<Home />} />
-                <Route path={ROUTES.CHECKOUT} element={<Checkout />} />
                 <Route path={`${ROUTES.PRODUCTS}/:categoryId`} element={<Home />} />
                 <Route path={`${ROUTES.PRODUCTS}/:categoryId/:productId`} element={<ProductDetails />} />
+              </Route>
+              <Route element={<CheckoutLayout />}>
+                <Route path={ROUTES.CHECKOUT} element={<Checkout />} />
               </Route>
             </Route>
 

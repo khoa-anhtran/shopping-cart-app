@@ -73,8 +73,8 @@ const Checkout = () => {
                     <span className="text-2xl font-semibold">{formatVnd(totalValues)}</span>
                 </div>
 
-                <dl className="space-y-4 px-4">
-                    {selectedItems.map(itemId => (<div className="flex justify-between">
+                <div className="space-y-4 px-4">
+                    {selectedItems.map(itemId => (<div className="flex justify-between gap-4">
                         <div>
                             <dt className="font-medium">{products[itemId].title} <span>x{cartItemEntities[itemId].quantity}</span></dt>
                             <dd className="text-slate-400 text-xs">
@@ -83,7 +83,7 @@ const Checkout = () => {
                         </div>
                         <span>{formatVnd(products[itemId].price)}</span>
                     </div>))}
-                </dl>
+                </div>
             </aside>
 
             {/* Right column: steps */}

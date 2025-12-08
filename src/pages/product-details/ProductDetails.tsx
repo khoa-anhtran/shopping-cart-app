@@ -106,7 +106,7 @@ const ProductDetails = () => {
                 </div>
 
                 <div>
-                    {[5, 4, 3, 2, 1].map(star => <div className="flex items-center gap-2">
+                    {[5, 4, 3, 2, 1].map(star => <div key={`star-${star}`} className="flex items-center gap-2">
                         <span>{star}</span>
                         <StarOutlined />
                         <Progress size={"small"} percent={Math.floor(Math.random() * 100)} strokeColor={"gray"} />

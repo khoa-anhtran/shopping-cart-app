@@ -20,14 +20,14 @@ const productDetailsReducer = (state = initialState, action: ProductDetailsPaylo
             return { mediaList: media, isMediaViewerOpen: true, currentMedia }
         }
 
-        case MEDIA_VIEWER_CLOSED: {
-            return initialState
-        }
-
         case MEDIA_VIEWER_NAVIGATED: {
             const { currentMedia } = action.payload as { currentMedia: number }
 
             return { ...state, currentMedia }
+        }
+
+        case MEDIA_VIEWER_CLOSED: {
+            return initialState
         }
 
         default:

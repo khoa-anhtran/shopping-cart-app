@@ -17,7 +17,7 @@ const ProductsSkeleton = () => {
                     </div>
 
                     <button
-                        className="py-4 bg-gray-400 dark:bg-gray-700 dark:hover:bg-gray-800"
+                        className="py-4 bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-800"
                         disabled
                     >
                         Add to cart

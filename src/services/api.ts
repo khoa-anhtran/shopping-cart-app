@@ -18,10 +18,13 @@ api.interceptors.request.use((config) => {
 
     if (token) config.headers.Authorization = `Bearer ${token}`;
 
-    if (config.method === "put")
-        store.dispatch(showLoading(LOADING_STYLE.NOTIFICATION))
-    else
-        store.dispatch(showLoading())
+    const isSkipLoading = config.headers?.["x-skip-loading"] === "1"
+
+    if (!isSkipLoading)
+        if (config.method === "put")
+            store.dispatch(showLoading(LOADING_STYLE.NOTIFICATION))
+        else
+            store.dispatch(showLoading())
 
     return config;
 }, (error) => {
@@ -35,7 +38,10 @@ let refreshing: Promise<string | null> | null = null;
 
 api.interceptors.response.use(
     (res) => {
-        store.dispatch(hideLoading())
+        const isSkipLoading = res.config.headers?.['x-skip-loading'] === '1'
+
+        if (!isSkipLoading)
+            store.dispatch(hideLoading())
         return res
     },
     async (err: AxiosError) => {

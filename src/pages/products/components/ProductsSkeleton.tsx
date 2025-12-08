@@ -12,8 +12,8 @@ const ProductsSkeleton = () => {
                     <Skeleton.Image className="min-h-60! w-full!" active />
 
                     <div className="px-4 py-2 space-y-4 flex flex-col w-full">
-                        <Skeleton.Input className="w-48!" block active />
-                        <Skeleton.Input className="w-20!" block active size="small" />
+                        <Skeleton.Input className="w-48!" active />
+                        <Skeleton.Input className="w-20!" active size="small" />
                     </div>
 
                     <button

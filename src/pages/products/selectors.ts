@@ -10,6 +10,6 @@ export const selectProductIds = (state: RootState) => state.products.ids;
 
 export const selectProductPageInfo = (state: RootState) => state.products.pageInfo;
 
-export const selectfilteredProducts = (state: RootState) => state.products.filteredProducts;
-
 export const selectCategories = (state: RootState) => state.products.categories;
+
+export const selectCurrentCategory = (state: RootState) => state.products.currentCategoryId;

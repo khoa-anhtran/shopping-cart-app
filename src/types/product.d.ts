@@ -21,10 +21,7 @@ export type ProductState = {
     entities: Record<string, Product>,
     ids: string[],
     categories: ProductCategory[],
-    filteredProducts: Record<string, Product>,
-    // filter: {
-    //     category: string
-    // },
+    currentCategoryId?: string,
     pageInfo?: PageInfo,
     status: string,
     categoriesStatus: string,

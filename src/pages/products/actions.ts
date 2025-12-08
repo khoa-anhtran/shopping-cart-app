@@ -3,7 +3,7 @@ import { CATEGORIES_FETCH_FAILED, CATEGORIES_FETCH_REQUESTED, CATEGORIES_FETCH_S
 import { PageInfo } from "@/types";
 
 export const fetchProductsRequested = () => ({
-    type: PRODUCTS_FETCH_REQUESTED
+    type: PRODUCTS_FETCH_REQUESTED,
 });
 
 export const fetchProductsSucceeded = (products: Product[], pageInfo: PageInfo) => ({
@@ -39,10 +39,11 @@ export const fetchCategoriesFailed = (message: string) => ({
     }
 });
 
-export const fetchMoreProductsRequested = (after: string) => ({
+export const fetchMoreProductsRequested = (after: string, categoryId?: string) => ({
     type: PRODUCTS_FETCH_MORE_REQUESTED,
     payload: {
-        after
+        after,
+        categoryId
     }
 });
 
@@ -61,9 +62,9 @@ export const fetchMoreProductsFailed = (message: string) => ({
     }
 });
 
-export const productsFiltered = (category: string) => ({
+export const productsFiltered = (categoryId?: string) => ({
     type: PRODUCTS_FILTERED,
     payload: {
-        category
+        categoryId
     }
 });

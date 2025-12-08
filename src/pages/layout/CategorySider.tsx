@@ -42,8 +42,8 @@ const CategorySider = () => {
             key: category.id,
             label: category.name,
             children: <div className="flex flex-col gap-4">
-                {category.subCategories?.map((subCategory =>
-                    <Link to={`/products/${subCategory.id}`} className="capitalize">{subCategory.name}</Link>
+                {category.subCategories?.map(((subCategory, index) =>
+                    <Link key={index} to={`/products/${subCategory.id}`} className="capitalize">{subCategory.name}</Link>
                 ))}
             </div>,
             styles

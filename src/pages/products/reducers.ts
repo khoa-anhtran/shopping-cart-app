@@ -7,10 +7,6 @@ const initialState: ProductState = {
     entities: {},
     ids: [],
     categories: [],
-    filteredProducts: {},
-    // filter: {
-    //     category: "all"
-    // },
     status: STATUS.IDLE,
     categoriesStatus: STATUS.IDLE,
     error: null
@@ -45,7 +41,6 @@ const productReducer = (state = initialState, action: ProductPayloadAction): Pro
                 pageInfo,
                 entities,
                 ids,
-                filteredProducts: entities,
                 status: STATUS.SUCCESS
             };
         }
@@ -75,7 +70,6 @@ const productReducer = (state = initialState, action: ProductPayloadAction): Pro
                 },
                 entities: { ...state.entities, ...extraEntities },
                 ids: [...state.ids, ...extraIds],
-                filteredProducts: { ...state.entities, ...extraEntities },
                 status: STATUS.SUCCESS
             };
         }
@@ -102,21 +96,11 @@ const productReducer = (state = initialState, action: ProductPayloadAction): Pro
         }
 
         case PRODUCTS_FILTERED: {
-            const { category } = action.payload
-
-            if (category.toLowerCase() === "all")
-                return {
-                    ...state,
-                    filteredProducts: state.entities
-                }
+            const { categoryId } = action.payload as { categoryId?: string };
 
             return {
                 ...state,
-                filteredProducts: Object.fromEntries(
-                    Object.entries(state.entities).filter(([, value]) => {
-                        return value.category.toLowerCase() === category.toLowerCase()
-                    })
-                )
+                currentCategoryId: categoryId
             }
         }
 

@@ -39,14 +39,14 @@ const Header = () => {
             className="bg-white dark:bg-gray-900 dark:text-white shadow-xl z-10 sticky top-0 h-[5vh] flex md:justify-between md:items-center w-full flex-col md:flex-row"
         >
             <div className="flex items-center justify-between gap-3 px-4 flex-1">
-                <Button type="default" className="md:hidden!" onClick={onOpenSider}>
+                <Button type="default" className="lg:hidden!" onClick={onOpenSider}>
                     <MenuOutlined size={40} />
                 </Button>
                 {/* left: title */}
                 <Link to={ROUTES.HOME} className="font-bold">Redux Shopping Cart</Link>
 
                 {/* middle: user info (desktop) */}
-                <div className="hidden items-center gap-3 md:flex">
+                {/* <div className="hidden items-center gap-3 md:flex">
                     <h5 className="font-semibold" role="heading" aria-level={2}>
                         Logged in as {email}
                     </h5>
@@ -56,7 +56,7 @@ const Header = () => {
                     >
                         logout
                     </button>
-                </div>
+                </div> */}
 
                 {/* right: cart + mobile toggle */}
                 <div className="flex items-center gap-4">

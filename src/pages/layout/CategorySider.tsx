@@ -64,9 +64,13 @@ const CategorySider = () => {
         return <CategorySiderSkeleton />
 
 
-    return <aside className="fixed z-50 md:w-[20%] h-full md:h-fit md:sticky top-10 shadow rounded-md min-h-[50vh] md:bg-white w-full flex
-    bg-black/70" ref={modalRef} onClick={onCloseSider} hidden={!siderOpen}>
-        <div className="space-y-4 flex flex-col md:w-full px-2 py-4 bg-white w-[70%]" onClick={(e) => e.stopPropagation()}>
+    return <aside
+        className={`fixed z-50 lg:w-[20%] h-full lg:h-fit lg:sticky lg:top-25 shadow rounded-xl min-h-[50vh] 
+    lg:bg-white w-full bg-black/70 ${siderOpen ? "flex" : "hidden"} lg:flex`}
+        ref={modalRef}
+        onClick={onCloseSider}
+    >
+        <div className="space-y-4 flex flex-col lg:w-full px-2 py-4 bg-white w-[70%]" onClick={(e) => e.stopPropagation()}>
             <h3 className="font-bold text-2xl px-2">Category Panel</h3>
             <div className="flex-1">
                 <Collapse accordion ghost items={items} />

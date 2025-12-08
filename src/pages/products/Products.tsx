@@ -33,7 +33,7 @@ function useScrollToBottom(onBottom: () => void) {
 
 const Products = () => {
     const dispatch = useDispatch()
-    const { products, isLoading } = useProducts()
+    const { products, isLoading } = useProducts({})
     const navigate = useNavigate()
 
     const pageInfo = useSelector(selectProductPageInfo)

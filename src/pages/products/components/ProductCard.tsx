@@ -13,7 +13,7 @@ type ProductCardProps = {
 export default function ProductCard({ product, onAddToCart, onClick, className, size = "lg" }: ProductCardProps) {
 
     return <article
-        className={`${className} rounded-xl shadow flex flex-col overflow-hidden hover:-translate-y-0.5 hover:shadow-xl justify-between dark:bg-gray-900`}
+        className={`${className} rounded-xl shadow flex flex-col overflow-hidden hover:-translate-y-0.5 hover:shadow-xl justify-between bg-white dark:bg-gray-900`}
         role="article"
         aria-label={product.title}
         onClick={onClick}
@@ -28,7 +28,7 @@ export default function ProductCard({ product, onAddToCart, onClick, className, 
         </div>
 
         {onAddToCart && <button
-            className="py-4 bg-gray-400 dark:bg-gray-700 dark:hover:bg-gray-800 hover:bg-gray-300 cursor-pointer active:bg-gray-500"
+            className="py-4 bg-gray-200 dark:bg-gray-700 dark:hover:bg-gray-800 hover:bg-gray-300 cursor-pointer active:bg-gray-400"
             onClick={(e) => {
                 e.stopPropagation()
                 onAddToCart()

@@ -22,8 +22,8 @@ const CartFooter = ({ hasSelectedItem }: CartFooterProps) => {
             </span>
         </div>
         <button
-            className="bg-gray-300 px-2 py-1 rounded-md cursor-pointer hover:bg-gray-200
-                disabled:cursor-not-allowed disabled:bg-gray-400 disabled:hover:bg-gray-400 dark:bg-gray-700 dark:hover:bg-gray-600"
+            className="border border-gray-300 px-2 py-1 rounded-md cursor-pointer hover:bg-gray-200 disabled:opacity-60
+                disabled:cursor-not-allowed disabled:bg-gray-400 dark:bg-gray-700 dark:hover:bg-gray-600 font-bold"
             onClick={onCheckout}
             disabled={!hasSelectedItem}>Checkout</button>
     </footer>

@@ -9,20 +9,7 @@ const ProductNavigator = () => {
 
     const { productId, categoryId } = useParams<{ productId: string, categoryId: string }>();
 
-    if (!productId && !categoryId)
-        return <div className="py-4 px-8">
-            <Breadcrumb
-                items={[
-                    {
-                        title: <HomeOutlined />,
-                        onClick: () => navigate(ROUTES.HOME),
-                        className: "cursor-pointer hover:bg-gray-200 px-2 py-1"
-                    }
-                ]}
-            />
-        </div>
-
-    const { products, categoriesMap } = useProducts()
+    const { products, categoriesMap } = useProducts({ isDisabled: !productId && !categoryId })
 
     const product = productId && products[productId]
     const category = categoryId && categoriesMap[categoryId]

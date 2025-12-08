@@ -27,7 +27,7 @@ const CartItem = ({ product, onDecrease, onIncrease, onRemoveCartItem, quantity,
             <div className="flex-1 space-y-2">
                 <h3 className="font-semibold">{product.title}</h3>
                 <div className="font-extrabold">
-                    {formatVnd(product?.price)}
+                    {formatVnd(product?.price * quantity)}
                 </div>
             </div>
 

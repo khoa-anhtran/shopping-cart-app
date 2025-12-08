@@ -18,7 +18,7 @@ import CommentInput from "../comments/components/CommentInput"
 const ProductDetails = () => {
     const { productId } = useParams<{ productId: string }>();
 
-    const { products, isLoading } = useProducts()
+    const { products, isLoading } = useProducts({})
 
     const comments = useSelector(selectComments)
     const commentIds = useSelector(selectCommentIds)

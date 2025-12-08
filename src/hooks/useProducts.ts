@@ -6,7 +6,8 @@ import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 
-export function useProducts() {
+export function useProducts({ isDisabled = false }: { isDisabled?: boolean }) {
+  // Always call React hooks in the same order — do not early-return before hooks.
   const dispatch = useDispatch();
 
   const { categoryId } = useParams<{ categoryId: string }>();
@@ -23,21 +24,30 @@ export function useProducts() {
   const filteredProducts = useMemo(() => {
     const filter = productIds.filter(id => products[id].category === categoryId)
     return Object.fromEntries(filter.map(id => [id, products[id]]))
-  }, [products, categoryId])
+  }, [products, categoryId, productIds])
 
   const categoriesMap = useMemo(() => {
-    const flagCategories = categories.flatMap(category => category.subCategories?.map(subCategory => subCategory))
+    const flagCategories = categories.flatMap(category => category.subCategories?.map(subCategory => subCategory) ?? [])
 
     return Object.fromEntries(flagCategories.map(category => [category?.id, category]))
   }, [categories])
 
+  // Only dispatch fetch when not disabled. isDisabled is a runtime flag
+  // that should not change the order of hooks.
   useEffect(() => {
-    console.log(!isFetching.current, status === STATUS.IDLE)
+    if (isDisabled) return;
+
     if (status === STATUS.IDLE && !isFetching.current) {
       isFetching.current = true;
       dispatch(fetchProductsRequested());
     }
-  }, [status, dispatch]);
+  }, [status, dispatch, isDisabled]);
+
+  if (isDisabled) {
+    // Provide the same return shape as before when disabled, but hooks have
+    // already been called above so rules of hooks are respected.
+    return { products: {}, status: STATUS.LOADING, error: "", isLoading: true, categoriesMap: {} };
+  }
 
   if (error)
     throw new Error(error)

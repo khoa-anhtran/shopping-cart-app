@@ -66,8 +66,8 @@ const ProductDetails = () => {
 
     const product = products[productId]
 
-    return <main className="py-4 px-8 flex gap-4">
-        <section className="w-[70%] space-y-8 px-4 py-8 bg-white rounded-md shadow">
+    return <main className="py-4 px-8 flex gap-4 md:flex-row flex-col-reverse">
+        <section className="md:w-[70%] space-y-8 px-4 py-8 bg-white rounded-md shadow">
             <div className="row-center">
                 <ImageWithPreview
                     className="h-60 w-1/2"
@@ -85,7 +85,7 @@ const ProductDetails = () => {
                         <ProductCard
                             key={product.id}
                             product={product}
-                            className="shrink-0 w-60 shadow-none border border-gray-200"
+                            className="shrink-0 md:w-60 w-40 shadow-none border border-gray-200"
                             size="sm"
                             onClick={() => onClickProduct(product.id)}
                         />)
@@ -179,7 +179,7 @@ const ProductDetails = () => {
             </div>
         </section>
 
-        <section className="w-[30%] rounded-md shadow space-y-8 px-4 py-8 bg-white sticky top-10 h-fit">
+        <section className="md:w-[30%] rounded-md shadow space-y-2 md:space-y-8 px-4 md:py-8 py-2 bg-white md:sticky top-10 h-fit">
             <div className="font-bold text-2xl">
                 {product.title}
             </div>

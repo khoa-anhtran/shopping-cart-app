@@ -1,6 +1,3 @@
-import { STATUS } from "@/constants/api"
-import { PageInfo } from "@/types"
-import { Product, ProductCategory, ProductPayloadAction, ProductState } from "@/types/product"
 import { ProductDetailsPayloadAction, ProductDetailsState } from "@/types/product-details"
 import { MEDIA_VIEWER_CLOSED, MEDIA_VIEWER_NAVIGATED, MEDIA_VIEWER_OPENED } from "./actionTypes"
 import { Media } from "@/types/comment"

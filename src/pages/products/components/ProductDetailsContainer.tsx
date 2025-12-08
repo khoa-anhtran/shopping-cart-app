@@ -7,7 +7,6 @@ import { useRef, useMemo, useCallback, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useMediaQuery } from "react-responsive"
 import { selectProducts } from "../selectors"
-import useUserInfo from "@/hooks/useUserInfo"
 import { itemAdded } from "@/pages/cart/actions"
 import { hidePDsModal } from "@/pages/layout/ui/uiActions"
 
@@ -18,8 +17,6 @@ const ProductDetailsContainer = () => {
     const id = useSelector(selectProductIdOpen) ?? ""
     const comments = useSelector(selectComments)
     const commentIds = useSelector(selectCommentIds)
-
-    const { userId } = useUserInfo()
 
     const [canScrollToBottom, setScrolToBottom] = useState(false)
 
@@ -35,7 +32,7 @@ const ProductDetailsContainer = () => {
 
     const onAddToCart = useCallback(() => {
         dispatch(itemAdded(id))
-    }, [dispatch, userId, id])
+    }, [dispatch, id])
 
     const onDisplayScrollToBottom = useCallback(() => {
         const list = commentListRef.current

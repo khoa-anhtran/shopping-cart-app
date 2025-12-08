@@ -1,6 +1,5 @@
 import { ImageWithPreview } from "@/components/ImageWithPreview";
 import type { CartItem } from "@/types/cart";
-import { Product } from "@/types/product";
 import { formatVnd } from "@/utils/helpers";
 import React from "react";
 

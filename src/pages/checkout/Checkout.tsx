@@ -56,7 +56,7 @@ const Checkout = () => {
             default:
                 return <></>
         }
-    }, [currentStep])
+    }, [currentStep, goPrev, goNext])
 
     return (
         <div className="h-[95vh] flex py-4 px-4 bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-50 transition-colors">

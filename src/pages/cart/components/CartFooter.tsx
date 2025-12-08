@@ -1,5 +1,5 @@
 import useCart from "@/hooks/useCart"
-import { formatVnd, roundTo } from "@/utils/helpers"
+import { formatVnd } from "@/utils/helpers"
 
 type CartFooterProps = {
     hasSelectedItem: boolean

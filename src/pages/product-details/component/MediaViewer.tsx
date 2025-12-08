@@ -1,13 +1,8 @@
-// MediaViewer.tsx
-// React + TypeScript + TailwindCSS implementation
-// Self-contained component (no props). Replace sample URLs with your own data as needed.
-
 import { useLockModal } from "@/hooks/useLockModal";
-import React, { KeyboardEvent, useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { selectCurrentMedia, selectMediaList, selectMediaViewerOpen } from "../selectors";
 import { mediaViewerClosed, mediaViewerNavigated } from "../actions";
-import { Button } from "antd";
 import { CaretLeftOutlined, CaretRightOutlined } from "@ant-design/icons";
 
 export default function MediaViewer() {
@@ -61,7 +56,7 @@ export default function MediaViewer() {
         return () => {
             window.removeEventListener("keydown", onNavigateByKeyboard)
         }
-    }, [currentMediaIndex, mediaList])
+    }, [onNavigateByKeyboard])
 
     return (
         <div className={`h-screen w-screen bg-black/70 fixed z-30 top-0 left-0 space-y-4 ${open ? "row-center" : "hidden"}`} ref={modalRef}

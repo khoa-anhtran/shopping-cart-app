@@ -5,10 +5,10 @@ import RequireGuest from './routes/RequireGuest'
 import RequireAuth from './routes/RequireAuth'
 import { ErrorBoundary } from 'react-error-boundary'
 import SimpleErrorPage from './pages/layout/SimpleErrorPage'
-import LoadingSpinner from './components/LoadingSpinner'
 import { ROUTES } from './constants/routes'
 import Loading from './pages/layout/Loading'
 import ErrorFallback from './pages/layout/ErrorFallback'
+import { Spin } from 'antd'
 
 const Products = lazy(() => import('./pages/products/Products'))
 const Login = lazy(() => import('./pages/auth/Login'))
@@ -25,7 +25,7 @@ function App() {
 
   return (
     <ErrorBoundary FallbackComponent={ErrorFallback}>
-      <Suspense fallback={<LoadingSpinner overlay size={'lg'} label='Loading'></LoadingSpinner>}>
+      <Suspense fallback={<Spin spinning={true} fullscreen />}>
         <Routes>
           <Route element={<StartAppBoot />}>
             <Route element={<RequireGuest />}>

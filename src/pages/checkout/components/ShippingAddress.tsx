@@ -1,24 +1,13 @@
-import { Button, Checkbox, Input, Select } from "antd";
-import { z } from "zod";
+import { Button, Checkbox, Select } from "antd";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller, useForm } from "react-hook-form";
 import { useSelector } from "react-redux";
-import { selectCommunes, selectCurrentStep, selectProvinces, selectShippingAddress } from "../selectors";
+import { selectCommunes, selectProvinces, selectShippingAddress } from "../selectors";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { fetchCommunesRequested, fetchProvincesRequested, shippingAddressSubmited } from "../actions";
 import type { ShippingAddressType } from "@/types/checkout";
-import { PAYMENT_STEP } from "@/constants/payment";
-
-export const shippingAddressSchema = z.object({
-    firstName: z.string("First name should be string").min(1, "First name should not empty").regex(/^[\p{L}\s]+$/u, "Only letters and spaces are allowed"),
-    lastName: z.string("Last name should be string").min(1, "Last name should not empty").regex(/^[\p{L}\s]+$/u, "Only letters and spaces are allowed"),
-    addressLine: z.string("Address line should be string").min(1, "Address line should not empty"),
-    subAddressLine: z.string().optional(),
-    province: z.string().min(1, "Required"),
-    commune: z.string().min(1, "Required"),
-    isSaved: z.boolean(),
-});
+import { shippingAddressSchema } from "@/schemas/shippingAddress.schema";
 
 type ShippingAdressProps = {
     goPrev: () => void,
@@ -53,7 +42,7 @@ const ShippingAddress = ({ goNext, goPrev }: ShippingAdressProps) => {
     useEffect(() => {
         if (provinces.length === 0)
             dispatch(fetchProvincesRequested())
-    }, [])
+    }, [provinces, dispatch])
 
     useEffect(() => {
         if (watch("province") && provinces.length !== 0) {
@@ -61,7 +50,7 @@ const ShippingAddress = ({ goNext, goPrev }: ShippingAdressProps) => {
             setValue("commune", "")
         }
 
-    }, [watch("province")])
+    }, [dispatch, provinces, setValue, watch])
 
     return (
         <form className="space-y-5" onSubmit={handleSubmit(onSubmit)}>
@@ -135,7 +124,7 @@ const ShippingAddress = ({ goNext, goPrev }: ShippingAdressProps) => {
                                 {...field}
                                 className="w-full"
                                 value={field.value || undefined}
-                                onChange={(value) => field.onChange(value)}
+                                onChange={(value: string) => field.onChange(value)}
                                 placeholder="Select a province"
                                 options={provinces.map(province => ({ value: province.name, label: province.name }))}
 
@@ -159,7 +148,7 @@ const ShippingAddress = ({ goNext, goPrev }: ShippingAdressProps) => {
                                 {...field}
                                 className="w-full"
                                 value={field.value || undefined}
-                                onChange={(value) => field.onChange(value)}
+                                onChange={(value: string) => field.onChange(value)}
                                 placeholder="Select a commune"
                                 disabled={watch("province") === undefined}
                                 options={communes.map(commune => ({ value: commune.name, label: commune.name }))}

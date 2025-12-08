@@ -9,11 +9,24 @@ const ProductsSkeleton = () => {
                     role="article"
                     key={index}
                 >
-                    <Skeleton.Image className="min-h-60! w-full!" active />
+                    <Skeleton.Image className="min-h-60!" styles={{
+                        content: {
+                            height: "100%",
+                            width: "100%"
+                        }
+                    }} active />
 
                     <div className="px-4 py-2 space-y-4 flex flex-col w-full">
-                        <Skeleton.Input className="w-48!" active />
-                        <Skeleton.Input className="w-20!" active size="small" />
+                        <Skeleton.Input styles={{
+                            content: {
+                                width: "90%"
+                            }
+                        }} active />
+                        <Skeleton.Input styles={{
+                            content: {
+                                width: "20%"
+                            }
+                        }} active size="small" />
                     </div>
 
                     <button

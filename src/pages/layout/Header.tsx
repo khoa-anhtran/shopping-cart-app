@@ -1,4 +1,4 @@
-import { useCallback, useRef, useState } from "react";
+import { useCallback } from "react";
 import { useDispatch } from "react-redux";
 import { cartToggled } from "../cart/actions";
 import useUserInfo from "@/hooks/useUserInfo";
@@ -8,9 +8,6 @@ import { ROUTES } from "@/constants/routes";
 import useCart from "@/hooks/useCart";
 import { Button } from "antd";
 import { MenuOutlined } from "@ant-design/icons";
-import { useSelector } from "react-redux";
-import { selectSiderOpen } from "../products/selectors";
-import { useLockModal } from "@/hooks/useLockModal";
 import { siderToggled } from "../products/actions";
 
 const Header = () => {

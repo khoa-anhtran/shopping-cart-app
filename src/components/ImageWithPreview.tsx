@@ -1,5 +1,5 @@
+import { Spin } from "antd";
 import { useState } from "react";
-import LoadingSpinner from "./LoadingSpinner";
 
 type ImageWithPreviewProps = {
     src: string;          // heavy image
@@ -15,7 +15,6 @@ export function ImageWithPreview({
     alt = "",
     previewSrc,
     className = "",
-    size = "sm",
     isMobile
 }: ImageWithPreviewProps) {
     const [loaded, setLoaded] = useState(false);
@@ -47,7 +46,7 @@ export function ImageWithPreview({
                         width: "100%",
                         height: "100%",
                     }} className="row-center">
-                        <LoadingSpinner size={size}></LoadingSpinner>
+                        <Spin spinning={true} />
                     </div>
 
                 )

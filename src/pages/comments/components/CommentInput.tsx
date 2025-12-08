@@ -3,7 +3,7 @@ import { useCallback, useRef, useState } from "react"
 import { useDispatch } from "react-redux";
 import { commentPosted } from "../actions";
 import useUserInfo from "@/hooks/useUserInfo";
-import { FileImageOutlined, VideoCameraAddOutlined } from "@ant-design/icons";
+import { FileImageOutlined } from "@ant-design/icons";
 
 type CommentInputProps = {
     id: string,

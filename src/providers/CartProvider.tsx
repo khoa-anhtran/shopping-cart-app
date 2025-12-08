@@ -93,7 +93,7 @@ const CartProvider = ({ children }: { children: ReactNode }) => {
                 dispatch(checkedOut())
             }
         })
-    }, [dispatch, selectedItems, userId])
+    }, [dispatch, navigate])
 
     const onRemoveCartItems = useCallback(async (itemIds: string[]) => {
         Modal.confirm({

@@ -2,17 +2,15 @@ import { ImageWithPreview } from "@/components/ImageWithPreview"
 import { formatVnd } from "@/utils/helpers"
 import { Button, Progress, Rate } from "antd"
 import { useSelector } from "react-redux"
-import { selectProducts } from "../products/selectors"
 import { useNavigate, useParams } from "react-router-dom"
 import { useProducts } from "@/hooks/useProducts"
 import { selectCommentIds, selectCommentPageInfo, selectComments } from "../comments/selectors"
 import { useCallback, useRef, useState } from "react"
-import { useMediaQuery } from "react-responsive"
 import CommentRow from "../comments/components/CommentRow"
 import ProductCard from "../products/components/ProductCard"
 import { useDispatch } from "react-redux"
 import { fetchCommentsRequested, fetchMoreCommentsRequested } from "../comments/actions"
-import { LikeFilled, LikeOutlined, StarOutlined } from "@ant-design/icons"
+import { LikeOutlined, StarOutlined } from "@ant-design/icons"
 import CommentInput from "../comments/components/CommentInput"
 
 const ProductDetails = () => {
@@ -34,9 +32,6 @@ const ProductDetails = () => {
     if (!productId)
         throw new Error("No product id is existed")
 
-    if (isLoading)
-        return <></>
-
     const onScrollToBottom = useCallback(() => {
         commentListRef.current?.scrollTo({ top: commentListRef.current.scrollHeight, behavior: "smooth" })
     }, [])
@@ -56,15 +51,19 @@ const ProductDetails = () => {
     const onClickProduct = useCallback((productId: string) => {
         navigate(`/products/${productId}`)
         dispatch(fetchCommentsRequested(productId))
-    }, [navigate])
+    }, [navigate, dispatch])
 
     const onFetchMoreComments = useCallback(() => {
         const after = commentPageInfo ? commentPageInfo.endCursor : ""
         dispatch(fetchMoreCommentsRequested(productId, after))
 
-    }, [commentPageInfo, productId])
+    }, [commentPageInfo, productId, dispatch])
 
     const product = products[productId]
+
+    if (isLoading)
+        return <></>
+
 
     return <main className="py-4 px-8 flex gap-4 md:flex-row flex-col-reverse">
         <section className="md:w-[70%] space-y-8 px-4 py-8 bg-white rounded-md shadow">
@@ -118,7 +117,7 @@ const ProductDetails = () => {
                         <div>This food is very good</div>
                         <div className="flex items-center gap-2">
                             <LikeOutlined />
-                            Useful {true && "(1)"}
+                            Useful {"(1)"}
                         </div>
                     </div>
 
@@ -128,7 +127,7 @@ const ProductDetails = () => {
                         <div>This food is very good</div>
                         <div className="flex items-center gap-2">
                             <LikeOutlined />
-                            Useful {true && "(1)"}
+                            Useful {"(1)"}
                         </div>
                     </div>
                 </div>

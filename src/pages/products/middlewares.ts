@@ -1,14 +1,13 @@
 import { call, put, select, takeLatest } from 'redux-saga/effects'
 
 import { fetchCategories, fetchProducts } from '../../services/productService'
-import { CATEGORIES_FETCH_FAILED, CATEGORIES_FETCH_REQUESTED, PRODUCTS_FETCH_FAILED, PRODUCTS_FETCH_MORE_FAILED, PRODUCTS_FETCH_MORE_REQUESTED, PRODUCTS_FETCH_REQUESTED, PRODUCTS_FETCH_SUCCEEDED, PRODUCTS_FILTERED } from './actionTypes'
+import { CATEGORIES_FETCH_FAILED, CATEGORIES_FETCH_REQUESTED, PRODUCTS_FETCH_FAILED, PRODUCTS_FETCH_MORE_FAILED, PRODUCTS_FETCH_MORE_REQUESTED, PRODUCTS_FETCH_REQUESTED, PRODUCTS_FILTERED } from './actionTypes'
 import { SagaIterator } from 'redux-saga';
 import { fetchCategoriesFailed, fetchCategoriesSucceeded, fetchMoreProductsSucceeded, fetchProductsFailed, fetchProductsSucceeded } from './actions';
 import { notify } from '@/utils/helpers';
 import { STATUS } from '@/constants/api';
 import { IModelConnection, PayloadAction } from '@/types';
 import { Product, ProductCategory } from '@/types/product';
-import { fetchCartSucceeded } from '../cart/actions';
 import { selectCurrentCategory } from './selectors';
 
 

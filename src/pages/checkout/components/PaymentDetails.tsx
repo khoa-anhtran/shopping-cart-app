@@ -1,5 +1,5 @@
 import { PAYMENT_TYPE } from "@/constants/payment";
-import { Tabs, Card, Row, Col, Button, Space, Typography, message, QRCode } from "antd"
+import { Tabs } from "antd"
 import { useDispatch } from "react-redux";
 import { paymentStatusUpdated } from "../actions";
 import { useSelector } from "react-redux";
@@ -18,7 +18,7 @@ const PaymentDetails = () => {
 
         <Tabs
             defaultActiveKey={paymentStatus.method}
-            onChange={(key) => {
+            onChange={(key: string) => {
                 dispatch(paymentStatusUpdated({ isPaid: false, method: key }))
             }}
             items={[

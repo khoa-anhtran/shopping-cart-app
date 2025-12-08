@@ -1,7 +1,6 @@
-import LoadingSpinner from "@/components/LoadingSpinner"
 import { useSelector } from "react-redux"
 import { selectIsShowLoading, selectLoadingStyle } from "./ui/uiSelectors"
-import { notification } from "antd"
+import { notification, Spin } from "antd"
 import { LOADING_STYLE } from "@/constants/ui"
 import { useRef } from "react"
 
@@ -17,10 +16,10 @@ const Loading = () => {
 
     if (showLoading !== prevState.current) {
         if (loadingStyle === LOADING_STYLE.NOTIFICATION)
-            notification.open({ message: <LoadingSpinner size={'sm'} label='Loading'></LoadingSpinner>, duration: 2 })
+            notification.open({ message: <Spin spinning={true}></Spin>, duration: 2 })
 
         if (loadingStyle === LOADING_STYLE.OVERLAY)
-            return <LoadingSpinner overlay size={'lg'} label='Loading'></LoadingSpinner>
+            return <Spin spinning={showLoading} fullscreen />
 
         prevState.current = showLoading
     }

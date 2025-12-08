@@ -54,6 +54,6 @@ export type PlaceOrderPayload = {
     total: number
 }
 
-export type CheckoutPayloadAction = PayloadAction<>
+export type CheckoutPayloadAction = PayloadAction<{ message: string }>
 
 export type ShippingAddressType = z.infer<typeof shippingAddressSchema>;

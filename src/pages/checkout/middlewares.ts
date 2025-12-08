@@ -1,18 +1,14 @@
-import { all, call, delay, put, take, takeLatest } from 'redux-saga/effects'
+import { call, put, takeLatest } from 'redux-saga/effects'
 
 import { SagaIterator } from 'redux-saga';
 import { notify } from '@/utils/helpers';
 import { STATUS } from '@/constants/api';
-import { PayloadAction, SignatureResponse } from '@/types';
-import { Comment, CommentPostPayload } from '@/types/comment';
-import { fetchComments, postComment } from '@/services/commentService';
-import { postGetImageSignature, postUploadImage } from '@/services/uploadService';
+import { PayloadAction } from '@/types';
 import { CHECKED_OUT, COMMUNES_FETCH_FAILED, COMMUNES_FETCH_REQUESTED, ORDER_PLACE_FAILED, ORDER_PLACED, PROVINCES_FETCH_FAILED, PROVINCES_FETCH_REQUESTED } from './actionTypes';
 import { fetchCommunes, fetchProvinces } from '@/services/provinceService';
 import { Commune, PlaceOrderPayload, Province, ShippingAddressType } from '@/types/checkout';
 import { fetchCommunesFailed, fetchCommunesSucceeded, fetchProvincesFailed, fetchProvincesSucceeded, placeOrderFailed, placeOrderSucceeded, shippingAddressSubmited } from './actions';
 import { postOrder } from '@/services/orderService';
-import { Order } from '@/types/order';
 import { CartItem } from '@/types/cart';
 import { fetchShippingAddress } from '@/services/paymentService';
 
@@ -59,7 +55,7 @@ function* postOrderSaga(action: PayloadAction<{ data: PlaceOrderPayload }>) {
 
         const { data } = action.payload
 
-        const order: Order = yield call(postOrder, data);
+        yield call(postOrder, data);
 
         const itemIds = data.items.map((item: CartItem) => item.itemId)
 

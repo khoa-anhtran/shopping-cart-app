@@ -45,7 +45,7 @@ const Products = () => {
     const onClickProduct = useCallback((categoryId: string, productId: string) => {
         navigate(`/products/${categoryId}/${productId}`)
         dispatch(fetchCommentsRequested(productId))
-    }, [dispatch])
+    }, [dispatch, navigate])
 
     useScrollToBottom(() => {
         if (pageInfo && !isLoading && pageInfo.hasNextPage)

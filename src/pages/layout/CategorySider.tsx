@@ -39,7 +39,12 @@ const CategorySider = () => {
             dispatch(fetchCategoriesRequested())
 
         isFetching.current = true
-    }, [])
+    }, [categories.length, dispatch])
+
+    const onCloseSider = useCallback(() => {
+        if (siderOpen)
+            dispatch(siderToggled())
+    }, [dispatch, siderOpen])
 
     const items = useMemo((): CollapseProps['items'] => {
         return categories.map(category => ({
@@ -49,17 +54,12 @@ const CategorySider = () => {
                 {category.subCategories?.map(((subCategory, index) =>
                     currentCategory === subCategory.id
                         ? <span className="capitalize font-bold">{subCategory.name}</span>
-                        : <Link key={index} to={`/products/${subCategory.id}`} className="capitalize">{subCategory.name}</Link>
+                        : <Link key={index} to={`/products/${subCategory.id}`} onClick={onCloseSider} className="capitalize">{subCategory.name}</Link>
                 ))}
             </div>,
             styles
         }))
-    }, [categories, currentCategory])
-
-    const onCloseSider = useCallback(() => {
-        if (siderOpen)
-            dispatch(siderToggled())
-    }, [dispatch, siderOpen])
+    }, [categories, currentCategory, onCloseSider])
 
     useLockModal(siderOpen, modalRef, onCloseSider)
 

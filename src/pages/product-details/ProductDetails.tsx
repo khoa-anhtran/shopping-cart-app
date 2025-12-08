@@ -29,7 +29,6 @@ const ProductDetails = () => {
 
     const [canScrollToBottom, setScrolToBottom] = useState(false)
 
-
     const commentListRef = useRef<HTMLDivElement>(null)
 
     if (!productId)

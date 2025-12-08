@@ -7,6 +7,8 @@ import React, { KeyboardEvent, useCallback, useEffect, useRef, useState } from "
 import { useDispatch, useSelector } from "react-redux";
 import { selectCurrentMedia, selectMediaList, selectMediaViewerOpen } from "../selectors";
 import { mediaViewerClosed, mediaViewerNavigated } from "../actions";
+import { Button } from "antd";
+import { CaretLeftOutlined, CaretRightOutlined } from "@ant-design/icons";
 
 export default function MediaViewer() {
     const videoRef = useRef<HTMLVideoElement | null>(null);
@@ -41,15 +43,15 @@ export default function MediaViewer() {
         }
     }, [currentMediaIndex, mediaList, goto])
 
-    function downloadCurrent() {
-        if (!current) return;
-        const a = document.createElement("a");
-        a.href = current.url;
-        a.download = current.publicId;
-        document.body.appendChild(a);
-        a.click();
-        a.remove();
-    }
+    // function downloadCurrent() {
+    //     if (!current) return;
+    //     const a = document.createElement("a");
+    //     a.href = current.url;
+    //     a.download = current.publicId;
+    //     document.body.appendChild(a);
+    //     a.click();
+    //     a.remove();
+    // }
 
     useLockModal(open, modalRef, onClickClose)
 
@@ -64,40 +66,20 @@ export default function MediaViewer() {
     return (
         <div className={`h-screen w-screen bg-black/70 fixed z-30 top-0 left-0 space-y-4 ${open ? "row-center" : "hidden"}`} ref={modalRef}
             onClick={onClickClose}>
-            <div className="w-[80%] h-[90%] space-y-4" onClick={(e) => e.stopPropagation()}>
-
-                <div className="flex items-center justify-between gap-2 h-[10%] w-full">
-                    <div className="flex gap-4">
-                        <button
-                            onClick={() => goto(currentMediaIndex - 1)}
-                            disabled={mediaList.length === 0 || currentMediaIndex === 0}
-                            className="px-3 py-1 rounded border bg-white disabled:opacity-50"
-                        >
-                            ◀
-                        </button>
-                        <button
-                            onClick={() => goto(currentMediaIndex + 1)}
-                            disabled={mediaList.length === 0 || currentMediaIndex === mediaList.length - 1}
-                            className="px-3 py-1 rounded border bg-white disabled:opacity-50"
-                        >
-                            ▶
-                        </button>
-                        <button
-                            onClick={downloadCurrent}
-                            className="px-3 py-1 rounded border bg-white disabled:opacity-50"
-                            disabled={!current}
-                        >
-                            ⤓ Download
-                        </button>
-                    </div>
-
-                    <div className="text-sm text-white font-bold">
-                        {mediaList.length ? `${currentMediaIndex + 1} / ${mediaList.length}` : ""}
-                    </div>
-                </div>
-
+            <button
+                className="absolute bg-black/50 left-12 w-12 h-12 rounded-full row-center hover:opacity-70 cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
+                disabled={currentMediaIndex === 0}
+                onClick={(e) => {
+                    e.stopPropagation()
+                    goto(currentMediaIndex - 1)
+                }}
+            >
+                <CaretLeftOutlined className="text-2xl text-white!" />
+            </button>
+            <div className="w-[80%] h-[90%] space-y-4">
                 <div
-                    className={`bg-slate-900 rounded-lg flex items-center justify-center h-[75%] overflow-hidden`}
+                    className={`bg-slate-900 rounded-lg flex items-center justify-center h-[90%] overflow-hidden`}
+                    onClick={(e) => e.stopPropagation()}
                 >
                     {!current ? (
                         <div className="text-slate-400">No media</div>
@@ -119,7 +101,7 @@ export default function MediaViewer() {
 
                 {/* thumbnails */}
                 <div className="overflow-x-auto h-[10%] w-fit">
-                    <div className="flex gap-3 items-start h-full">
+                    <div className="flex gap-3 items-start h-full" onClick={(e) => e.stopPropagation()}>
                         {mediaList.map((it, i) => (
                             <div key={it.publicId} className="w-28 h-full flex flex-col items-center gap-1">
                                 <div
@@ -132,7 +114,9 @@ export default function MediaViewer() {
                                     ) : (
                                         <div className="relative w-full h-full bg-black">
                                             <video src={it.url} className="w-full h-full object-cover" muted disablePictureInPicture />
-                                            <div className="absolute inset-0 flex items-center justify-center text-white text-xl">▶</div>
+                                            <div className="absolute inset-0 flex items-center justify-center text-white text-xl">
+                                                <CaretRightOutlined />
+                                            </div>
                                         </div>
                                     )}
                                 </div>
@@ -141,6 +125,17 @@ export default function MediaViewer() {
                     </div>
                 </div>
             </div>
+
+            <button
+                className="absolute bg-black/50 right-12 w-12 h-12 rounded-full row-center hover:opacity-70 cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
+                disabled={currentMediaIndex === mediaList.length - 1}
+                onClick={(e) => {
+                    e.stopPropagation()
+                    goto(currentMediaIndex + 1)
+                }}
+            >
+                <CaretRightOutlined className="text-2xl text-white!" />
+            </button>
         </div>
     );
 }

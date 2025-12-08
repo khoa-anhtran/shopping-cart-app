@@ -37,6 +37,7 @@ export function useProducts({ isDisabled = false }: { isDisabled?: boolean }) {
 
   useEffect(() => {
     dispatch(productsFiltered(categoryId))
+    window.scrollTo({ top: 0, behavior: "smooth" })
   }, [dispatch, categoryId])
 
   if (isDisabled) {

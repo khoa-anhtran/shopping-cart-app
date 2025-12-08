@@ -5,7 +5,7 @@ import { useCallback, useEffect, useMemo, useRef } from "react";
 import { useDispatch } from "react-redux";
 import { fetchCategoriesRequested, siderToggled } from "../products/actions";
 import { useSelector } from "react-redux";
-import { selectCategories, selectSiderOpen } from "../products/selectors";
+import { selectCategories, selectCurrentCategory, selectSiderOpen } from "../products/selectors";
 import { Link } from "react-router-dom";
 import CategorySiderSkeleton from "./CategorySiderSkeleton";
 import { useLockModal } from "@/hooks/useLockModal";
@@ -29,6 +29,7 @@ const CategorySider = () => {
 
     const categories = useSelector(selectCategories)
     const siderOpen = useSelector(selectSiderOpen)
+    const currentCategory = useSelector(selectCurrentCategory)
 
     const isFetching = useRef(false)
     const modalRef = useRef(null)
@@ -46,12 +47,14 @@ const CategorySider = () => {
             label: category.name,
             children: <div className="flex flex-col gap-4">
                 {category.subCategories?.map(((subCategory, index) =>
-                    <Link key={index} to={`/products/${subCategory.id}`} className="capitalize">{subCategory.name}</Link>
+                    currentCategory === subCategory.id
+                        ? <span className="capitalize font-bold">{subCategory.name}</span>
+                        : <Link key={index} to={`/products/${subCategory.id}`} className="capitalize">{subCategory.name}</Link>
                 ))}
             </div>,
             styles
         }))
-    }, [categories])
+    }, [categories, currentCategory])
 
     const onCloseSider = useCallback(() => {
         if (siderOpen)
@@ -62,7 +65,6 @@ const CategorySider = () => {
 
     if (categories.length === 0)
         return <CategorySiderSkeleton />
-
 
     return <aside
         className={`fixed z-50 lg:w-[20%] h-full lg:h-fit lg:sticky lg:top-25 shadow rounded-xl min-h-[50vh] 

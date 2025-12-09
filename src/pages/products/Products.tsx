@@ -11,26 +11,6 @@ import { selectProductPageInfo } from "./selectors"
 import { Empty } from "antd"
 import ProductsSkeleton from "./components/ProductsSkeleton"
 
-function useScrollToBottom(onBottom: () => void) {
-    useEffect(() => {
-        const handleScroll = () => {
-            const scrollTop = window.scrollY || document.documentElement.scrollTop;
-            const viewportHeight = window.innerHeight;
-            const fullHeight = document.documentElement.scrollHeight;
-
-            const isBottom =
-                scrollTop + viewportHeight >= fullHeight - 5;
-
-            if (isBottom) {
-                onBottom();
-            }
-        };
-
-        window.addEventListener("scroll", handleScroll);
-        return () => window.removeEventListener("scroll", handleScroll);
-    }, [onBottom]);
-}
-
 const Products = () => {
     const dispatch = useDispatch()
     const { products, isLoading } = useProducts({})
@@ -53,10 +33,24 @@ const Products = () => {
         dispatch(fetchCommentsRequested(productId))
     }, [dispatch, navigate])
 
-    useScrollToBottom(() => {
-        if (pageInfo && !isLoading && pageInfo.hasNextPage)
-            dispatch(fetchMoreProductsRequested(pageInfo.endCursor))
-    });
+    useEffect(() => {
+        const handleScroll = () => {
+            const scrollTop = window.scrollY || document.documentElement.scrollTop;
+            const viewportHeight = window.innerHeight;
+            const fullHeight = document.documentElement.scrollHeight;
+
+            const isBottom =
+                scrollTop + viewportHeight >= fullHeight - 5;
+
+            if (isBottom) {
+                if (pageInfo && !isLoading && pageInfo.hasNextPage)
+                    dispatch(fetchMoreProductsRequested(pageInfo.endCursor))
+            }
+        };
+
+        window.addEventListener("scroll", handleScroll);
+        return () => window.removeEventListener("scroll", handleScroll);
+    }, [pageInfo, isLoading, dispatch]);
 
     if (isLoading)
         return <ProductsSkeleton />

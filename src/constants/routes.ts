@@ -4,4 +4,4 @@ export const ROUTES = {
   SIGNUP: '/register',
   CHECKOUT: '/checkout',
   PRODUCTS: '/products'
-} as const
+}

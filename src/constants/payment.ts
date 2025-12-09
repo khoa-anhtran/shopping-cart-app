@@ -1,14 +1,14 @@
 export const PAYMENT_TYPE = {
     CASH: "CASH",
     BANK: "BANK"
-} as const
+}
 
 export const PAYMENT_STEP = {
     FILL_SHIPPING_ADDRESS: "FILL_SHIPPING_ADDRESS",
     CHOOSE_PAYMENT: "CHOOSE_PAYMENT",
     REVIEW_ORDER: "REVIEW_ORDER",
     FINISH_ORDER: "FINISH_ORDER"
-} as const
+}
 
 export const PAYMENT_STEP_MAP = (step: string) => {
     switch (step) {

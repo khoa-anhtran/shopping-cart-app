@@ -4,7 +4,7 @@ import { PaymentReducer } from "@/pages/checkout";
 import { commentReducer } from "@/pages/comments";
 import { loadingReducer } from "@/pages/loading";
 import { productDetailsReducer } from "@/pages/product-details";
-import productReducer from "@/pages/products/reducers";
+import { productReducer } from "@/pages/products";
 import { combineReducers } from "redux";
 
 const rootReducer = combineReducers({

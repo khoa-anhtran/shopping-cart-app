@@ -10,7 +10,7 @@ import ErrorFallback from './pages/error/ErrorFallback'
 import { Spin } from 'antd'
 import { Loading } from './pages/loading'
 
-const Products = lazy(() => import('./pages/products/Products'))
+const Products = lazy(() => import('./pages/products'))
 const Login = lazy(() => import('./pages/auth/Login'))
 const Register = lazy(() => import('./pages/auth/Register'))
 const Checkout = lazy(() => import('./pages/checkout'))

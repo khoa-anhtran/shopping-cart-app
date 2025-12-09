@@ -1,6 +1,6 @@
 import { formatVnd } from "@/utils"
 import { Button, Image, Progress, Rate } from "antd"
-import { useSelector } from "react-redux"
+import { useSelector, useDispatch } from "react-redux"
 import { useNavigate, useParams } from "react-router-dom"
 import { useProducts } from "@/hooks"
 import { useCallback, useRef, useState } from "react"
@@ -8,10 +8,10 @@ import {
     CommentRow, CommentInput, selectCommentIds, selectCommentPageInfo, selectComments,
     fetchCommentsRequested, fetchMoreCommentsRequested
 } from "@/pages/comments"
-import ProductCard from "../products/components/ProductCard"
-import { useDispatch } from "react-redux"
+import { ProductCard } from "@/pages/products"
 import { LikeOutlined, StarOutlined } from "@ant-design/icons"
 import { PathParams } from "@/types"
+import { ROUTES } from "@/constants"
 
 const ProductDetails = () => {
     const { productId, categoryId } = useParams<PathParams>();
@@ -49,7 +49,7 @@ const ProductDetails = () => {
     }, [])
 
     const onClickProduct = useCallback((productId: string) => {
-        navigate(`/products/${categoryId}/${productId}`)
+        navigate(`/${ROUTES.PRODUCTS}/${categoryId}/${productId}`)
         dispatch(fetchCommentsRequested(productId))
     }, [navigate, dispatch, categoryId])
 

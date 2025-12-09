@@ -2,13 +2,12 @@ import { Collapse } from "antd"
 
 import type { CollapseProps } from "antd"
 import { useCallback, useEffect, useMemo, useRef } from "react";
-import { useDispatch } from "react-redux";
-import { fetchCategoriesRequested, siderToggled } from "../products/actions";
-import { useSelector } from "react-redux";
-import { selectCategories, selectCurrentCategory, selectSiderOpen } from "../products/selectors";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchCategoriesRequested, siderToggled, selectCategories, selectCurrentCategory, selectSiderOpen } from "@/pages/products";
 import { Link } from "react-router-dom";
 import CategorySiderSkeleton from "./CategorySiderSkeleton";
 import { useLockModal } from "@/hooks";
+import { ROUTES } from "@/constants";
 
 const CategorySider = () => {
     const dispatch = useDispatch()
@@ -40,7 +39,7 @@ const CategorySider = () => {
                 {category.subCategories?.map(((subCategory, index) =>
                     currentCategory === subCategory.id
                         ? <span className="capitalize font-bold">{subCategory.name}</span>
-                        : <Link key={index} to={`/products/${subCategory.id}`} onClick={onCloseSider} className="capitalize">{subCategory.name}</Link>
+                        : <Link key={index} to={`/${ROUTES.PRODUCTS}/${subCategory.id}`} onClick={onCloseSider} className="capitalize">{subCategory.name}</Link>
                 ))}
             </div>,
             className: "border-b! rounded-none!"

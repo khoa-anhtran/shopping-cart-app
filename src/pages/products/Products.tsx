@@ -10,6 +10,7 @@ import { useSelector } from "react-redux"
 import { selectProductPageInfo } from "./selectors"
 import { Empty } from "antd"
 import ProductsSkeleton from "./components/ProductsSkeleton"
+import { ROUTES } from "@/constants"
 
 const Products = () => {
     const dispatch = useDispatch()
@@ -29,7 +30,7 @@ const Products = () => {
     }, [dispatch, products])
 
     const onClickProduct = useCallback((categoryId: string, productId: string) => {
-        navigate(`/products/${categoryId}/${productId}`)
+        navigate(`/${ROUTES.PRODUCTS}/${categoryId}/${productId}`)
         dispatch(fetchCommentsRequested(productId))
     }, [dispatch, navigate])
 

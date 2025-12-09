@@ -1,10 +1,8 @@
 import { STATUS } from "@/constants";
-import { fetchProductsRequested, productsFiltered } from "@/pages/products/actions";
-import { selectProductsStatus, selectProductsError, selectProducts, selectCategories } from "@/pages/products/selectors";
+import { fetchProductsRequested, productsFiltered, selectProductsStatus, selectProductsError, selectProducts, selectCategories } from "@/pages/products";
 import { PathParams } from "@/types";
 import { useEffect, useMemo, useRef } from "react";
-import { useSelector } from "react-redux";
-import { useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { useParams } from "react-router-dom";
 
 export function useProducts({ isDisabled = false }: { isDisabled?: boolean }) {

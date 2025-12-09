@@ -1,14 +1,12 @@
 import './App.css'
 import { Route, Routes } from 'react-router-dom'
 import { lazy, Suspense } from 'react'
-import RequireGuest from './routes/RequireGuest'
-import RequireAuth from './routes/RequireAuth'
+import { RequireGuest, RequireAuth } from './routes'
 import { ErrorBoundary } from 'react-error-boundary'
-import SimpleErrorPage from './pages/error/SimpleErrorPage'
-import { ROUTES } from './constants/routes'
-import ErrorFallback from './pages/error/ErrorFallback'
+import { ErrorFallback, SimpleErrorPage } from '@/pages/error'
+import { ROUTES } from './constants'
 import { Spin } from 'antd'
-import { Loading } from './pages/loading'
+import { Loading } from '@/pages/loading'
 
 const Products = lazy(() => import('./pages/products'))
 const Login = lazy(() => import('./pages/auth/Login'))

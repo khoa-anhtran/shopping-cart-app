@@ -2,7 +2,7 @@ import api from "./api"
 import { isAxiosError } from "axios"
 import { notify } from "@/utils";
 import { STATUS } from "@/constants";
-import store from "@/store/store";
+import store from "@/store";
 import { tokenAdded, tokenRemoved } from "@/pages/auth";
 import { AuthPayload, AuthResponse } from "@/types";
 

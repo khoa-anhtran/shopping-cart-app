@@ -3,14 +3,14 @@ import { Button, Image, Progress, Rate } from "antd"
 import { useSelector } from "react-redux"
 import { useNavigate, useParams } from "react-router-dom"
 import { useProducts } from "@/hooks"
-import { selectCommentIds, selectCommentPageInfo, selectComments } from "../comments/selectors"
 import { useCallback, useRef, useState } from "react"
-import CommentRow from "../comments/components/CommentRow"
+import {
+    CommentRow, CommentInput, selectCommentIds, selectCommentPageInfo, selectComments,
+    fetchCommentsRequested, fetchMoreCommentsRequested
+} from "@/pages/comments"
 import ProductCard from "../products/components/ProductCard"
 import { useDispatch } from "react-redux"
-import { fetchCommentsRequested, fetchMoreCommentsRequested } from "../comments/actions"
 import { LikeOutlined, StarOutlined } from "@ant-design/icons"
-import CommentInput from "../comments/components/CommentInput"
 import { PathParams } from "@/types"
 
 const ProductDetails = () => {

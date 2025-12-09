@@ -1,7 +1,7 @@
 import { authReducer } from "@/pages/auth";
 import { cartReducer } from "@/pages/cart";
 import { PaymentReducer } from "@/pages/checkout";
-import commentReducer from "@/pages/comments/reducers";
+import { commentReducer } from "@/pages/comments";
 import uiReducer from "@/pages/loading/reducers";
 import productDetailsReducer from "@/pages/product-details/reducers";
 import productReducer from "@/pages/products/reducers";

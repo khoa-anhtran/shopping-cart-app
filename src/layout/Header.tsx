@@ -4,7 +4,7 @@ import useUserInfo from "@/hooks/useUserInfo";
 import useTheme from "@/hooks/useTheme";
 import { Link } from "react-router-dom";
 import { ROUTES } from "@/constants/routes";
-import useCart from "@/hooks/useCart";
+import useCart from "@/contexts/CartContext/useCart";
 import { Button } from "antd";
 import { MenuOutlined } from "@ant-design/icons";
 import { cartToggled } from "@/pages/cart/actions";

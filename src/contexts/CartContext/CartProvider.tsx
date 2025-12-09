@@ -1,6 +1,6 @@
 import { ReactNode, useCallback, useMemo, useRef, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import CartContext from "@/contexts/CartContext";
+import CartContext from "@/contexts/CartContext/CartContext";
 import { Modal } from "antd";
 import { cartToggled, fetchCartRequested, itemSelectedToggled, itemsRemoved, quantityDecreased, quantityIncreased, selectAllToggled } from "@/pages/cart/actions";
 import useUserInfo from "@/hooks/useUserInfo";

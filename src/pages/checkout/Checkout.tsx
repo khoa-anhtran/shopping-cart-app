@@ -5,7 +5,7 @@ import PaymentDetails from "./components/PaymentDetails";
 import OrderReview from "./components/OrderReview";
 import CheckoutComplete from "./components/CheckoutComplete";
 import { useSelector } from "react-redux";
-import useCart from "@/hooks/useCart";
+import useCart from "@/contexts/CartContext/useCart";
 import { formatVnd } from "@/utils/helpers";
 import { selectCurrentStep, selectPaymentStatus, selectShippingAddress } from "./selectors";
 import { useDispatch } from "react-redux";

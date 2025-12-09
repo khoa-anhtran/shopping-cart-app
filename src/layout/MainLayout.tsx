@@ -2,7 +2,7 @@ import { App as AntdApp, ConfigProvider } from 'antd'
 import { ErrorBoundary } from "react-error-boundary"
 import ErrorFallback from "../pages/error/ErrorFallback"
 import { ReactNode } from "react"
-import CartProvider from "@/providers/CartProvider"
+import CartProvider from "@/contexts/CartContext/CartProvider"
 import MediaViewer from '@/pages/product-details/component/MediaViewer'
 
 const MainLayout = ({ children }: { children: ReactNode }) => {

@@ -13,8 +13,8 @@ export const isAxiosError = <T = unknown>(e: unknown): e is AxiosError<T> =>
 export function notify({ duration = 2, status, message }: { status: string, message?: string | null, duration?: number }) {
     // const { notification } = App.useApp();
 
-    if (status === STATUS.FAIL) notification.error({ message, duration });
-    if (status === STATUS.SUCCESS) notification.success({ message, duration });
+    if (status === STATUS.FAIL) notification.error({ title: message, duration });
+    if (status === STATUS.SUCCESS) notification.success({ title: message, duration });
 }
 
 // utils/timeAgo.ts

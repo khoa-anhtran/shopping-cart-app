@@ -1,4 +1,4 @@
-import useCart from "@/hooks/useCart";
+import useCart from "@/contexts/CartContext/useCart";
 import React from "react";
 import { useSelector } from "react-redux";
 import { selectCartIsSelectAll, selectCartSyncStatus } from "../selectors";

@@ -16,19 +16,6 @@ export type CartCtx = {
     onRefresh: () => void
 }
 
-const CartContext = createContext<CartCtx>({
-    cartItems: [],
-    selectedItems: [],
-    totalQty: 0,
-    totalValues: 0,
-    onIncrease: () => { },
-    onDecrease: async () => { },
-    onSelectItem: () => { },
-    onSelectAllItems: () => { },
-    onClickCloseCart: () => { },
-    onCheckout: async () => { },
-    onRemoveCartItems: async () => { },
-    onRefresh: () => { }
-});
+const CartContext = createContext<CartCtx | undefined>(undefined);
 
 export default CartContext

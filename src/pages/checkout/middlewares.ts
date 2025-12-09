@@ -4,11 +4,9 @@ import { SagaIterator } from 'redux-saga';
 import { notify } from '@/utils';
 import { STATUS } from '@/constants/api';
 import { CHECKED_OUT, COMMUNES_FETCH_FAILED, COMMUNES_FETCH_REQUESTED, ORDER_PLACE_FAILED, ORDER_PLACED, PROVINCES_FETCH_FAILED } from './actionTypes';
-import { fetchCommunes, fetchProvinces } from '@/services/provinceService';
+import { fetchCommunes, fetchProvinces, fetchShippingAddress, postOrder } from '@/services';
 import { CartItem, Commune, PayloadAction, PlaceOrderPayload, Province, ShippingAddressType } from '@/types';
 import { fetchCommunesFailed, fetchCommunesSucceeded, fetchProvincesFailed, fetchProvincesSucceeded, placeOrderFailed, placeOrderSucceeded, shippingAddressSubmited } from './actions';
-import { postOrder } from '@/services/orderService';
-import { fetchShippingAddress } from '@/services/paymentService';
 
 function* fetchProvincesSaga(): SagaIterator {
     try {

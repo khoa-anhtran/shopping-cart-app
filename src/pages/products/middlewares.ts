@@ -1,6 +1,6 @@
 import { call, put, select, takeLatest } from 'redux-saga/effects'
 
-import { fetchCategories, fetchProducts } from '../../services/productService'
+import { fetchCategories, fetchProducts } from '@/services'
 import { CATEGORIES_FETCH_FAILED, CATEGORIES_FETCH_REQUESTED, PRODUCTS_FETCH_FAILED, PRODUCTS_FETCH_MORE_FAILED, PRODUCTS_FETCH_MORE_REQUESTED, PRODUCTS_FETCH_REQUESTED, PRODUCTS_FILTERED } from './actionTypes'
 import { SagaIterator } from 'redux-saga';
 import { fetchCategoriesFailed, fetchCategoriesSucceeded, fetchMoreProductsSucceeded, fetchProductsFailed, fetchProductsSucceeded } from './actions';

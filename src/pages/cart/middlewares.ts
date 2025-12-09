@@ -4,7 +4,7 @@ import { CART_FETCH_FAILED, CART_FETCH_REQUESTED, CART_SYNC_FAILED, ITEM_ADDED, 
 import { SagaIterator } from 'redux-saga';
 import { cartSyncFailed, cartSyncSucceeded, fetchCartFailed, fetchCartSucceeded } from './actions';
 import { selectCartEntities } from './selectors';
-import { fetchCart, putCartItems } from '@/services/cartService';
+import { fetchCart, putCartItems } from '@/services';
 import { PayloadAction, CartItem } from '@/types';
 import { notify } from '@/utils';
 import { STATUS } from '@/constants/api';

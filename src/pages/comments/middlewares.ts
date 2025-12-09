@@ -5,9 +5,8 @@ import { notify } from '@/utils';
 import { STATUS } from '@/constants/api';
 import { IModelConnection, PayloadAction, SignatureResponse, Comment, CommentPostPayload } from '@/types';
 import { COMMENT_POST_FAILED, COMMENT_POST_SUCCEEDED, COMMENT_POSTED, COMMENTS_FETCH_FAILED, COMMENTS_FETCH_MORE_REQUESTED, COMMENTS_FETCH_REQUESTED } from './actionTypes';
-import { fetchComments, postComment } from '@/services/commentService';
+import { fetchComments, postComment, postGetImageSignature, postUploadImage } from '@/services';
 import { commentPostFailed, commentPostSucceeded, fetchCommentsFailed, fetchCommentsSucceeded, fetchMoreCommentsSucceeded } from './actions';
-import { postGetImageSignature, postUploadImage } from '@/services/uploadService';
 
 function* fetchCommentsSaga(action: PayloadAction<{ productId: string, after?: string }>): SagaIterator {
     try {

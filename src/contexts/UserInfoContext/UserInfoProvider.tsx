@@ -1,4 +1,4 @@
-import { getUserInfo, postGoogleLogin, postLogin, postLogout, postRefreshToken, postRegister } from "@/services/authService";
+import { getUserInfo, postGoogleLogin, postLogin, postLogout, postRefreshToken, postRegister } from "@/services";
 import { useState, ReactNode, useCallback } from "react";
 import { config } from "@/msal/config";
 import { useDispatch } from "react-redux";

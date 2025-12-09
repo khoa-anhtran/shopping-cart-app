@@ -30,7 +30,7 @@ const Products = () => {
     }, [dispatch, products])
 
     const onClickProduct = useCallback((categoryId: string, productId: string) => {
-        navigate(`/${ROUTES.PRODUCTS}/${categoryId}/${productId}`)
+        navigate(`${ROUTES.PRODUCTS}/${categoryId}/${productId}`)
         dispatch(fetchCommentsRequested(productId))
     }, [dispatch, navigate])
 

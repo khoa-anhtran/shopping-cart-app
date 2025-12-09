@@ -1,5 +1,5 @@
 import { PayloadAction } from "./app"
-import { shippingAddressSchema } from "../pages/checkout/components/ShippingAddress"
+import { shippingAddressSchema } from "@/schemas"
 
 export type Commune = {
     code: string,

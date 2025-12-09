@@ -1,6 +1,7 @@
 import { STATUS } from "@/constants/api";
 import { fetchProductsRequested, productsFiltered } from "@/pages/products/actions";
 import { selectProductsStatus, selectProductsError, selectProducts, selectCategories } from "@/pages/products/selectors";
+import { PathParams } from "@/types";
 import { useEffect, useMemo, useRef } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
@@ -10,7 +11,7 @@ export function useProducts({ isDisabled = false }: { isDisabled?: boolean }) {
   // Always call React hooks in the same order — do not early-return before hooks.
   const dispatch = useDispatch();
 
-  const { categoryId } = useParams<{ categoryId: string }>();
+  const { categoryId } = useParams<PathParams>();
 
   const status = useSelector(selectProductsStatus);
   const error = useSelector(selectProductsError);

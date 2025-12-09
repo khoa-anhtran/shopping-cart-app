@@ -12,9 +12,10 @@ import { useDispatch } from "react-redux"
 import { fetchCommentsRequested, fetchMoreCommentsRequested } from "../comments/actions"
 import { LikeOutlined, StarOutlined } from "@ant-design/icons"
 import CommentInput from "../comments/components/CommentInput"
+import { PathParams } from "@/types"
 
 const ProductDetails = () => {
-    const { productId } = useParams<{ productId: string }>();
+    const { productId, categoryId } = useParams<PathParams>();
 
     const { products, isLoading } = useProducts({})
 
@@ -49,9 +50,9 @@ const ProductDetails = () => {
     }, [])
 
     const onClickProduct = useCallback((productId: string) => {
-        navigate(`/products/${productId}`)
+        navigate(`/products/${categoryId}/${productId}`)
         dispatch(fetchCommentsRequested(productId))
-    }, [navigate, dispatch])
+    }, [navigate, dispatch, categoryId])
 
     const onFetchMoreComments = useCallback(() => {
         const after = commentPageInfo ? commentPageInfo.endCursor : ""
@@ -63,7 +64,6 @@ const ProductDetails = () => {
 
     if (isLoading)
         return <></>
-
 
     return <main className="py-4 px-8 flex gap-4 md:flex-row flex-col-reverse">
         <section className="md:w-[70%] space-y-8 px-4 py-8 bg-white rounded-md shadow">

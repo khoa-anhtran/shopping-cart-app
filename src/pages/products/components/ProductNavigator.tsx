@@ -1,5 +1,6 @@
 import { ROUTES } from "@/constants/routes"
 import { useProducts } from "@/hooks/useProducts"
+import { PathParams } from "@/types"
 import { HomeOutlined, ProductOutlined } from "@ant-design/icons"
 import { Breadcrumb } from "antd"
 import { useNavigate, useParams } from "react-router-dom"
@@ -7,7 +8,7 @@ import { useNavigate, useParams } from "react-router-dom"
 const ProductNavigator = () => {
     const navigate = useNavigate()
 
-    const { productId, categoryId } = useParams<{ productId: string, categoryId: string }>();
+    const { productId, categoryId } = useParams<PathParams>();
 
     const { products, categoriesMap } = useProducts({ isDisabled: !productId && !categoryId })
 

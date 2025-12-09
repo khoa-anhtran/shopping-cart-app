@@ -26,3 +26,8 @@ export type Edge<M> = {
   node: M;
   cursor: string;
 };
+
+export type PathParams = {
+  productId?: string;
+  categoryId?: string;
+}

@@ -10,20 +10,6 @@ import { Link } from "react-router-dom";
 import CategorySiderSkeleton from "./CategorySiderSkeleton";
 import { useLockModal } from "@/hooks/useLockModal";
 
-const styles = {
-    header: {
-        padding: '12px 16px',
-        color: '#141414',
-        borderBottom: "1px solid black",
-        borderRadius: "0",
-        fontWeight: "700",
-        textTransform: "uppercase"
-    },
-    body: {
-        backgroundColor: '#ffffff',
-    }
-};
-
 const CategorySider = () => {
     const dispatch = useDispatch()
 
@@ -49,7 +35,7 @@ const CategorySider = () => {
     const items = useMemo((): CollapseProps['items'] => {
         return categories.map(category => ({
             key: category.id,
-            label: category.name,
+            label: <span className="uppercase font-bold">{category.name}</span>,
             children: <div className="flex flex-col gap-4">
                 {category.subCategories?.map(((subCategory, index) =>
                     currentCategory === subCategory.id
@@ -57,7 +43,7 @@ const CategorySider = () => {
                         : <Link key={index} to={`/products/${subCategory.id}`} onClick={onCloseSider} className="capitalize">{subCategory.name}</Link>
                 ))}
             </div>,
-            styles
+            className: "border-b! rounded-none!"
         }))
     }, [categories, currentCategory, onCloseSider])
 

@@ -1,6 +1,5 @@
-import { ImageWithPreview } from "@/components/ImageWithPreview"
 import { formatVnd } from "@/utils/helpers"
-import { Button, Progress, Rate } from "antd"
+import { Button, Image, Progress, Rate } from "antd"
 import { useSelector } from "react-redux"
 import { useNavigate, useParams } from "react-router-dom"
 import { useProducts } from "@/hooks/useProducts"
@@ -68,10 +67,7 @@ const ProductDetails = () => {
     return <main className="py-4 px-8 flex gap-4 md:flex-row flex-col-reverse">
         <section className="md:w-[70%] space-y-8 px-4 py-8 bg-white rounded-md shadow">
             <div className="row-center">
-                <ImageWithPreview
-                    className="h-60 w-1/2"
-                    src={product.thumbnail}
-                />
+                <Image className="h-60!" src={product.thumbnail} alt={product.title}></Image>
             </div>
 
             <div className="w-full px-4">

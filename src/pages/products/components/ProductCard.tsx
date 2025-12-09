@@ -1,6 +1,6 @@
-import { ImageWithPreview } from "@/components/ImageWithPreview";
 import { Product } from "@/types/product";
 import { formatVnd } from "@/utils/helpers";
+import { Image } from "antd";
 
 type ProductCardProps = {
     product: Product,
@@ -18,7 +18,16 @@ export default function ProductCard({ product, onAddToCart, onClick, className, 
         aria-label={product.title}
         onClick={onClick}
     >
-        <ImageWithPreview src={product.thumbnail} alt={product.title} className={`${size === "lg" ? "min-h-60" : size === "md" ? "min-h-40" : "min-h-30"}`} size={size} />
+
+        <div className="row-center">
+            <Image
+                preview={false}
+                src={product.thumbnail}
+                alt={product.title}
+                className={`${size === "lg" ? "w-50!" : size === "md" ? "w-40!" : "w-30!"}`}
+            // width={"140px"}
+            ></Image>
+        </div>
 
         <div className="px-4 py-2 space-y-4">
             <h3 className="font-semibold md:text-xl">{product.title}</h3>

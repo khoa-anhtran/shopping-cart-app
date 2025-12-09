@@ -1,6 +1,6 @@
-import { ImageWithPreview } from "@/components/ImageWithPreview";
 import type { CartItem } from "@/types/cart";
 import { formatVnd } from "@/utils/helpers";
+import { Image } from "antd";
 import React from "react";
 
 type CartItemProps = {
@@ -19,7 +19,7 @@ const CartItem = ({ item, onDecrease, onIncrease, onRemoveCartItem, onSelectItem
                 type="checkbox" role="checkbox" aria-label="toggle select item" checked={item.isSelected} onChange={() => onSelectItem(item.id)} />
         </div>
 
-        <ImageWithPreview src={item?.thumbnail} alt={item.title} className="md:w-24 md:h-24 w-18 h-18" />
+        <Image src={item?.thumbnail} alt={item.title} className="md:w-24! md:h-24! w-18! h-18!"></Image>
 
         <div className="flex flex-1 md:items-center gap-4 flex-col md:flex-row">
             <div className="flex-1 space-y-2">

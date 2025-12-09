@@ -16,7 +16,9 @@ const Loading = () => {
 
     if (showLoading !== prevState.current) {
         if (loadingStyle === LOADING_STYLE.NOTIFICATION)
-            notification.open({ message: <Spin spinning={true}></Spin>, duration: 2 })
+            notification.open({
+                title: <div className="space-x-6"><Spin spinning={true}></Spin><span className="ml-4">Is Loading ...</span></div>, duration: 2
+            })
 
         if (loadingStyle === LOADING_STYLE.OVERLAY)
             return <Spin spinning={showLoading} fullscreen />

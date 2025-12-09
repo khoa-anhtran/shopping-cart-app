@@ -1,3 +1,3 @@
-import { shippingAddressSchema } from "./shippingAddress.schema"
+export { shippingAddressSchema } from "./shippingAddress.schema"
 
-export { shippingAddressSchema }
+export { postReviewSchema } from "./postReview.schema"

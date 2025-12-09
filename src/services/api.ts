@@ -2,7 +2,7 @@ import { tokenRemoved } from "@/pages/auth/actions";
 import { STATUS, LOADING_STYLE } from "@/constants";
 import { hideLoading, showLoading } from "@/pages/loading/actions";
 import store from "@/store/store";
-import { notify } from "@/utils/helpers";
+import { notify } from "@/utils";
 import axios, { AxiosError } from "axios";
 import { postRefreshToken } from "./authService";
 

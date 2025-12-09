@@ -6,7 +6,7 @@ import { cartSyncFailed, cartSyncSucceeded, fetchCartFailed, fetchCartSucceeded 
 import { selectCartEntities } from './selectors';
 import { fetchCart, putCartItems } from '@/services/cartService';
 import { PayloadAction } from '@/types';
-import { notify } from '@/utils/helpers';
+import { notify } from '@/utils';
 import { STATUS } from '@/constants/api';
 import { CartItem } from '@/types/cart';
 import { ORDER_PLACE_SUCCEEDED } from '../checkout/actionTypes';

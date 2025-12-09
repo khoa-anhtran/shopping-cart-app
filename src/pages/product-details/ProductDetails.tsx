@@ -1,4 +1,4 @@
-import { formatVnd } from "@/utils/helpers"
+import { formatVnd } from "@/utils"
 import { Button, Image, Progress, Rate } from "antd"
 import { useSelector } from "react-redux"
 import { useNavigate, useParams } from "react-router-dom"

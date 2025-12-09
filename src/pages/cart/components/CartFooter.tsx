@@ -1,5 +1,5 @@
 import { useCart } from "@/contexts/CartContext";
-import { formatVnd } from "@/utils/helpers"
+import { formatVnd } from "@/utils"
 
 type CartFooterProps = {
     hasSelectedItem: boolean

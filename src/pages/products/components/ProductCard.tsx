@@ -1,5 +1,5 @@
 import { Product } from "@/types/product";
-import { formatVnd } from "@/utils/helpers";
+import { formatVnd } from "@/utils";
 import { Image } from "antd";
 
 type ProductCardProps = {

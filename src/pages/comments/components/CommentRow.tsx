@@ -3,7 +3,7 @@ import { useSelector } from "react-redux"
 import { selectComments } from "../selectors"
 import { useCallback, useEffect, useState } from "react";
 import { Collapse, CollapseProps, Image, Skeleton } from "antd";
-import { timeAgo } from "@/utils/helpers";
+import { timeAgo } from "@/utils";
 import CommentInput from "./CommentInput";
 import React from "react";
 import { useDispatch } from "react-redux";

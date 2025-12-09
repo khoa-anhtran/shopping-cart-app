@@ -1,7 +1,7 @@
 import { call, put, takeLatest } from 'redux-saga/effects'
 
 import { SagaIterator } from 'redux-saga';
-import { notify } from '@/utils/helpers';
+import { notify } from '@/utils';
 import { STATUS } from '@/constants/api';
 import { PayloadAction } from '@/types';
 import { CHECKED_OUT, COMMUNES_FETCH_FAILED, COMMUNES_FETCH_REQUESTED, ORDER_PLACE_FAILED, ORDER_PLACED, PROVINCES_FETCH_FAILED } from './actionTypes';

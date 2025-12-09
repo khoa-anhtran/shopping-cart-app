@@ -4,7 +4,7 @@ import { fetchCategories, fetchProducts } from '../../services/productService'
 import { CATEGORIES_FETCH_FAILED, CATEGORIES_FETCH_REQUESTED, PRODUCTS_FETCH_FAILED, PRODUCTS_FETCH_MORE_FAILED, PRODUCTS_FETCH_MORE_REQUESTED, PRODUCTS_FETCH_REQUESTED, PRODUCTS_FILTERED } from './actionTypes'
 import { SagaIterator } from 'redux-saga';
 import { fetchCategoriesFailed, fetchCategoriesSucceeded, fetchMoreProductsSucceeded, fetchProductsFailed, fetchProductsSucceeded } from './actions';
-import { notify } from '@/utils/helpers';
+import { notify } from '@/utils';
 import { STATUS } from '@/constants/api';
 import { IModelConnection, PayloadAction } from '@/types';
 import { Product, ProductCategory } from '@/types/product';

@@ -1,6 +1,6 @@
 import { PayloadAction } from "@/types";
 import { SHOW_LOADING, HIDE_LOADING } from "./actionTypes";
-import { LOADING_STYLE } from "@/constants/ui";
+import { LOADING_STYLE } from "@/constants";
 
 type UIState = {
     isShowLoading: boolean;

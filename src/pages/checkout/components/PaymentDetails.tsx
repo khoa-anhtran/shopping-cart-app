@@ -1,4 +1,4 @@
-import { PAYMENT_TYPE } from "@/constants/payment";
+import { PAYMENT_TYPE } from "@/constants";
 import { Tabs } from "antd"
 import { useDispatch } from "react-redux";
 import { paymentStatusUpdated } from "../actions";

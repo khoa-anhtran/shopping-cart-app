@@ -1,7 +1,7 @@
 import { useSelector } from "react-redux"
 import { selectIsShowLoading, selectLoadingStyle } from "./selectors"
 import { notification, Spin } from "antd"
-import { LOADING_STYLE } from "@/constants/ui"
+import { LOADING_STYLE } from "@/constants"
 import { useRef } from "react"
 
 const Loading = () => {

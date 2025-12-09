@@ -4,7 +4,7 @@ import CartHeader from "./CartHeader"
 import { useSelector } from "react-redux"
 import CartList from "./CartList"
 import { selectCartStatus } from "../selectors"
-import { STATUS } from "@/constants/api"
+import { STATUS } from "@/constants"
 import CartFooter from "./CartFooter"
 import { Empty } from "antd"
 

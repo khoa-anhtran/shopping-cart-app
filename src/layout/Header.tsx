@@ -1,14 +1,13 @@
 import { useCallback } from "react";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
-import { ROUTES } from "@/constants/routes";
 import { useCart } from "@/contexts/CartContext";
 import { Button } from "antd";
 import { MenuOutlined } from "@ant-design/icons";
 import { cartToggled } from "@/pages/cart/actions";
 import { siderToggled } from "@/pages/products/actions";
-import { THEME } from "@/constants/ui";
 import { useTheme } from "@/contexts/ThemeContext";
+import { ROUTES, THEME } from "@/constants";
 
 const Header = () => {
     const dispatch = useDispatch();

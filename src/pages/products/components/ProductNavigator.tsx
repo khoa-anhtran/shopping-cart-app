@@ -1,4 +1,4 @@
-import { ROUTES } from "@/constants/routes"
+import { ROUTES } from "@/constants"
 import { useProducts } from "@/hooks/useProducts"
 import { PathParams } from "@/types"
 import { HomeOutlined, ProductOutlined } from "@ant-design/icons"

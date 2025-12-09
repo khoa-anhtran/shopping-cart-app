@@ -4,7 +4,7 @@ import { Modal } from "antd";
 import { cartToggled, fetchCartRequested, itemSelectedToggled, itemsRemoved, quantityDecreased, quantityIncreased, selectAllToggled } from "@/pages/cart/actions";
 import { useUserInfo } from "@/contexts/UserInfoContext";
 import { selectCartEntities, selectCartStatus } from "@/pages/cart/selectors";
-import { STATUS } from "@/constants/api";
+import { STATUS } from "@/constants";
 import { useNavigate } from "react-router-dom";
 import { checkedOut } from "@/pages/checkout/actions";
 import CartContext from "./CartContext";

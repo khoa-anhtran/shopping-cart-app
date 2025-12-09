@@ -1,6 +1,5 @@
 import { tokenRemoved } from "@/pages/auth/actions";
-import { STATUS } from "@/constants/api";
-import { LOADING_STYLE } from "@/constants/ui";
+import { STATUS, LOADING_STYLE } from "@/constants";
 import { hideLoading, showLoading } from "@/pages/loading/actions";
 import store from "@/store/store";
 import { notify } from "@/utils/helpers";

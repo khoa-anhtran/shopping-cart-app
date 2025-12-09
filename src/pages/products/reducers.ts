@@ -1,5 +1,5 @@
 import { CATEGORIES_FETCH_FAILED, CATEGORIES_FETCH_REQUESTED, CATEGORIES_FETCH_SUCCEEDED, PRODUCTS_FETCH_FAILED, PRODUCTS_FETCH_MORE_FAILED, PRODUCTS_FETCH_MORE_REQUESTED, PRODUCTS_FETCH_MORE_SUCCEEDED, PRODUCTS_FETCH_REQUESTED, PRODUCTS_FETCH_SUCCEEDED, PRODUCTS_FILTERED, SIDER_TOGGLED } from "./actionTypes"
-import { STATUS } from "@/constants/api"
+import { STATUS } from "@/constants"
 import { PageInfo } from "@/types"
 import { Product, ProductCategory, ProductPayloadAction, ProductState } from "@/types/product"
 

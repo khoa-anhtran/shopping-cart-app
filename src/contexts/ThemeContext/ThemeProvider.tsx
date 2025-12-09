@@ -1,4 +1,4 @@
-import { THEME } from "@/constants/ui";
+import { THEME } from "@/constants";
 import { ReactNode, useCallback, useEffect, useState } from "react";
 import ThemeContext from "./ThemeContext";
 

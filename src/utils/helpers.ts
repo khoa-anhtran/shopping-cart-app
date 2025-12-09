@@ -1,4 +1,4 @@
-import { STATUS } from "@/constants/api";
+import { STATUS } from "@/constants";
 import { notification } from "antd";
 import axios, { AxiosError } from "axios";
 

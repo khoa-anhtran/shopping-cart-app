@@ -1,7 +1,7 @@
 import api from "./api"
 import { isAxiosError } from "axios"
 import { notify } from "@/utils/helpers";
-import { STATUS } from "@/constants/api";
+import { STATUS } from "@/constants";
 import store from "@/store/store";
 import { tokenAdded, tokenRemoved } from "@/pages/auth/actions";
 import { AuthPayload, AuthResponse } from "@/types/auth";

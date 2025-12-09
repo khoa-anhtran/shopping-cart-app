@@ -10,7 +10,7 @@ import { formatVnd } from "@/utils/helpers";
 import { selectCurrentStep, selectPaymentStatus, selectShippingAddress } from "./selectors";
 import { useDispatch } from "react-redux";
 import { nextStep, placeOrder, prevStep } from "./actions";
-import { PAYMENT_STEP, PAYMENT_STEP_MAP } from "@/constants/payment";
+import { PAYMENT_STEP, PAYMENT_STEP_MAP } from "@/constants";
 import { selectCartEntities } from "../cart/selectors";
 
 const Checkout = () => {

@@ -2,7 +2,7 @@ import { useCart } from "@/contexts/CartContext";
 import React from "react";
 import { useSelector } from "react-redux";
 import { selectCartIsSelectAll, selectCartSyncStatus } from "../selectors";
-import { STATUS } from "@/constants/api";
+import { STATUS } from "@/constants";
 
 type CartActionsProps = {
     isCartEmpty: boolean;

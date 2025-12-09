@@ -1,4 +1,4 @@
-import { ROUTES } from "@/constants/routes"
+import { ROUTES } from "@/constants"
 import { useUserInfo } from "@/contexts/UserInfoContext"
 import { useCallback, useState } from "react"
 import { Link } from "react-router-dom"

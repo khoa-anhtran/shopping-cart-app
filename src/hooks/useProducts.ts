@@ -1,4 +1,4 @@
-import { STATUS } from "@/constants/api";
+import { STATUS } from "@/constants";
 import { fetchProductsRequested, productsFiltered } from "@/pages/products/actions";
 import { selectProductsStatus, selectProductsError, selectProducts, selectCategories } from "@/pages/products/selectors";
 import { PathParams } from "@/types";

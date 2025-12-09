@@ -1,4 +1,4 @@
-import { Media } from "@/types/comment";
+import { Media } from "@/types";
 import { MEDIA_VIEWER_CLOSED, MEDIA_VIEWER_NAVIGATED, MEDIA_VIEWER_OPENED } from "./actionTypes";
 
 export const mediaViewerOpened = (media: Media[], currentMedia: number) => ({

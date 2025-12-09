@@ -1,4 +1,4 @@
-import { CartItem } from "@/types/cart"
+import { CartItem } from "@/types"
 import api from "./api"
 
 export const fetchCart = async (): Promise<{ userId: string, items: Omit<CartItem, "isSelected">[] }> => {

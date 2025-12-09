@@ -6,7 +6,7 @@ import { selectCommunes, selectProvinces, selectShippingAddress } from "../selec
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { fetchCommunesRequested, shippingAddressSubmited } from "../actions";
-import type { Commune, ShippingAddressType } from "@/types/checkout";
+import type { Commune, ShippingAddressType } from "@/types";
 import { shippingAddressSchema } from "@/schemas/shippingAddress.schema";
 
 type ShippingAdressProps = {

@@ -1,7 +1,6 @@
 import { COMMENT_POST_FAILED, COMMENT_POST_SUCCEEDED, COMMENT_POSTED, COMMENTS_FETCH_FAILED, COMMENTS_FETCH_MORE_FAILED, COMMENTS_FETCH_MORE_REQUESTED, COMMENTS_FETCH_MORE_SUCCEEDED, COMMENTS_FETCH_REQUESTED, COMMENTS_FETCH_SUCCEEDED } from "./actionTypes"
 import { STATUS } from "@/constants"
-import { PageInfo } from "@/types"
-import { Comment, CommentPayloadAction, CommentState } from "@/types/comment"
+import { Comment, CommentPayloadAction, CommentState, PageInfo,  } from "@/types"
 
 const initialState: CommentState = {
     ids: [],

@@ -1,4 +1,4 @@
-import { AuthPayload, RegisterPayload } from "@/types/auth";
+import { AuthPayload, RegisterPayload } from "@/types";
 import { createContext } from "react";
 
 export type UserInfoCtx = {

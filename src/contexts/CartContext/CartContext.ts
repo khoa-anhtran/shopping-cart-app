@@ -1,4 +1,4 @@
-import { CartItem } from "@/types/cart";
+import { CartItem } from "@/types";
 import { createContext } from "react";
 
 export type CartCtx = {

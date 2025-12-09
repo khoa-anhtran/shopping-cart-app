@@ -1,4 +1,4 @@
-import type { CartItem } from "@/types/cart";
+import type { CartItem } from "@/types";
 import { formatVnd } from "@/utils";
 import { Image } from "antd";
 import React from "react";

@@ -1,5 +1,5 @@
 import { TOKEN_ADDED, TOKEN_REMOVED } from "./actionTypes";
-import { AuthPayloadAction, AuthState } from "@/types/auth";
+import { AuthPayloadAction, AuthState } from "@/types";
 
 const initialState: AuthState = {}
 

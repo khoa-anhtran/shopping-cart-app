@@ -3,9 +3,8 @@ import { all, call, put, takeLatest } from 'redux-saga/effects'
 import { SagaIterator } from 'redux-saga';
 import { notify } from '@/utils';
 import { STATUS } from '@/constants/api';
-import { IModelConnection, PayloadAction, SignatureResponse } from '@/types';
+import { IModelConnection, PayloadAction, SignatureResponse, Comment, CommentPostPayload } from '@/types';
 import { COMMENT_POST_FAILED, COMMENT_POST_SUCCEEDED, COMMENT_POSTED, COMMENTS_FETCH_FAILED, COMMENTS_FETCH_MORE_REQUESTED, COMMENTS_FETCH_REQUESTED } from './actionTypes';
-import { Comment, CommentPostPayload } from '@/types/comment';
 import { fetchComments, postComment } from '@/services/commentService';
 import { commentPostFailed, commentPostSucceeded, fetchCommentsFailed, fetchCommentsSucceeded, fetchMoreCommentsSucceeded } from './actions';
 import { postGetImageSignature, postUploadImage } from '@/services/uploadService';

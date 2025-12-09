@@ -6,8 +6,7 @@ import { SagaIterator } from 'redux-saga';
 import { fetchCategoriesFailed, fetchCategoriesSucceeded, fetchMoreProductsSucceeded, fetchProductsFailed, fetchProductsSucceeded } from './actions';
 import { notify } from '@/utils';
 import { STATUS } from '@/constants/api';
-import { IModelConnection, PayloadAction } from '@/types';
-import { Product, ProductCategory } from '@/types/product';
+import { IModelConnection, PayloadAction, Product, ProductCategory } from '@/types';
 import { selectCurrentCategory } from './selectors';
 
 

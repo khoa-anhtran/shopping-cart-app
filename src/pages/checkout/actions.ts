@@ -1,5 +1,5 @@
 import { CHECKED_OUT, COMMUNES_FETCH_FAILED, COMMUNES_FETCH_REQUESTED, COMMUNES_FETCH_SUCCEEDED, NEXT_STEP, ORDER_PLACE_FAILED, ORDER_PLACE_SUCCEEDED, ORDER_PLACED, PAYMENT_INFO_REQUESTED, PAYMENT_STATUS_UPDATED, PREV_STEP, PROVINCES_FETCH_FAILED, PROVINCES_FETCH_SUCCEEDED, SHIPPING_ADDRESS_SUBMITED } from "./actionTypes";
-import { Commune, PaymentStatus, PlaceOrderPayload, Province, ShippingAddressType } from "@/types/checkout";
+import { Commune, PaymentStatus, PlaceOrderPayload, Province, ShippingAddressType } from "@/types";
 
 export const fetchProvincesSucceeded = (provinces: Province[]) => ({
     type: PROVINCES_FETCH_SUCCEEDED,

@@ -1,4 +1,4 @@
-import { PlaceOrderPayload } from "@/types/checkout"
+import { PlaceOrderPayload } from "@/types"
 import api from "./api"
 
 export const fetchOrders = async () => {

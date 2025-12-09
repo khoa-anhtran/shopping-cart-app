@@ -1,4 +1,4 @@
-import { PageInfo } from ".";
+import { PageInfo } from "./app";
 
 export type Media = { publicId: string; url: string, mediaType: string }
 

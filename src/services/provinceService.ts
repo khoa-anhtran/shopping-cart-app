@@ -1,4 +1,4 @@
-import { Commune, Province } from "@/types/checkout"
+import { Commune, Province } from "@/types"
 import api from "./api"
 
 export const fetchProvinces = async (): Promise<Province[]> => {

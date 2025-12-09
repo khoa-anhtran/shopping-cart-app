@@ -1,7 +1,7 @@
 import { CART_FETCH_FAILED, CART_FETCH_REQUESTED, CART_FETCH_SUCCEEDED, CART_SYNC_FAILED, CART_SYNC_SUCCEEDED, CART_TOGGLE, ITEM_ADDED, ITEM_SELECTED_TOGGLED, ITEMS_REMOVED, QUANTITY_DECREASED, QUANTITY_INCREASED, SELECT_ALL_TOGGLED } from "./actionTypes"
 import { TOKEN_REMOVED } from "../auth/actionTypes";
 import { STATUS } from "@/constants";
-import { CartItem, CartPayloadAction, CartState } from "@/types/cart";
+import { CartItem, CartPayloadAction, CartState } from "@/types";
 import { ORDER_PLACE_SUCCEEDED } from "../checkout/actionTypes";
 
 const initialState: CartState = {

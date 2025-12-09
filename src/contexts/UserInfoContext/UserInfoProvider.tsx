@@ -6,7 +6,7 @@ import { tokenAdded, tokenRemoved } from "@/pages/auth/actions";
 import { getApiToken, initAccount, msalClient } from "@/msal";
 import UserInfoContext from "./UserInfoContext";
 import { useGoogleLogin } from "@react-oauth/google";
-import { AuthPayload, RegisterPayload } from "@/types/auth";
+import { AuthPayload, RegisterPayload } from "@/types";
 
 const UserInfoProvider = ({ children }: { children: ReactNode }) => {
     const dispatch = useDispatch()

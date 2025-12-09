@@ -1,4 +1,4 @@
-import { ShippingAddressType } from "@/types/checkout"
+import { ShippingAddressType } from "@/types"
 import api from "./api"
 
 export const fetchShippingAddress = async (): Promise<Omit<ShippingAddressType, "isSaved">> => {

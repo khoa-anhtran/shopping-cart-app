@@ -1,4 +1,4 @@
-import { Comment } from "@/types/comment"
+import { Comment } from "@/types"
 import { useSelector } from "react-redux"
 import { selectComments } from "../selectors"
 import { useCallback, useEffect, useState } from "react";

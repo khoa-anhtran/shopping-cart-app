@@ -1,4 +1,4 @@
-import { Comment } from "@/types/comment";
+import { Comment } from "@/types";
 import { useCallback, useRef, useState } from "react"
 import { useDispatch } from "react-redux";
 import { commentPosted } from "../actions";

@@ -1,6 +1,5 @@
-import { Comment } from "@/types/comment";
+import { Comment, PageInfo } from "@/types";
 import { COMMENT_POST_FAILED, COMMENT_POST_SUCCEEDED, COMMENT_POSTED, COMMENTS_FETCH_FAILED, COMMENTS_FETCH_MORE_FAILED, COMMENTS_FETCH_MORE_REQUESTED, COMMENTS_FETCH_MORE_SUCCEEDED, COMMENTS_FETCH_REQUESTED, COMMENTS_FETCH_SUCCEEDED } from "./actionTypes";
-import { PageInfo } from "@/types";
 
 export const fetchCommentsRequested = (productId: string) => ({
     type: COMMENTS_FETCH_REQUESTED,

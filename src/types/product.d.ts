@@ -1,4 +1,4 @@
-import { PageInfo } from "."
+import { PageInfo } from "./app"
 
 export type Product = {
     id: string,

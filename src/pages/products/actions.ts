@@ -1,6 +1,5 @@
-import { Product, ProductCategory } from "@/types/product";
+import { PageInfo, Product, ProductCategory } from "@/types";
 import { CATEGORIES_FETCH_FAILED, CATEGORIES_FETCH_REQUESTED, CATEGORIES_FETCH_SUCCEEDED, PRODUCTS_FETCH_FAILED, PRODUCTS_FETCH_MORE_FAILED, PRODUCTS_FETCH_MORE_REQUESTED, PRODUCTS_FETCH_MORE_SUCCEEDED, PRODUCTS_FETCH_REQUESTED, PRODUCTS_FETCH_SUCCEEDED, PRODUCTS_FILTERED, SIDER_TOGGLED } from "./actionTypes";
-import { PageInfo } from "@/types";
 
 export const fetchProductsRequested = () => ({
     type: PRODUCTS_FETCH_REQUESTED,

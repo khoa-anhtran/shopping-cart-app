@@ -5,10 +5,9 @@ import { SagaIterator } from 'redux-saga';
 import { cartSyncFailed, cartSyncSucceeded, fetchCartFailed, fetchCartSucceeded } from './actions';
 import { selectCartEntities } from './selectors';
 import { fetchCart, putCartItems } from '@/services/cartService';
-import { PayloadAction } from '@/types';
+import { PayloadAction, CartItem } from '@/types';
 import { notify } from '@/utils';
 import { STATUS } from '@/constants/api';
-import { CartItem } from '@/types/cart';
 import { ORDER_PLACE_SUCCEEDED } from '../checkout/actionTypes';
 
 

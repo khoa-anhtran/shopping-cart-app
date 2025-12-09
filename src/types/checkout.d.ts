@@ -1,4 +1,4 @@
-import { PayloadAction } from "."
+import { PayloadAction } from "./app"
 import { shippingAddressSchema } from "../pages/checkout/components/ShippingAddress"
 
 export type Commune = {

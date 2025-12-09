@@ -1,4 +1,4 @@
-import { CommentPostPayload } from "@/types/comment"
+import { CommentPostPayload } from "@/types"
 import api from "./api"
 
 export const fetchComments = async (productId: string, after?: string) => {

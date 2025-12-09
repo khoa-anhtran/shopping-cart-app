@@ -4,7 +4,7 @@ import { notify } from "@/utils";
 import { STATUS } from "@/constants";
 import store from "@/store/store";
 import { tokenAdded, tokenRemoved } from "@/pages/auth/actions";
-import { AuthPayload, AuthResponse } from "@/types/auth";
+import { AuthPayload, AuthResponse } from "@/types";
 
 export const postRefreshToken = async () => {
     try {

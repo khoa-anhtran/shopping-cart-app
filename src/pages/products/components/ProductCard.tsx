@@ -1,4 +1,4 @@
-import { Product } from "@/types/product";
+import { Product } from "@/types";
 import { formatVnd } from "@/utils";
 import { Image } from "antd";
 

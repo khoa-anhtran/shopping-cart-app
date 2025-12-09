@@ -1,7 +1,6 @@
 import { useCallback } from "react";
 import { useDispatch } from "react-redux";
-import useUserInfo from "@/hooks/useUserInfo";
-import useTheme from "@/hooks/useTheme";
+import useTheme from "@/contexts/ThemeContext/useTheme";
 import { Link } from "react-router-dom";
 import { ROUTES } from "@/constants/routes";
 import useCart from "@/contexts/CartContext/useCart";
@@ -9,11 +8,12 @@ import { Button } from "antd";
 import { MenuOutlined } from "@ant-design/icons";
 import { cartToggled } from "@/pages/cart/actions";
 import { siderToggled } from "@/pages/products/actions";
+import { THEME } from "@/constants/ui";
 
 const Header = () => {
     const dispatch = useDispatch();
 
-    const { email, logOut } = useUserInfo();
+    // const { email, logOut } = useUserInfo();
 
     const { theme, toggleTheme } = useTheme()
 
@@ -23,9 +23,9 @@ const Header = () => {
         dispatch(cartToggled());
     }, [dispatch]);
 
-    const onLogout = useCallback(async () => {
-        await logOut();
-    }, [logOut]);
+    // const onLogout = useCallback(async () => {
+    //     await logOut();
+    // }, [logOut]);
 
     const onOpenSider = useCallback(() => {
         dispatch(siderToggled())
@@ -66,7 +66,7 @@ const Header = () => {
                         aria-label="Toggle color theme"
                     >
                         <span aria-hidden="true">
-                            {theme === "dark" ?
+                            {theme === THEME.DARK ?
                                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24"
                                     fill="currentColor" viewBox="0 0 24 24" >
                                     <path d="M12 17.01c2.76 0 5.01-2.25 5.01-5.01S14.76 6.99 12 6.99 6.99 9.24 6.99 12s2.25 5.01 5.01 5.01M12 9c1.66 0 3.01 1.35 3.01 3.01s-1.35 3.01-3.01 3.01-3.01-1.35-3.01-3.01S10.34 9 12 9M13 19h-2v3h2v-3M13 2h-2v3h2V2M2 11h3v2H2zM19 11h3v2h-3zM4.22 18.36l.71.71.71.71 1.06-1.06 1.06-1.06-.71-.71-.71-.71-1.06 1.06zM19.78 5.64l-.71-.71-.71-.71-1.06 1.06-1.06 1.06.71.71.71.71 1.06-1.06zM7.76 6.34 6.7 5.28 5.64 4.22l-.71.71-.71.71L5.28 6.7l1.06 1.06.71-.71zM16.24 17.66l1.06 1.06 1.06 1.06.71-.71.71-.71-1.06-1.06-1.06-1.06-.71.71z"></path>

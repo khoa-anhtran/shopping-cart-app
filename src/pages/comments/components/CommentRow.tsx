@@ -4,7 +4,7 @@ import { selectComments } from "../selectors"
 import { useCallback, useEffect, useState } from "react";
 import { Collapse, CollapseProps, Image, Skeleton } from "antd";
 import { timeAgo } from "@/utils/helpers";
-import useTheme from "@/hooks/useTheme";
+import useTheme from "@/contexts/ThemeContext/useTheme";
 import CommentInput from "./CommentInput";
 import React from "react";
 import { useDispatch } from "react-redux";

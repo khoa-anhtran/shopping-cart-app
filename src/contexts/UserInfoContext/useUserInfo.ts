@@ -1,4 +1,4 @@
-import UserInfoContext from "@/contexts/UserInfoContext";
+import UserInfoContext from "@/contexts/UserInfoContext/UserInfoContext";
 import { useContext } from "react";
 
 export default function useUserInfo() {

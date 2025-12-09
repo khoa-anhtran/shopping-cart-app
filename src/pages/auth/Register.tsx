@@ -1,5 +1,5 @@
 import { ROUTES } from "@/constants/routes"
-import useUserInfo from "@/hooks/useUserInfo"
+import useUserInfo from "@/contexts/UserInfoContext/useUserInfo"
 import { useCallback, useState } from "react"
 import { Link } from "react-router-dom"
 

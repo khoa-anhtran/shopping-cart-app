@@ -14,17 +14,6 @@ export type UserInfoCtx = {
     googleLoginAction: () => void
 }
 
-const UserInfoContext = createContext<UserInfoCtx>({
-    email: null,
-    userId: null,
-    name: null,
-    avatar: null,
-    loginAction: async () => { },
-    registerAction: async () => { },
-    refreshAction: async () => { },
-    logOut: async () => { },
-    MSLoginAction: async () => { },
-    googleLoginAction: () => { }
-});
+const UserInfoContext = createContext<UserInfoCtx | undefined>(undefined);
 
 export default UserInfoContext

@@ -1,4 +1,4 @@
-import useUserInfo from "@/hooks/useUserInfo";
+import useUserInfo from "@/contexts/UserInfoContext/useUserInfo";
 import { Navigate, Outlet } from "react-router-dom";
 
 export default function RequireGuest() {

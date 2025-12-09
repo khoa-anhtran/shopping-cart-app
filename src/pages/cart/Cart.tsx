@@ -1,6 +1,6 @@
 import { useSelector } from "react-redux"
 import { lazy, Suspense, useRef } from "react"
-import useUserInfo from "@/hooks/useUserInfo"
+import useUserInfo from "@/contexts/UserInfoContext/useUserInfo"
 import useCart from "@/contexts/CartContext/useCart"
 import { selectCartOpen } from "./selectors"
 import CartSkeleton from "./components/CartSkeleton";

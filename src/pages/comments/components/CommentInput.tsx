@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux";
 import { commentPosted } from "../actions";
 import useUserInfo from "@/hooks/useUserInfo";
 import { FileImageOutlined } from "@ant-design/icons";
+import { Image } from "antd";
 
 type CommentInputProps = {
     id: string,
@@ -89,10 +90,11 @@ const CommentInput = ({ id, depth, parentId, setScrolToBottom }: CommentInputPro
                         key={index}
                         className="w-16 h-16 rounded-md border border-gray-200 relative shrink-0"
                     >
-                        {type.startsWith("image") ? <img
+                        {type.startsWith("image") ? <Image
                             src={url}
                             alt="preview"
                             className="w-full h-full object-cover"
+                            fallback="/error_image.png"
                         /> : <video
                             src={url}
                             className="w-full h-full object-cover"

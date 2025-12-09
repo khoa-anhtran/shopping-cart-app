@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { selectCurrentMedia, selectMediaList, selectMediaViewerOpen } from "../selectors";
 import { mediaViewerClosed, mediaViewerNavigated } from "../actions";
 import { CaretLeftOutlined, CaretRightOutlined } from "@ant-design/icons";
+import { Image } from "antd";
 
 export default function MediaViewer() {
     const videoRef = useRef<HTMLVideoElement | null>(null);
@@ -72,19 +73,22 @@ export default function MediaViewer() {
                 <CaretLeftOutlined className="text-2xl text-white!" />
             </button>
 
-            <div className="w-[80%] h-[90%] space-y-4">
+            <div className="max-w-[80%] h-[90%] space-y-4 flex flex-col items-center justify-around">
                 <div
-                    className={`flex items-center justify-center h-[90%] overflow-hidden bg-black/40`}
+                    className={`row-center max-h-[90%] overflow-hidden ${current?.mediaType.startsWith("video") ? "w-full" : "w-fit"}`}
                     onClick={(e) => e.stopPropagation()}
                 >
                     {!current ? (
                         <div className="text-slate-400">No media</div>
                     ) : current.mediaType.startsWith("image") ? (
-                        <img
+                        <Image
                             src={current.url}
                             alt={current.publicId}
-                            className="h-full object-contain w-[80%]"
-                        />
+                            className="h-full! object-contain!"
+                            preview={false}
+                            width={480}
+                            fallback="/error_image.png"
+                        ></Image>
                     ) : (
                         <video
                             ref={videoRef}
@@ -99,23 +103,30 @@ export default function MediaViewer() {
                 <div className="overflow-x-auto h-[10%] w-fit max-w-full">
                     <div className="flex gap-3 items-start h-full" onClick={(e) => e.stopPropagation()}>
                         {mediaList.map((it, i) => (
-                            <div key={it.publicId} className="w-28 h-full flex flex-col items-center gap-1">
-                                <div
-                                    onClick={() => goto(i)}
-                                    className={`w-20 md:w-28 h-full rounded-md overflow-hidden border cursor-pointer flex items-center justify-center 
-                                        ${i === currentMediaIndex ? "border-blue-600" : "border-gray-50"}`}
-                                >
-                                    {it.mediaType.startsWith("image") ? (
-                                        <img src={it.url} alt={it.publicId} className="w-[70%] h-[70%] md:w-full md:h-full object-cover" draggable={false} />
-                                    ) : (
-                                        <div className="relative w-full h-full bg-black">
-                                            <video src={it.url} className="w-full h-full object-cover" muted disablePictureInPicture />
-                                            <div className="absolute inset-0 flex items-center justify-center text-white text-xl">
-                                                <CaretRightOutlined />
-                                            </div>
+                            <div
+                                key={it.publicId}
+                                onClick={() => goto(i)}
+                                className={`w-20 md:w-20 h-full rounded-md overflow-hidden cursor-pointer flex items-center justify-center bg-black/10 
+                                        ${i === currentMediaIndex ? "border border-blue-600" : "shadow-xl"}`}
+                            >
+                                {it.mediaType.startsWith("image") ? (
+                                    <Image
+                                        src={it.url}
+                                        alt={it.publicId}
+                                        className="w-[70%]! h-[70%]! md:w-full! md:h-full! object-cover!"
+                                        draggable={false}
+                                        preview={false}
+                                        width={50}
+                                        fallback="/error_image.png"
+                                    ></Image>
+                                ) : (
+                                    <div className="relative w-full h-full bg-black">
+                                        <video src={it.url} className="w-full h-full object-cover" muted disablePictureInPicture />
+                                        <div className="absolute inset-0 flex items-center justify-center text-white text-xl">
+                                            <CaretRightOutlined />
                                         </div>
-                                    )}
-                                </div>
+                                    </div>
+                                )}
                             </div>
                         ))}
                     </div>

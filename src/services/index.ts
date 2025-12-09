@@ -1,16 +1,10 @@
-import api from "./api"
-import { getUserInfo, postGoogleLogin, postLogin, postLogout, postRefreshToken, postRegister } from "./authService"
-import { fetchCart, putCartItems } from "./cartService"
-import { fetchComments, postComment } from "./commentService"
-import { fetchOrders, postOrder } from "./orderService"
-import { fetchShippingAddress } from "./paymentService"
-import { fetchCategories, fetchProducts } from "./productService"
-import { fetchCommunes, fetchProvinces } from "./provinceService"
-import { postGetImageSignature, postUploadImage } from "./uploadService"
-import { postUpdateUserInfo } from "./userService"
-
-export {
-    api, fetchCart, fetchCategories, fetchComments, fetchCommunes, fetchOrders, fetchProducts, fetchProvinces,
-    fetchShippingAddress, getUserInfo, postComment, postGetImageSignature, postGoogleLogin, postLogin, postLogout,
-    postOrder, postRefreshToken, postRegister, postUpdateUserInfo, postUploadImage, putCartItems
-}
+export { default as api } from "./api"
+export * from "./authService"
+export { fetchCart, putCartItems } from "./cartService"
+export { fetchComments, postComment } from "./commentService"
+export { fetchOrders, postOrder } from "./orderService"
+export { fetchShippingAddress } from "./paymentService"
+export { fetchCategories, fetchProducts } from "./productService"
+export { fetchCommunes, fetchProvinces } from "./provinceService"
+export { postGetImageSignature, postUploadImage } from "./uploadService"
+export { postUpdateUserInfo } from "./userService"

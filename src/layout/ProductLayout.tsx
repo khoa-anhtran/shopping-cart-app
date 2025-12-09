@@ -4,7 +4,7 @@ import MainLayout from "./MainLayout"
 
 const Header = lazy(() => import('../layout/Header'))
 const CategorySider = lazy(() => import('../pages/home/CategorySider'))
-const Cart = lazy(() => import('../pages/cart/Cart'))
+const Cart = lazy(() => import('../pages/cart'))
 const ProductNavigator = lazy(() => import("../pages/products/components/ProductNavigator"))
 
 const ProductLayout = () => {

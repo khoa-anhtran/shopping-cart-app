@@ -1,5 +1,5 @@
 import { authReducer } from "@/pages/auth";
-import cartReducer from "@/pages/cart/reducers";
+import { cartReducer } from "@/pages/cart";
 import PaymentReducer from "@/pages/checkout/reducers";
 import commentReducer from "@/pages/comments/reducers";
 import uiReducer from "@/pages/loading/reducers";

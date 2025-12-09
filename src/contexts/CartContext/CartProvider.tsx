@@ -1,9 +1,11 @@
 import { ReactNode, useCallback, useMemo, useRef, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Modal } from "antd";
-import { cartToggled, fetchCartRequested, itemSelectedToggled, itemsRemoved, quantityDecreased, quantityIncreased, selectAllToggled } from "@/pages/cart/actions";
+import {
+    cartToggled, fetchCartRequested, itemSelectedToggled, itemsRemoved, quantityDecreased,
+    quantityIncreased, selectAllToggled, selectCartEntities, selectCartStatus
+} from "@/pages/cart";
 import { useUserInfo } from "@/contexts/UserInfoContext";
-import { selectCartEntities, selectCartStatus } from "@/pages/cart/selectors";
 import { STATUS } from "@/constants";
 import { useNavigate } from "react-router-dom";
 import { checkedOut } from "@/pages/checkout/actions";

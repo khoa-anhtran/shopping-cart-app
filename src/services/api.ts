@@ -1,6 +1,6 @@
 import { tokenRemoved } from "@/pages/auth";
 import { STATUS, LOADING_STYLE } from "@/constants";
-import { hideLoading, showLoading } from "@/pages/loading/actions";
+import { hideLoading, showLoading } from "@/pages/loading";
 import store from "@/store/store";
 import { notify } from "@/utils";
 import axios, { AxiosError } from "axios";

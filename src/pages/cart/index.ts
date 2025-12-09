@@ -18,5 +18,3 @@ export { default as cartReducer } from "./reducers";
 export { default as cartSaga } from "./middlewares";
 
 export default Cart
-
-

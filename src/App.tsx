@@ -8,7 +8,7 @@ import SimpleErrorPage from './pages/error/SimpleErrorPage'
 import { ROUTES } from './constants/routes'
 import ErrorFallback from './pages/error/ErrorFallback'
 import { Spin } from 'antd'
-import Loading from './pages/loading/Loading'
+import { Loading } from './pages/loading'
 
 const Products = lazy(() => import('./pages/products/Products'))
 const Login = lazy(() => import('./pages/auth/Login'))

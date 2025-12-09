@@ -1,22 +1,13 @@
-import { PayloadAction } from "@/types";
+import { UIPayloadAction, UIState } from "@/types";
 import { SHOW_LOADING, HIDE_LOADING } from "./actionTypes";
 import { LOADING_STYLE } from "@/constants";
-
-type UIState = {
-    isShowLoading: boolean;
-    loadingStyle: string;
-}
 
 const initialState: UIState = {
     isShowLoading: false,
     loadingStyle: LOADING_STYLE.OVERLAY,
 }
 
-type UIPayloadAction = PayloadAction<{
-    loadingStyle?: string
-}>
-
-const uiReducer = (state = initialState, action: UIPayloadAction): UIState => {
+const loadingReducer = (state = initialState, action: UIPayloadAction): UIState => {
 
     const loadingStyle = action.payload?.loadingStyle ? action.payload.loadingStyle : LOADING_STYLE.OVERLAY
 
@@ -34,4 +25,4 @@ const uiReducer = (state = initialState, action: UIPayloadAction): UIState => {
     }
 }
 
-export default uiReducer
+export default loadingReducer

@@ -1,4 +1,4 @@
-import { useAppStart } from "@/hooks/useAppStart"
+import { useAppStart } from "@/hooks"
 import { Outlet } from "react-router-dom"
 
 const StartAppBoot = () => {

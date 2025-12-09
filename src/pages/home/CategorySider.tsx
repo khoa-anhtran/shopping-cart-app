@@ -8,7 +8,7 @@ import { useSelector } from "react-redux";
 import { selectCategories, selectCurrentCategory, selectSiderOpen } from "../products/selectors";
 import { Link } from "react-router-dom";
 import CategorySiderSkeleton from "./CategorySiderSkeleton";
-import { useLockModal } from "@/hooks/useLockModal";
+import { useLockModal } from "@/hooks";
 
 const CategorySider = () => {
     const dispatch = useDispatch()

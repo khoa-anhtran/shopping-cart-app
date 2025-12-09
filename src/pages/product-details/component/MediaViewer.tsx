@@ -1,4 +1,4 @@
-import { useLockModal } from "@/hooks/useLockModal";
+import { useLockModal } from "@/hooks";
 import { useCallback, useEffect, useRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { selectCurrentMedia, selectMediaList, selectMediaViewerOpen } from "../selectors";

@@ -4,7 +4,7 @@ import { useUserInfo } from "@/contexts/UserInfoContext"
 import { useCart } from "@/contexts/CartContext";
 import { selectCartOpen } from "./selectors"
 import CartSkeleton from "./components/CartSkeleton";
-import { useLockModal } from "@/hooks/useLockModal";
+import { useLockModal } from "@/hooks";
 
 const CartContainer = lazy(() => import('./components/CartContainer'))
 

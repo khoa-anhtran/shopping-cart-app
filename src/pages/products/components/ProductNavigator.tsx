@@ -1,5 +1,5 @@
 import { ROUTES } from "@/constants"
-import { useProducts } from "@/hooks/useProducts"
+import { useProducts } from "@/hooks"
 import { PathParams } from "@/types"
 import { HomeOutlined, ProductOutlined } from "@ant-design/icons"
 import { Breadcrumb } from "antd"

@@ -54,6 +54,11 @@ export type PlaceOrderPayload = {
     total: number
 }
 
-export type CheckoutPayloadAction = PayloadAction<{ message: string }>
+export type CheckoutPayloadAction = PayloadAction<
+    { message: string } |
+    { provinces: Province[] } |
+    { communes: Commune[] } |
+    { status: PaymentStatus }
+>
 
 export type ShippingAddressType = z.infer<typeof shippingAddressSchema>;

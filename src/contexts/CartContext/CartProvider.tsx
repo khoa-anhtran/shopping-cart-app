@@ -1,13 +1,13 @@
 import { ReactNode, useCallback, useMemo, useRef, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import CartContext from "@/contexts/CartContext/CartContext";
 import { Modal } from "antd";
 import { cartToggled, fetchCartRequested, itemSelectedToggled, itemsRemoved, quantityDecreased, quantityIncreased, selectAllToggled } from "@/pages/cart/actions";
-import useUserInfo from "@/contexts/UserInfoContext/useUserInfo";
+import { useUserInfo } from "@/contexts/UserInfoContext";
 import { selectCartEntities, selectCartStatus } from "@/pages/cart/selectors";
 import { STATUS } from "@/constants/api";
 import { useNavigate } from "react-router-dom";
 import { checkedOut } from "@/pages/checkout/actions";
+import CartContext from "./CartContext";
 
 const CartProvider = ({ children }: { children: ReactNode }) => {
     const dispatch = useDispatch()

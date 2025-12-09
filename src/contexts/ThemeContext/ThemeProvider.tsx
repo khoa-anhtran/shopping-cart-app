@@ -1,6 +1,6 @@
 import { THEME } from "@/constants/ui";
-import ThemeContext from "@/contexts/ThemeContext/ThemeContext";
 import { ReactNode, useCallback, useEffect, useState } from "react";
+import ThemeContext from "./ThemeContext";
 
 const ThemeProvider = ({ children }: { children: ReactNode }) => {
 

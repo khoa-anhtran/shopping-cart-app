@@ -1,4 +1,4 @@
-import useCart from "@/contexts/CartContext/useCart"
+import { useCart } from "@/contexts/CartContext";
 import CartActions from "./CartActions"
 import CartHeader from "./CartHeader"
 import { useSelector } from "react-redux"

@@ -5,15 +5,13 @@ import PaymentDetails from "./components/PaymentDetails";
 import OrderReview from "./components/OrderReview";
 import CheckoutComplete from "./components/CheckoutComplete";
 import { useSelector } from "react-redux";
-import useCart from "@/contexts/CartContext/useCart";
+import { useCart } from "@/contexts/CartContext";
 import { formatVnd } from "@/utils/helpers";
 import { selectCurrentStep, selectPaymentStatus, selectShippingAddress } from "./selectors";
 import { useDispatch } from "react-redux";
 import { nextStep, placeOrder, prevStep } from "./actions";
 import { PAYMENT_STEP, PAYMENT_STEP_MAP } from "@/constants/payment";
 import { selectCartEntities } from "../cart/selectors";
-
-const { Step } = Steps;
 
 const Checkout = () => {
     const dispatch = useDispatch()
@@ -91,11 +89,13 @@ const Checkout = () => {
                     current={PAYMENT_STEP_MAP(currentStep)}
                     size="small"
                     className="mb-6 [&_.ant-steps-item-title]:text-xs lg:[&_.ant-steps-item-title]:text-sm"
+                    items={[
+                        { title: "Shipping address" },
+                        { title: "Payment details" },
+                        { title: "Review your order" },
+                        { title: "Done" },
+                    ]}
                 >
-                    <Step title="Shipping address" />
-                    <Step title="Payment details" />
-                    <Step title="Review your order" />
-                    <Step title="Done" />
                 </Steps>
 
                 {/* Content */}

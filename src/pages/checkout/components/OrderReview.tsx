@@ -1,4 +1,4 @@
-import useCart from "@/contexts/CartContext/useCart"
+import { useCart } from "@/contexts/CartContext";
 import { formatVnd } from "@/utils/helpers"
 import { useSelector } from "react-redux"
 import { selectPaymentStatus, selectShippingAddress } from "../selectors"

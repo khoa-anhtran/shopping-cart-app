@@ -2,7 +2,7 @@ import CartItem from "./CartItem";
 import React from "react";
 import { useSelector } from "react-redux";
 import { selectCartEntities, selectCartIds } from "../selectors";
-import useCart from "@/contexts/CartContext/useCart";
+import { useCart } from "@/contexts/CartContext";
 
 const CartList = () => {
     const cartItemIds = useSelector(selectCartIds)

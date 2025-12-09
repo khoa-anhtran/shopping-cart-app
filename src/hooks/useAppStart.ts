@@ -1,7 +1,7 @@
 import { selectToken } from "@/pages/auth/selectors";
 import { useRef, useEffect } from "react";
 import { useSelector } from "react-redux";
-import useUserInfo from "../contexts/UserInfoContext/useUserInfo";
+import { useUserInfo } from "../contexts/UserInfoContext";
 import { msalClient } from "@/msal";
 
 export const useAppStart = () => {

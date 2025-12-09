@@ -2,7 +2,7 @@ import { Comment } from "@/types/comment";
 import { useCallback, useRef, useState } from "react"
 import { useDispatch } from "react-redux";
 import { commentPosted } from "../actions";
-import useUserInfo from "@/contexts/UserInfoContext/useUserInfo";
+import { useUserInfo } from "@/contexts/UserInfoContext";
 import { FileImageOutlined } from "@ant-design/icons";
 import { Image } from "antd";
 

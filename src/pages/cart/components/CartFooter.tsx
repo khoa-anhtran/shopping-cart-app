@@ -1,4 +1,4 @@
-import useCart from "@/contexts/CartContext/useCart"
+import { useCart } from "@/contexts/CartContext";
 import { formatVnd } from "@/utils/helpers"
 
 type CartFooterProps = {

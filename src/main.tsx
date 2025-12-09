@@ -7,8 +7,8 @@ import '@/styles/index.scss'
 import { Provider } from 'react-redux'
 import store from './store/store'
 import { BrowserRouter } from 'react-router-dom'
-import ThemeProvider from './contexts/ThemeContext/ThemeProvider';
-import UserInfoProvider from './contexts/UserInfoContext/UserInfoProvider';
+import { ThemeProvider } from './contexts/ThemeContext';
+import { UserInfoProvider } from './contexts/UserInfoContext';
 import { GoogleOAuthProvider } from "@react-oauth/google";
 
 

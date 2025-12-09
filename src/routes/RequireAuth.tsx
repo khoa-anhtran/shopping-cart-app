@@ -1,4 +1,4 @@
-import useUserInfo from "@/contexts/UserInfoContext/useUserInfo";
+import { useUserInfo } from "@/contexts/UserInfoContext";
 import { Navigate, Outlet } from "react-router-dom";
 
 export default function RequireAuth() {

@@ -1,5 +1,5 @@
 import { useSelector } from "react-redux"
-import { selectIsShowLoading, selectLoadingStyle } from "./ui/uiSelectors"
+import { selectIsShowLoading, selectLoadingStyle } from "./selectors"
 import { notification, Spin } from "antd"
 import { LOADING_STYLE } from "@/constants/ui"
 import { useRef } from "react"

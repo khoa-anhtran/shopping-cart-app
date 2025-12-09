@@ -2,7 +2,7 @@ import authReducer from "@/pages/auth/reducers";
 import cartReducer from "@/pages/cart/reducers";
 import PaymentReducer from "@/pages/checkout/reducers";
 import commentReducer from "@/pages/comments/reducers";
-import uiReducer from "@/pages/layout/ui/uiReducer";
+import uiReducer from "@/pages/loading/reducers";
 import productDetailsReducer from "@/pages/product-details/reducers";
 import productReducer from "@/pages/products/reducers";
 import { combineReducers } from "redux";

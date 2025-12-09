@@ -4,22 +4,21 @@ import { lazy, Suspense } from 'react'
 import RequireGuest from './routes/RequireGuest'
 import RequireAuth from './routes/RequireAuth'
 import { ErrorBoundary } from 'react-error-boundary'
-import SimpleErrorPage from './pages/layout/SimpleErrorPage'
+import SimpleErrorPage from './pages/error/SimpleErrorPage'
 import { ROUTES } from './constants/routes'
-import Loading from './pages/layout/Loading'
-import ErrorFallback from './pages/layout/ErrorFallback'
+import ErrorFallback from './pages/error/ErrorFallback'
 import { Spin } from 'antd'
+import Loading from './pages/loading/Loading'
 
 const Products = lazy(() => import('./pages/products/Products'))
 const Login = lazy(() => import('./pages/auth/Login'))
 const Register = lazy(() => import('./pages/auth/Register'))
 const Checkout = lazy(() => import('./pages/checkout/Checkout'))
 const ProductDetails = lazy(() => import('./pages/product-details/ProductDetails'))
-const StartAppBoot = lazy(() => import('./pages/layout/StartAppBoot'))
+const StartAppBoot = lazy(() => import('./pages/home/StartAppBoot'))
 
-const ProductLayout = lazy(() => import('./pages/layout/ProductLayout'))
-const CheckoutLayout = lazy(() => import('./pages/layout/CheckoutLayout'))
-
+const ProductLayout = lazy(() => import('./layout/ProductLayout'))
+const CheckoutLayout = lazy(() => import('./layout/CheckoutLayout'))
 
 function App() {
 

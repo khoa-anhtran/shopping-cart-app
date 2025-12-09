@@ -185,7 +185,7 @@ const cartReducer = (state = initialState, action: CartPayloadAction): CartState
                 ...state,
                 isSelectAll: !state.isSelectAll,
                 entities: Object.fromEntries(
-                    Object.entries(state.entities).map((entity) => ({ ...entity, isSelected: !state.isSelectAll }))
+                    state.ids.map(id => [id, { ...state.entities[id], isSelected: !state.isSelectAll }])
                 )
             }
         }

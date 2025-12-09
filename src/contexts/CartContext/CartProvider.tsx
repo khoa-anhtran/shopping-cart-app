@@ -8,7 +8,7 @@ import {
 import { useUserInfo } from "@/contexts/UserInfoContext";
 import { STATUS } from "@/constants";
 import { useNavigate } from "react-router-dom";
-import { checkedOut } from "@/pages/checkout/actions";
+import { checkedOut } from "@/pages/checkout";
 import CartContext from "./CartContext";
 
 const CartProvider = ({ children }: { children: ReactNode }) => {

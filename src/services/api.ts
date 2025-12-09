@@ -1,4 +1,4 @@
-import { tokenRemoved } from "@/pages/auth/actions";
+import { tokenRemoved } from "@/pages/auth";
 import { STATUS, LOADING_STYLE } from "@/constants";
 import { hideLoading, showLoading } from "@/pages/loading/actions";
 import store from "@/store/store";

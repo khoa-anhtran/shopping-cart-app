@@ -1,4 +1,4 @@
-import { selectToken } from "@/pages/auth/selectors";
+import { selectToken } from "@/pages/auth";
 import { useRef, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useUserInfo } from "../contexts/UserInfoContext";

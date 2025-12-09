@@ -3,7 +3,7 @@ import { isAxiosError } from "axios"
 import { notify } from "@/utils";
 import { STATUS } from "@/constants";
 import store from "@/store/store";
-import { tokenAdded, tokenRemoved } from "@/pages/auth/actions";
+import { tokenAdded, tokenRemoved } from "@/pages/auth";
 import { AuthPayload, AuthResponse } from "@/types";
 
 export const postRefreshToken = async () => {

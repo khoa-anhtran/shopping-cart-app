@@ -2,7 +2,7 @@ import { getUserInfo, postGoogleLogin, postLogin, postLogout, postRefreshToken, 
 import { useState, ReactNode, useCallback } from "react";
 import { config } from "@/msal/config";
 import { useDispatch } from "react-redux";
-import { tokenAdded, tokenRemoved } from "@/pages/auth/actions";
+import { tokenAdded, tokenRemoved } from "@/pages/auth";
 import { getApiToken, initAccount, msalClient } from "@/msal";
 import UserInfoContext from "./UserInfoContext";
 import { useGoogleLogin } from "@react-oauth/google";

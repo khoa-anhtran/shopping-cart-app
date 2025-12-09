@@ -1,4 +1,4 @@
-import authReducer from "@/pages/auth/reducers";
+import { authReducer } from "@/pages/auth";
 import cartReducer from "@/pages/cart/reducers";
 import PaymentReducer from "@/pages/checkout/reducers";
 import commentReducer from "@/pages/comments/reducers";

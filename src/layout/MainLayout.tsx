@@ -3,7 +3,7 @@ import { ErrorBoundary } from "react-error-boundary"
 import ErrorFallback from "../pages/error/ErrorFallback"
 import { ReactNode } from "react"
 import CartProvider from "@/contexts/CartContext/CartProvider"
-import MediaViewer from '@/pages/product-details/component/MediaViewer'
+import { MediaViewer } from '@/pages/product-details'
 
 const MainLayout = ({ children }: { children: ReactNode }) => {
     return <ConfigProvider>

@@ -14,7 +14,7 @@ const Products = lazy(() => import('./pages/products/Products'))
 const Login = lazy(() => import('./pages/auth/Login'))
 const Register = lazy(() => import('./pages/auth/Register'))
 const Checkout = lazy(() => import('./pages/checkout'))
-const ProductDetails = lazy(() => import('./pages/product-details/ProductDetails'))
+const ProductDetails = lazy(() => import('./pages/product-details'))
 const StartAppBoot = lazy(() => import('./pages/home/StartAppBoot'))
 
 const ProductLayout = lazy(() => import('./layout/ProductLayout'))

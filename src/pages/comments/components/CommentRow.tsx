@@ -7,7 +7,7 @@ import { timeAgo } from "@/utils";
 import CommentInput from "./CommentInput";
 import React from "react";
 import { useDispatch } from "react-redux";
-import { mediaViewerOpened } from "@/pages/product-details/actions";
+import { mediaViewerOpened } from "@/pages/product-details";
 import { useTheme } from "@/contexts/ThemeContext";
 
 type CommentRowProps = {

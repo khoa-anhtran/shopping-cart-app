@@ -39,8 +39,14 @@ const Products = () => {
     const pageInfo = useSelector(selectProductPageInfo)
 
     const onAddToCart = useCallback((productId: string) => {
-        dispatch(itemAdded(productId))
-    }, [dispatch])
+        const product = products[productId]
+        dispatch(itemAdded({
+            ...product,
+            quantity: 1,
+            addedAt: new Date().toISOString(),
+            isSelected: false
+        }))
+    }, [dispatch, products])
 
     const onClickProduct = useCallback((categoryId: string, productId: string) => {
         navigate(`/products/${categoryId}/${productId}`)

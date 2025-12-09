@@ -30,10 +30,10 @@ export const cartSyncFailed = (message: string) => ({
     }
 });
 
-export const itemAdded = (itemId: string) => ({
+export const itemAdded = (item: CartItem) => ({
     type: ITEM_ADDED,
     payload: {
-        itemId,
+        item,
     }
 });
 

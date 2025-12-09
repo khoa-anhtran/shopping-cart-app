@@ -57,7 +57,7 @@ function* postOrderSaga(action: PayloadAction<{ data: PlaceOrderPayload }>) {
 
         yield call(postOrder, data);
 
-        const itemIds = data.items.map((item: CartItem) => item.itemId)
+        const itemIds = data.items.map((item: CartItem) => item.id)
 
         yield put(placeOrderSucceeded(itemIds));
     } catch (e) {

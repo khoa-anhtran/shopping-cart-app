@@ -10,8 +10,8 @@ export const fetchCart = async (): Promise<{ userId: string, items: Omit<CartIte
 export const putCartItems = async (items: CartItem[]) => {
     const body = {
         items: items.map(item => {
-            const { addedAt, itemId, quantity } = item
-            return { addedAt, itemId, quantity }
+            const { addedAt, id, quantity } = item
+            return { addedAt, itemId: id, quantity }
         })
     }
     await api.put(`/api/carts`, body)

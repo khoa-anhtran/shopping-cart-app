@@ -71,18 +71,16 @@ const cartReducer = (state = initialState, action: CartPayloadAction): CartState
         }
 
         case ITEM_ADDED: {
-            const { itemId } = action.payload as { itemId: string };
+            const { item } = action.payload as { item: CartItem };
 
-            const newItem = { itemId, quantity: 1, addedAt: new Date().toISOString(), isSelected: false }
-
-            const existedItem = state.entities[itemId]
+            const existedItem = state.entities[item.id]
 
             if (existedItem)
                 return {
                     ...state,
                     syncStatus: STATUS.LOADING,
                     entities: {
-                        ...state.entities, [itemId]: {
+                        ...state.entities, [item.id]: {
                             ...existedItem,
                             quantity: existedItem.quantity + 1
                         }
@@ -92,8 +90,8 @@ const cartReducer = (state = initialState, action: CartPayloadAction): CartState
             return {
                 ...state,
                 syncStatus: STATUS.LOADING,
-                entities: { ...state.entities, [itemId]: newItem },
-                ids: [...state.ids, itemId]
+                entities: { ...state.entities, [item.id]: item },
+                ids: [...state.ids, item.id]
             };
         }
 

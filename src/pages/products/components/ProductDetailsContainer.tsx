@@ -2,13 +2,11 @@ import { ImageWithPreview } from "@/components/ImageWithPreview"
 import CommentInput from "@/pages/comments/components/CommentInput"
 import CommentRow from "@/pages/comments/components/CommentRow"
 import { selectComments, selectCommentIds } from "@/pages/comments/selectors"
-import { selectProductIdOpen } from "@/pages/loading/selectors"
 import { useRef, useMemo, useCallback, useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useMediaQuery } from "react-responsive"
 import { selectProducts } from "../selectors"
 import { itemAdded } from "@/pages/cart/actions"
-import { hidePDsModal } from "@/pages/loading/actions"
 
 const ProductDetailsContainer = () => {
     const dispatch = useDispatch()

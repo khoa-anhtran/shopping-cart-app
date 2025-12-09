@@ -1,5 +1,5 @@
 import { STATUS, PAYMENT_STEP, PAYMENT_TYPE } from "@/constants"
-import { CHECKED_OUT, COMMUNES_FETCH_FAILED, COMMUNES_FETCH_REQUESTED, COMMUNES_FETCH_SUCCEEDED, NEXT_STEP, ORDER_PLACE_FAILED, ORDER_PLACE_SUCCEEDED, ORDER_PLACED, PAYMENT_STATUS_UPDATED, PREV_STEP, PROVINCES_FETCH_FAILED, PROVINCES_FETCH_REQUESTED, PROVINCES_FETCH_SUCCEEDED, SHIPPING_ADDRESS_SUBMITED } from "./actionTypes";
+import { CHECKED_OUT, COMMUNES_FETCH_FAILED, COMMUNES_FETCH_REQUESTED, COMMUNES_FETCH_SUCCEEDED, NEXT_STEP, ORDER_PLACE_FAILED, ORDER_PLACE_SUCCEEDED, ORDER_PLACED, PAYMENT_STATUS_UPDATED, PREV_STEP, PROVINCES_FETCH_FAILED, PROVINCES_FETCH_SUCCEEDED, SHIPPING_ADDRESS_SUBMITED } from "./actionTypes";
 import { Commune, CheckoutPayloadAction, CheckoutState, Province, ShippingAddressType, PaymentStatus } from "@/types/checkout";
 
 const initialState: CheckoutState = {
@@ -23,8 +23,7 @@ const initialState: CheckoutState = {
 const PaymentReducer = (state = initialState, action: CheckoutPayloadAction): CheckoutState => {
     switch (action.type) {
 
-        case COMMUNES_FETCH_REQUESTED:
-        case PROVINCES_FETCH_REQUESTED: {
+        case COMMUNES_FETCH_REQUESTED: {
             return {
                 ...state,
                 status: STATUS.LOADING
@@ -121,7 +120,8 @@ const PaymentReducer = (state = initialState, action: CheckoutPayloadAction): Ch
         }
 
         case CHECKED_OUT: {
-            return initialState
+
+            return { ...initialState, shippingAddress: state.shippingAddress.isSaved ? state.shippingAddress : initialState.shippingAddress }
         }
 
         default:

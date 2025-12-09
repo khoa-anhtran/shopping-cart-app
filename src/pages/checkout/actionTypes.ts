@@ -1,5 +1,3 @@
-export const PROVINCES_FETCH_REQUESTED = 'payment/fetchProvincesRequested';
-
 export const PROVINCES_FETCH_SUCCEEDED = 'payment/fetchProvincesSucceeded';
 
 export const PROVINCES_FETCH_FAILED = 'payment/fetchProvincesFailed';

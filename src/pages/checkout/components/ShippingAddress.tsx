@@ -5,8 +5,8 @@ import { useSelector } from "react-redux";
 import { selectCommunes, selectProvinces, selectShippingAddress } from "../selectors";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
-import { fetchCommunesRequested, fetchProvincesRequested, shippingAddressSubmited } from "../actions";
-import type { ShippingAddressType } from "@/types/checkout";
+import { fetchCommunesRequested, shippingAddressSubmited } from "../actions";
+import type { Commune, ShippingAddressType } from "@/types/checkout";
 import { shippingAddressSchema } from "@/schemas/shippingAddress.schema";
 
 type ShippingAdressProps = {
@@ -40,14 +40,16 @@ const ShippingAddress = ({ goNext, goPrev }: ShippingAdressProps) => {
     const communes = useSelector(selectCommunes)
 
     useEffect(() => {
-        if (provinces.length === 0)
-            dispatch(fetchProvincesRequested())
-    }, [provinces, dispatch])
+        console.log(watch("province"))
+        console.log(provinces)
 
-    useEffect(() => {
         if (watch("province") && provinces.length !== 0) {
             dispatch(fetchCommunesRequested(provinces.find(province => province.name === watch("province"))?.code ?? ""))
-            setValue("commune", "")
+
+            const currentCommune = watch("commune") as Commune
+
+            if (currentCommune.provinceCode !== watch("province").code)
+                setValue("commune", "")
         }
 
     }, [dispatch, provinces, setValue, watch])

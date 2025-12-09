@@ -4,7 +4,7 @@ import { SagaIterator } from 'redux-saga';
 import { notify } from '@/utils/helpers';
 import { STATUS } from '@/constants/api';
 import { PayloadAction } from '@/types';
-import { CHECKED_OUT, COMMUNES_FETCH_FAILED, COMMUNES_FETCH_REQUESTED, ORDER_PLACE_FAILED, ORDER_PLACED, PROVINCES_FETCH_FAILED, PROVINCES_FETCH_REQUESTED } from './actionTypes';
+import { CHECKED_OUT, COMMUNES_FETCH_FAILED, COMMUNES_FETCH_REQUESTED, ORDER_PLACE_FAILED, ORDER_PLACED, PROVINCES_FETCH_FAILED } from './actionTypes';
 import { fetchCommunes, fetchProvinces } from '@/services/provinceService';
 import { Commune, PlaceOrderPayload, Province, ShippingAddressType } from '@/types/checkout';
 import { fetchCommunesFailed, fetchCommunesSucceeded, fetchProvincesFailed, fetchProvincesSucceeded, placeOrderFailed, placeOrderSucceeded, shippingAddressSubmited } from './actions';
@@ -41,11 +41,16 @@ function* fetchShippingAddressSaga(): SagaIterator {
     try {
 
         const shippingAddress: Omit<ShippingAddressType, "isSaved"> = yield call(fetchShippingAddress);
-        yield put(shippingAddressSubmited({ ...shippingAddress, isSaved: false }));
+        yield put(shippingAddressSubmited({ ...shippingAddress, isSaved: !!shippingAddress }));
     } catch (e) {
         const message = e instanceof Error ? e.message : String(e);
         yield put(fetchCommunesFailed(`Fetch communes failed: ${message}`));
     }
+}
+
+function* initDataSaga(): SagaIterator {
+    yield call(fetchShippingAddressSaga)
+    yield call(fetchProvincesSaga)
 }
 
 function* postOrderSaga(action: PayloadAction<{ data: PlaceOrderPayload }>) {
@@ -67,10 +72,9 @@ function* postOrderSaga(action: PayloadAction<{ data: PlaceOrderPayload }>) {
 }
 
 function* paymentSaga() {
-    yield takeLatest(PROVINCES_FETCH_REQUESTED, fetchProvincesSaga)
     yield takeLatest(COMMUNES_FETCH_REQUESTED, fetchCommunesSaga)
     yield takeLatest(ORDER_PLACED, postOrderSaga)
-    yield takeLatest(CHECKED_OUT, fetchShippingAddressSaga)
+    yield takeLatest(CHECKED_OUT, initDataSaga)
 
     yield takeLatest([PROVINCES_FETCH_FAILED, COMMUNES_FETCH_FAILED, ORDER_PLACE_FAILED],
         (action: PayloadAction<{ message: string }>) => notify({ message: action.payload?.message, status: STATUS.FAIL, duration: 3 })

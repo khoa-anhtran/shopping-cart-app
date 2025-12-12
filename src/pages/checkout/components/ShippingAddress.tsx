@@ -52,7 +52,8 @@ const ShippingAddress = ({ goNext, goPrev }: ShippingAdressProps) => {
                 setValue("commune", "")
         }
 
-    }, [dispatch, provinces, setValue, watch])
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [dispatch, provinces, setValue, watch("commune"), watch("province")])
 
     return (
         <form className="space-y-5" onSubmit={handleSubmit(onSubmit)}>
